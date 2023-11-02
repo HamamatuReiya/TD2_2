@@ -1,4 +1,4 @@
-#include "ViewProjection.h"
+ï»¿#include "ViewProjection.h"
 #include "WorldTransform.h"
 
 class RailCamera {
@@ -14,8 +14,8 @@ public:
 	void Update();
 
 private:
-	// ƒ[ƒ‹ƒh•ÏŠ·ƒf[ƒ^
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ãƒ‡ãƒ¼ã‚¿
 	WorldTransform worldTransform_;
-	// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 	ViewProjection viewProjection_;
 };

@@ -16,6 +16,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -35,17 +36,23 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	// 3Dモデルの生成
 	playerModel_.reset(Model::CreateFromOBJ("Player", true));
+	
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 	// レールカメラ
 	railCamera_ = new RailCamera();
 	railCamera_->Initialize(worldPos, rotate);
+	// 自キャラとレールカメラの親子関係を結ぶ
+	//player_->Setparent(&railCamera_->GetWorldTransform());
+	
+	
 }
 
 void GameScene::Update() 
 {
 	player_->Update();
 	debugCamera_->Update();
+	railCamera_->Update();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_C)) {
 		isDebugCameraActive_ = true;
@@ -54,8 +61,16 @@ void GameScene::Update()
 	}
 #endif
 	if (isDebugCameraActive_) {
+		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の更新
+		viewProjection_.TransferMatrix();
+	} else {
+		// ビュープロジェクション行列の更新と転送
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の更新
 		viewProjection_.TransferMatrix();
 	}
 }

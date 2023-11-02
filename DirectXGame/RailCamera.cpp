@@ -1,30 +1,30 @@
-#include "RailCamera.h"
+ï»¿#include "RailCamera.h"
 #include "ImGuiManager.h"
 #include "Mymath.h"
 
 void RailCamera::Initialize(Vector3& worldPos, Vector3& rotate) {
-	// ƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ì‰Šúİ’è
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®åˆæœŸè¨­å®š
 	worldTransform_.translation_ = worldPos;
 	worldTransform_.rotation_.x = rotate.x;
 	worldTransform_.rotation_.y = rotate.y;
 	worldTransform_.rotation_.z = rotate.z;
-	// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“‚Ì‰Šú‰»
+	// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
 	viewProjection_.Initialize();
 }
 
 void RailCamera::Update() 
 {
-	// ˆÚ“®
+	// ç§»å‹•
 	Vector3 move = {0, 0, 0};
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
-	// ‰ñ“]
+	// å›è»¢
 	const float kRotSpeed = 0.0f;
 	worldTransform_.rotation_.y -= kRotSpeed;
 
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-	// ƒJƒƒ‰ƒIƒuƒWƒFƒNƒg‚Ìƒ[ƒ‹ƒhs—ñ‚©‚çƒrƒ…[s—ñ‚ğŒvZ‚·‚é
+	// ã‚«ãƒ¡ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‹ã‚‰ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã‚’è¨ˆç®—ã™ã‚‹
 	viewProjection_.matView = Inverse(worldTransform_.matWorld_);
 
 	float translate[3] = {
@@ -33,14 +33,14 @@ void RailCamera::Update()
 	float rotate[3] = {
 	    worldTransform_.rotation_.x, worldTransform_.rotation_.y, worldTransform_.rotation_.z};
 
-#ifdef DEBUG
-	// ƒJƒƒ‰‚ÌÀ•W‚ğ‰æ–Ê•\¦‚·‚éˆ—
+ 
+	// ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã‚’ç”»é¢è¡¨ç¤ºã™ã‚‹å‡¦ç†
 	ImGui::Begin("Camera");
-	ImGui::SliderFloat3("CameraTranslation", translate, 600.0f, -600.0f);
-	ImGui::SliderFloat3("CameraTranslation", rotate, 600.0f, -600.0f);
+	ImGui::SliderFloat3("CameraTranslation", translate, 60.0f, -60.0f);
+	ImGui::SliderFloat3("CameraTranslation", rotate, 60.0f, -60.0f);
 	ImGui::End();
 
-#endif // DEBUG
+
 
 }
 Vector3 RailCamera::GetWorldPosition() {

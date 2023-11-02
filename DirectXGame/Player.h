@@ -19,6 +19,9 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	// 親子関係を結ぶ
+	void Setparent(const WorldTransform* parent);
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
