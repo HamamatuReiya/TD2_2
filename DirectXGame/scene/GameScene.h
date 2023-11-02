@@ -9,6 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include"RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -54,7 +55,11 @@ private: // メンバ変数
 	std::unique_ptr<Model> playerModel_ = nullptr;
 	// 自キャラ
 	std::unique_ptr<Player> player_;
-	
+
+	// レールカメラをゲームシーンに持たせる
+	RailCamera* railCamera_ = nullptr;
+	Vector3 worldPos;
+	Vector3 rotate;
 
 	/// <summary>
 	/// ゲームシーン用

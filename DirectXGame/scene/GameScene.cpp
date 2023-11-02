@@ -4,7 +4,11 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() 
+{
+	
+	delete railCamera_;
+}
 
 void GameScene::Initialize() {
 
@@ -23,11 +27,15 @@ void GameScene::Initialize() {
 	playerModel_.reset(Model::CreateFromOBJ("Player", true));
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
+	// レールカメラ
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize(worldPos, rotate);
 }
 
 void GameScene::Update() 
 {
 	player_->Update();
+	railCamera_->Update();
 }
 
 void GameScene::Draw() {
