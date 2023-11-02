@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Player.h"
 
 /// <summary>
 /// ゲームシーン
@@ -44,6 +45,16 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	std::unique_ptr<Model> model_ = nullptr;
+	//ワールドトランスフォーム
+	WorldTransform worldTransform_;
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+	// 3Dモデル
+	std::unique_ptr<Model> playerModel_ = nullptr;
+	// 自キャラ
+	std::unique_ptr<Player> player_;
+	
 
 	/// <summary>
 	/// ゲームシーン用

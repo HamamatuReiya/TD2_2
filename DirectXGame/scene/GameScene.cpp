@@ -11,9 +11,24 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	// 3Dモデル生成
+	model_.reset(Model::Create());
+	// ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	// 自キャラの生成
+	player_ = std::make_unique<Player>();
+	// 3Dモデルの生成
+	playerModel_.reset(Model::CreateFromOBJ("Player", true));
+	// 自キャラの初期化
+	player_->Initialize(playerModel_.get());
 }
 
-void GameScene::Update() {}
+void GameScene::Update() 
+{
+	player_->Update();
+}
 
 void GameScene::Draw() {
 
@@ -28,6 +43,8 @@ void GameScene::Draw() {
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
 
+	
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -41,6 +58,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
