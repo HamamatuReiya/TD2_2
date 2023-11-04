@@ -5,11 +5,7 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() 
-{
-	
-	delete railCamera_;
-}
+GameScene::~GameScene() {}
 
 void GameScene::Initialize() {
 
@@ -39,20 +35,35 @@ void GameScene::Initialize() {
 	
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
-	// レールカメラ
-	railCamera_ = new RailCamera();
-	railCamera_->Initialize(worldPos, rotate);
-	// 自キャラとレールカメラの親子関係を結ぶ
-	//player_->Setparent(&railCamera_->GetWorldTransform());
+
+	//追従カメラの生成
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Initialize();
+
+	//自キャラのワールドトランスフォームを追従カメラにセット
+	followCamera_->SetTarget(&player_->GetWorldTransform());
+
 	
-	
+
+	// 地面の生成
+	ground_ = std::make_unique<Ground>();
+	// 3Dモデルの生成
+	groundModel_.reset(Model::CreateFromOBJ("ground", true));
+	// 地面の初期化
+	ground_->Initialize(groundModel_.get());
 }
 
 void GameScene::Update() 
 {
 	player_->Update();
 	debugCamera_->Update();
-	railCamera_->Update();
+	//追従カメラの更新
+	followCamera_->Update();
+
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+
+
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_C)) {
 		isDebugCameraActive_ = true;
@@ -64,15 +75,10 @@ void GameScene::Update()
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の更新
-		viewProjection_.TransferMatrix();
-	} else {
-		// ビュープロジェクション行列の更新と転送
-		viewProjection_.matView = railCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の更新
-		viewProjection_.TransferMatrix();
+		
 	}
+	// ビュープロジェクション行列の更新
+	viewProjection_.TransferMatrix();
 }
 
 void GameScene::Draw() {
@@ -103,7 +109,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw(viewProjection_);
+	/*player_->Draw(viewProjection_);*/
+	ground_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

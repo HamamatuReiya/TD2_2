@@ -10,7 +10,8 @@
 #include "WorldTransform.h"
 #include "Player.h"
 #include "DebugCamera.h"
-#include"RailCamera.h"
+#include "Ground.h"
+#include "FollowCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -45,13 +46,14 @@ public: // メンバ関数
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
-	Input* input_ = nullptr;
-	Audio* audio_ = nullptr;
-	std::unique_ptr<Model> model_ = nullptr;
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+	std::unique_ptr<Model> model_ = nullptr;
 	
 	// 3Dモデル
 	std::unique_ptr<Model> playerModel_ = nullptr;
@@ -62,10 +64,13 @@ private: // メンバ変数
 	std::unique_ptr<DebugCamera> debugCamera_;
 	int isDebugCameraActive_;
 
-	// レールカメラをゲームシーンに持たせる
-	RailCamera* railCamera_ = nullptr;
-	Vector3 worldPos;
-	Vector3 rotate;
+	// 3Dモデル
+	std::unique_ptr<Model> groundModel_ = nullptr;
+	// 地面
+	std::unique_ptr<Ground> ground_;
+
+	//追従カメラ
+	std::unique_ptr<FollowCamera> followCamera_;
 
 	/// <summary>
 	/// ゲームシーン用

@@ -109,10 +109,11 @@
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="RailCamera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
@@ -140,6 +141,8 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
@@ -147,7 +150,6 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="Mymath.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="RailCamera.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>

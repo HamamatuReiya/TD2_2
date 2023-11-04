@@ -19,11 +19,12 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
-	// 親子関係を結ぶ
-	void Setparent(const WorldTransform* parent);
+	WorldTransform& GetWorldTransform() { return worldTransform_; };
 
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
+	//スピード
+	float kCharacterSpeed;
 };
