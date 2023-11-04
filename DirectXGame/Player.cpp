@@ -46,6 +46,7 @@ void Player::Update() {
 	// 画面の座標を表示
 	ImGui::Begin("Player");
 	ImGui::SliderFloat3("playerPos", playerPos, -28.0f, 28.0f);
+	ImGui::Text("A&D...CAMERA\nUP&DOWN&RIGHT&LEFT...MOVE\n");
 	ImGui::End();
 
 	worldTransform_.translation_.x = playerPos[0];
