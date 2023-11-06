@@ -1,6 +1,7 @@
 ﻿#include "Model.h"
 #include "WorldTransform.h"
 #include <Input.h>
+#include"ViewProjection.h"
 class Player {
 public:
 	/// <summary>
@@ -21,10 +22,18 @@ public:
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
 
+	void SetViewProjection(const ViewProjection* viewProjection)
+	{
+		viewProjection_ = viewProjection;
+	}
+
 private:
 	WorldTransform worldTransform_;
+	// ビュープロジェクション
+	const ViewProjection*viewProjection_=nullptr;
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
 	//スピード
 	float kCharacterSpeed;
+
 };

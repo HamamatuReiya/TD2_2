@@ -36,6 +36,7 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 
+
 	//追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
@@ -43,7 +44,7 @@ void GameScene::Initialize() {
 	//自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
 
-	
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 地面の生成
 	ground_ = std::make_unique<Ground>();

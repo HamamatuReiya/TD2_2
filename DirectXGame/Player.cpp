@@ -21,17 +21,11 @@ void Player::Update() {
 	Vector3 rotate = {0, 0, 0};
 	kCharacterSpeed = 0.08f;
 
+	move = TransformNormal(move, &));
+
 	//移動処理
-	if (input_->PushKey(DIK_LEFT)) {
-
-		worldTransform_.translation_.x = worldTransform_.translation_.x + kCharacterSpeed;
-	} else if (input_->PushKey(DIK_RIGHT)) {
-
-		worldTransform_.translation_.x = worldTransform_.translation_.x - kCharacterSpeed;
-	}
 	if (input_->PushKey(DIK_UP)) {
-
-		worldTransform_.translation_.z = worldTransform_.translation_.z + kCharacterSpeed;
+		 worldTransform_.translation_.z = worldTransform_.translation_.z + kCharacterSpeed;
 	} else if (input_->PushKey(DIK_DOWN)) {
 
 		worldTransform_.translation_.z = worldTransform_.translation_.z - kCharacterSpeed;
