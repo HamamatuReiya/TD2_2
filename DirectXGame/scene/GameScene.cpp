@@ -26,7 +26,7 @@ void GameScene::Initialize() {
 	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
@@ -75,10 +75,10 @@ void GameScene::Update()
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.TransferMatrix();
 	}
-	// ビュープロジェクション行列の更新
-	viewProjection_.TransferMatrix();
 }
 
 void GameScene::Draw() {

@@ -62,7 +62,7 @@ private: // メンバ変数
 	
 	// デバックカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
-	int isDebugCameraActive_;
+	bool isDebugCameraActive_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> groundModel_ = nullptr;
