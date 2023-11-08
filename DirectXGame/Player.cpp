@@ -20,17 +20,38 @@ void Player::Update() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	Vector3 rotate = {0, 0, 0};
 	kCharacterSpeed = 0.08f;
-
-	move = TransformNormal(move, &));
-
-	//移動処理
+	// 移動処理
 	if (input_->PushKey(DIK_UP)) {
-		 worldTransform_.translation_.z = worldTransform_.translation_.z + kCharacterSpeed;
+		worldTransform_.translation_.z = worldTransform_.translation_.z + kCharacterSpeed;
 	} else if (input_->PushKey(DIK_DOWN)) {
 
 		worldTransform_.translation_.z = worldTransform_.translation_.z - kCharacterSpeed;
 	}
+	
+	// カメラの角度から回転行列を計算する
+	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(viewProjection_->rotation_.x);
+	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
+	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(viewProjection_->rotation_.z);
+	Matrix4x4 rotateXYZMatrix = Multiply(rotateXMatrix, Multiply(rotateYMatrix, rotateZMatrix));
+	//カメラとリンク
+	move = TransformNormal(move, MakeRotateXMatrix(viewProjection_->rotation_.x));
+	move = TransformNormal(move, MakeRotateYMatrix(viewProjection_->rotation_.y));
+	move = TransformNormal(move, MakeRotateZMatrix(viewProjection_->rotation_.z));
 
+	//
+	move = Multiply(kCharacterSpeed,Normalize(move));
+
+	//Y軸周り角度(0y)
+	worldTransform_.rotation_.y = std::atan2(move.x,move.z);
+
+	if (move.z != 0 || move.y != 0) {
+		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+	}
+
+	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+
+	
 
 	//デバック
 	float playerPos[3] = {
