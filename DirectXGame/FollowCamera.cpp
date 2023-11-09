@@ -17,7 +17,7 @@ void FollowCamera::Update()
 	if (target_)
 	{
 		//追従対象からカメラまでのオフセット
-		Vector3 offset = {0.0f, 2.0f, -10.0f};
+		Vector3 offset = {0.0f, -1.0f, -10.0f};
 		offset = TransformNormal(offset,MakeRotateYMatrix(viewProjection_.rotation_.y));//途中
 		//座標をコピーしてオフセット分ずらす
 		viewProjection_.translation_ = Add(target_->translation_, offset);
@@ -25,7 +25,7 @@ void FollowCamera::Update()
 
 #pragma region プレイヤーのカメラ回転
 	//回転
-	RotateSpeed = 0.06f;
+	RotateSpeed = 0.03f;
 
 	if (input_->PushKey(DIK_A)) {
 		viewProjection_.rotation_.y = viewProjection_.rotation_.y - RotateSpeed;
