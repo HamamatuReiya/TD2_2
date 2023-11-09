@@ -58,6 +58,13 @@ void GameScene::Initialize() {
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
 	// 地面の初期化
 	ground_->Initialize(groundModel_.get());
+
+	// 鍵の生成
+	Key_= std::make_unique<KeyItem>();
+	// 3Dモデルの生成
+	KeyModel_.reset(Model::CreateFromOBJ("key", true));
+	// 地面の初期化
+	Key_->Initialize(KeyModel_.get());
 }
 
 void GameScene::Update() 
@@ -67,6 +74,8 @@ void GameScene::Update()
 	debugCamera_->Update();
 	//追従カメラの更新
 	followCamera_->Update();
+	//key
+	Key_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -120,6 +129,7 @@ void GameScene::Draw() {
 	/*player_->Draw(viewProjection_);*/
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
+	Key_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
