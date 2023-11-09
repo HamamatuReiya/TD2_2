@@ -13,6 +13,7 @@
 #include "DebugCamera.h"
 #include "Ground.h"
 #include "FollowCamera.h"
+#include "KeyItem.h"
 
 /// <summary>
 /// ゲームシーン
@@ -55,16 +56,18 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	std::unique_ptr<Model> model_ = nullptr;
-	
+
 	// 3Dモデル
 	std::unique_ptr<Model> playerModel_ = nullptr;
 	// 自キャラ
 	std::unique_ptr<Player> player_;
 
+
 	//敵キャラの3Dモデル
 	std::unique_ptr<Model> enemyModel_ = nullptr;
 	//敵キャラ
 	std::unique_ptr<Enemy> enemy_;
+
 
 	// デバックカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
@@ -77,6 +80,11 @@ private: // メンバ変数
 
 	//追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> KeyModel_ = nullptr;
+	// 鍵
+	std::unique_ptr<KeyItem> Key_;
 
 	/// <summary>
 	/// ゲームシーン用
