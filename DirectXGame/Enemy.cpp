@@ -11,8 +11,6 @@ void Enemy::Initialize(Model* model) {
 
 void Enemy::Update() { 
 	
-	/*move_ = {moveRotate_.x, 0, kEnemySpeed_};
-	moveRotate_.x += 0.001f;*/
 	Search(move_);
 	if (move_.z != 0 || move_.y != 0) {
 		worldTransform_.rotation_.y = std::atan2(move_.x, move_.z);

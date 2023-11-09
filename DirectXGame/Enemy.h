@@ -16,6 +16,11 @@ public:
 	void Chase(Vector3 move);
 
 private:
+
+	enum Phase {
+
+	};
+
 	WorldTransform worldTransform_;
 
 	ViewProjection viewProjection_;
