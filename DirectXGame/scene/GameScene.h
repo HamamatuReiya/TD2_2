@@ -9,6 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "DebugCamera.h"
 #include "Ground.h"
 #include "FollowCamera.h"
@@ -59,7 +60,12 @@ private: // メンバ変数
 	std::unique_ptr<Model> playerModel_ = nullptr;
 	// 自キャラ
 	std::unique_ptr<Player> player_;
-	
+
+	//敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel_ = nullptr;
+	//敵キャラ
+	std::unique_ptr<Enemy> enemy_;
+
 	// デバックカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
 	bool isDebugCameraActive_;

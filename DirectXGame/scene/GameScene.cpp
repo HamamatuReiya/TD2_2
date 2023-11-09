@@ -36,6 +36,13 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 
+	//敵キャラの生成
+	enemy_ = std::make_unique<Enemy>();
+	//モデルの生成
+	enemyModel_.reset(Model::CreateFromOBJ("Robot", true));
+	//初期化
+	enemy_->Initialize(enemyModel_.get());
+	
 	//追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
@@ -56,6 +63,7 @@ void GameScene::Initialize() {
 void GameScene::Update() 
 {
 	player_->Update();
+	enemy_->Update();
 	debugCamera_->Update();
 	//追従カメラの更新
 	followCamera_->Update();
@@ -111,6 +119,7 @@ void GameScene::Draw() {
 	/// </summary>
 	/*player_->Draw(viewProjection_);*/
 	ground_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
