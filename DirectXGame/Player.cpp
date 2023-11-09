@@ -23,6 +23,11 @@ void Player::Update() {
 	} else if (input_->PushKey(DIK_DOWN)) {
 		move = {0.0f, 0.0f, -0.3f};
 	}
+	if (input_->PushKey(DIK_RIGHT)) {
+		move = {0.2f, 0.0f, 0.0f};
+	} else if (input_->PushKey(DIK_LEFT)) {
+		move = {-0.2f, 0.0f, 0.0f};
+	}
 	
 	// カメラの角度から回転行列を計算する
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
