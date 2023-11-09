@@ -49,8 +49,8 @@ void GameScene::Initialize() {
 
 	//自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
-
-	
+	//Player&followCamera
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 地面の生成
 	ground_ = std::make_unique<Ground>();
