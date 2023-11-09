@@ -27,10 +27,10 @@ void FollowCamera::Update()
 	//回転
 	RotateSpeed = 0.03f;
 
-	if (input_->PushKey(DIK_A)) {
+	if (input_->PushKey(DIK_LEFT)) {
 		viewProjection_.rotation_.y = viewProjection_.rotation_.y - RotateSpeed;
 	}
-	if (input_->PushKey(DIK_D)) {
+	if (input_->PushKey(DIK_RIGHT)) {
 		viewProjection_.rotation_.y = viewProjection_.rotation_.y + RotateSpeed;
 	}
 #pragma endregion
