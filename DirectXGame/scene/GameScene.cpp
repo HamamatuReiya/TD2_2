@@ -65,6 +65,14 @@ void GameScene::Initialize() {
 	KeyModel_.reset(Model::CreateFromOBJ("key", true));
 	// 地面の初期化
 	Key_->Initialize(KeyModel_.get());
+
+	// 部屋00の生成
+	Room_00_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_00.reset(Model::CreateFromOBJ("Stage", true));
+	// 部屋00の初期化
+	Room_00_->Initialize(RoomModel_R_00.get());
+
 }
 
 void GameScene::Update() 
@@ -76,6 +84,8 @@ void GameScene::Update()
 	followCamera_->Update();
 	//key
 	Key_->Update();
+	//部屋00
+	Room_00_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -130,6 +140,7 @@ void GameScene::Draw() {
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
+	Room_00_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

@@ -89,8 +89,8 @@ private: // メンバ変数
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_00 = nullptr;
-	// 鍵
-	std::unique_ptr<KeyItem> Room_;
+	// 部屋00
+	std::unique_ptr<Object> Room_00_;
 
 	/// <summary>
 	/// ゲームシーン用
