@@ -1,15 +1,16 @@
-﻿#include "WorldTransform.h"
-#include "Mymath.h"
+﻿#include "MyMath.h"
+#include "WorldTransform.h"
+#include <Math.h>
 
 void WorldTransform::UpdateMatrix() {
 
 	matWorld_ = MakeAffineMatrix(scale_, rotation_, translation_);
 
-	// 親があれば親のワールド行列を掛ける
+	// �e������ΐe�̃��[���h�s���|����
 	if (parent_) {
 
 		matWorld_ = Multiply(matWorld_, parent_->matWorld_);
 	}
 
 	TransferMatrix();
-};
+}

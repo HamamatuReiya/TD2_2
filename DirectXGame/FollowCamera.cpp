@@ -25,7 +25,7 @@ void FollowCamera::Update()
 
 #pragma region プレイヤーのカメラ回転
 	//回転
-	RotateSpeed = 0.06f;
+	RotateSpeed = 0.03f;
 
 	if (input_->PushKey(DIK_A)) {
 		viewProjection_.rotation_.y = viewProjection_.rotation_.y - RotateSpeed;
