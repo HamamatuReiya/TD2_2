@@ -25,13 +25,21 @@ void FollowCamera::Update()
 
 #pragma region プレイヤーのカメラ回転
 	//回転
-	RotateSpeed = 0.03f;
+	RotateSpeed_RL = 0.05f;
+	RotateSpeed_UD = 0.02f;
+	
 
 	if (input_->PushKey(DIK_LEFT)) {
-		viewProjection_.rotation_.y = viewProjection_.rotation_.y - RotateSpeed;
+		viewProjection_.rotation_.y = viewProjection_.rotation_.y - RotateSpeed_RL;
 	}
 	if (input_->PushKey(DIK_RIGHT)) {
-		viewProjection_.rotation_.y = viewProjection_.rotation_.y + RotateSpeed;
+		viewProjection_.rotation_.y = viewProjection_.rotation_.y + RotateSpeed_RL;
+	}
+	if (input_->PushKey(DIK_UP)) {
+		viewProjection_.rotation_.x = viewProjection_.rotation_.x - RotateSpeed_UD;
+	}
+	if (input_->PushKey(DIK_DOWN)) {
+		viewProjection_.rotation_.x = viewProjection_.rotation_.x + RotateSpeed_UD;
 	}
 #pragma endregion
 	
