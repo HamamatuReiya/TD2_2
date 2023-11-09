@@ -1,21 +1,21 @@
-#include "Model.h"
+ï»¿#include "Model.h"
 #include "WorldTransform.h"
 
 class Object {
 
 	public:
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(Model* model);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 

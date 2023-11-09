@@ -1,4 +1,4 @@
-#include "Object.h"
+ï»¿#include "Object.h"
 
 void Object::Initialize(Model* model) {
 	model_ = model;
@@ -9,7 +9,7 @@ void Object::Initialize(Model* model) {
 }
 
 void Object::Update() {
-	// s—ñ‚ÌXV
+	// è¡Œåˆ—ã®æ›´æ–°
 	worldTransform_.UpdateMatrix();
 }
 
