@@ -18,18 +18,18 @@ void Player::Update() {
 	Vector3 rotate = {0, 0, 0};
 	
 	// 移動処理
-	if (input_->PushKey(DIK_UP)) {
+	if (input_->PushKey(DIK_W)) {
 		move_ = {0.0f,0.0f,0.2f};
-	} else if (input_->PushKey(DIK_DOWN)) {
+	} else if (input_->PushKey(DIK_S)) {
 		move_ = {0.0f, 0.0f, -0.2f};
 	}
-	if (input_->PushKey(DIK_RIGHT)) {
+	if (input_->PushKey(DIK_D)) {
 		move_ = {0.1f, 0.0f, 0.0f};
-	} else if (input_->PushKey(DIK_LEFT)) {
+	} else if (input_->PushKey(DIK_A)) {
 		move_ = {-0.1f, 0.0f, 0.0f};
 	}
 	//Dash
-	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_UP)) {
+	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
 		move_ = {0.0f, 0.0f, 0.4f};
 	}
 

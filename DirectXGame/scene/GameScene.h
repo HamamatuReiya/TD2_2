@@ -14,6 +14,7 @@
 #include "Ground.h"
 #include "FollowCamera.h"
 #include "KeyItem.h"
+#include "Object.h"
 
 /// <summary>
 /// ゲームシーン
@@ -85,6 +86,11 @@ private: // メンバ変数
 	std::unique_ptr<Model> KeyModel_ = nullptr;
 	// 鍵
 	std::unique_ptr<KeyItem> Key_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_00 = nullptr;
+	// 鍵
+	std::unique_ptr<KeyItem> Room_;
 
 	/// <summary>
 	/// ゲームシーン用
