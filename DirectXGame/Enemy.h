@@ -18,8 +18,14 @@ public:
 private:
 
 	enum Phase {
-
+		phase1,
+		phase2,
+		phase3,
 	};
+
+	Phase phase_;
+
+	bool encountFlag;
 
 	WorldTransform worldTransform_;
 

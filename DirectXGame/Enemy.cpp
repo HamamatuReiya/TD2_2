@@ -7,11 +7,24 @@ void Enemy::Initialize(Model* model) {
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.translation_ = {0.0f, 0.7f, 15.0f};
 	kEnemySpeed_ = 0.05f;
+	encountFlag = false;
+	phase_ = phase1;
 }
 
 void Enemy::Update() { 
+	switch (phase_) {
+	case Enemy::phase1:
+		kEnemySpeed_ = 0.3f;
+		Search(move_);
+		break;
+	case Enemy::phase2:
+		kEnemySpeed_ = 0.34f;
+		break;
+	case Enemy::phase3:
+		kEnemySpeed_ = 0.38f;
+		break;
+	}
 	
-	Search(move_);
 	if (move_.z != 0 || move_.y != 0) {
 		worldTransform_.rotation_.y = std::atan2(move_.x, move_.z);
 	}
@@ -20,6 +33,7 @@ void Enemy::Update() {
 void Enemy::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
 
 void Enemy::Search(Vector3 move) {
+
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 }
 
