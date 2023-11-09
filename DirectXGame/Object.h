@@ -1,0 +1,25 @@
+#include "Model.h"
+#include "WorldTransform.h"
+
+class Object {
+
+	public:
+	/// <summary>
+	/// èâä˙âª
+	/// </summary>
+	void Initialize(Model* model);
+
+	/// <summary>
+	/// çXêV
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// ï`âÊ
+	/// </summary>
+	void Draw(ViewProjection& viewProjection);
+
+private:
+	WorldTransform worldTransform_;
+	Model* model_ = nullptr;
+};
