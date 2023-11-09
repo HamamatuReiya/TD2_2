@@ -26,10 +26,11 @@ private:
 	WorldTransform worldTransform_;
 	//キーボード
 	Input* input_ = nullptr;
+	//回転
+	float RotateSpeed_RL = 0.0f;
+	float RotateSpeed_UD = 0.0f;
 
 private:
 	//追従対象
 	const WorldTransform* target_ = nullptr;
-	//回転スピード
-	float RotateSpeed;
 };

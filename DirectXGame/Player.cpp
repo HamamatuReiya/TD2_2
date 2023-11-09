@@ -14,23 +14,41 @@ void Player::Initialize(Model* model) {
 }
 
 void Player::Update() {
-	// 行列の更新
-	worldTransform_.UpdateMatrix();
-	Vector3 move = {0, 0, 0};
-	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+	Vector3 move_ = {0, 0, 0};
 	Vector3 rotate = {0, 0, 0};
-	kCharacterSpeed = 0.08f;
-
-	move = TransformNormal(move, &MakeRotateXMatrix());
-
-	//移動処理
-	if (input_->PushKey(DIK_UP)) {
-		 worldTransform_.translation_.z = worldTransform_.translation_.z + kCharacterSpeed;
-	} else if (input_->PushKey(DIK_DOWN)) {
-
-		worldTransform_.translation_.z = worldTransform_.translation_.z - kCharacterSpeed;
+	
+	// 移動処理
+	if (input_->PushKey(DIK_W)) {
+		move_ = {0.0f,0.0f,0.2f};
+	} else if (input_->PushKey(DIK_S)) {
+		move_ = {0.0f, 0.0f, -0.2f};
+	}
+	if (input_->PushKey(DIK_D)) {
+		move_ = {0.1f, 0.0f, 0.0f};
+	} else if (input_->PushKey(DIK_A)) {
+		move_ = {-0.1f, 0.0f, 0.0f};
+	}
+	//Dash
+	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
+		move_ = {0.0f, 0.0f, 0.4f};
 	}
 
+	
+	// カメラの角度から回転行列を計算する
+	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
+	//カメラとリンク
+	move_ = TransformNormal(move_, MakeRotateYMatrix(viewProjection_->rotation_.y));
+	
+	if (move_.z != 0 || move_.y != 0) {
+		worldTransform_.rotation_.y = std::atan2(move_.x, move_.z);
+	}
+
+	worldTransform_.translation_ = Add(worldTransform_.translation_, move_);
+
+	// 行列の更新
+	worldTransform_.UpdateMatrix();
+
+	
 
 	//デバック
 	float playerPos[3] = {
@@ -40,7 +58,7 @@ void Player::Update() {
 	// 画面の座標を表示
 	ImGui::Begin("Player");
 	ImGui::SliderFloat3("playerPos", playerPos, -28.0f, 28.0f);
-	ImGui::Text("A&D...CAMERA\nUP&DOWN&RIGHT&LEFT...MOVE\n");
+	ImGui::Text("AorD...CAMERA\nUP,DOWN,LEFT,RIGHT...MOVE\nShift...Dash\n");
 	ImGui::End();
 
 	worldTransform_.translation_.x = playerPos[0];

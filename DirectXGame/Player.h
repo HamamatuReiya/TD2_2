@@ -33,7 +33,8 @@ private:
 	const ViewProjection*viewProjection_=nullptr;
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
-	//スピード
-	float kCharacterSpeed;
+	//回転スピード
+	float kRotateSpeed;
+	
 
 };

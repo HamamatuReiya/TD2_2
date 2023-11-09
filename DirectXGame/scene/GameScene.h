@@ -9,9 +9,12 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "DebugCamera.h"
 #include "Ground.h"
 #include "FollowCamera.h"
+#include "KeyItem.h"
+#include "Object.h"
 
 /// <summary>
 /// ゲームシーン
@@ -54,15 +57,22 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	std::unique_ptr<Model> model_ = nullptr;
-	
+
 	// 3Dモデル
 	std::unique_ptr<Model> playerModel_ = nullptr;
 	// 自キャラ
 	std::unique_ptr<Player> player_;
-	
+
+
+	//敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel_ = nullptr;
+	//敵キャラ
+	std::unique_ptr<Enemy> enemy_;
+
+
 	// デバックカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
-	int isDebugCameraActive_;
+	bool isDebugCameraActive_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> groundModel_ = nullptr;
@@ -71,6 +81,16 @@ private: // メンバ変数
 
 	//追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> KeyModel_ = nullptr;
+	// 鍵
+	std::unique_ptr<KeyItem> Key_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_00 = nullptr;
+	// 部屋00
+	std::unique_ptr<Object> Room_00_;
 
 	/// <summary>
 	/// ゲームシーン用

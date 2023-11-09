@@ -26,7 +26,7 @@ void GameScene::Initialize() {
 	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
@@ -36,14 +36,20 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 
-
+	//敵キャラの生成
+	enemy_ = std::make_unique<Enemy>();
+	//モデルの生成
+	enemyModel_.reset(Model::CreateFromOBJ("Robot", true));
+	//初期化
+	enemy_->Initialize(enemyModel_.get());
+	
 	//追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 
 	//自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
-
+	//Player&followCamera
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 地面の生成
@@ -52,14 +58,34 @@ void GameScene::Initialize() {
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
 	// 地面の初期化
 	ground_->Initialize(groundModel_.get());
+
+	// 鍵の生成
+	Key_= std::make_unique<KeyItem>();
+	// 3Dモデルの生成
+	KeyModel_.reset(Model::CreateFromOBJ("key", true));
+	// 地面の初期化
+	Key_->Initialize(KeyModel_.get());
+
+	// 部屋00の生成
+	Room_00_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_00.reset(Model::CreateFromOBJ("Stage", true));
+	// 部屋00の初期化
+	Room_00_->Initialize(RoomModel_R_00.get());
+
 }
 
 void GameScene::Update() 
 {
 	player_->Update();
+	enemy_->Update();
 	debugCamera_->Update();
 	//追従カメラの更新
 	followCamera_->Update();
+	//key
+	Key_->Update();
+	//部屋00
+	Room_00_->Update();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -76,10 +102,10 @@ void GameScene::Update()
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.TransferMatrix();
 	}
-	// ビュープロジェクション行列の更新
-	viewProjection_.TransferMatrix();
 }
 
 void GameScene::Draw() {
@@ -112,6 +138,9 @@ void GameScene::Draw() {
 	/// </summary>
 	/*player_->Draw(viewProjection_);*/
 	ground_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
+	Key_->Draw(viewProjection_);
+	Room_00_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
