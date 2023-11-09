@@ -21,7 +21,7 @@ void Player::Update() {
 	Vector3 rotate = {0, 0, 0};
 	kCharacterSpeed = 0.08f;
 
-	move = TransformNormal(move, &));
+	move = TransformNormal(move, &MakeRotateXMatrix());
 
 	//移動処理
 	if (input_->PushKey(DIK_UP)) {
