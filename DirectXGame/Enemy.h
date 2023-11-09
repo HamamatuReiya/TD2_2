@@ -1,6 +1,7 @@
 #pragma once
 #include "Model.h"
 #include "WorldTransform.h"
+#include "Mymath.h"
 
 class Enemy {
 public:
@@ -10,9 +11,14 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	void Search();
+
+	void Chase();
+
 private:
 	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;
+
 
 };
