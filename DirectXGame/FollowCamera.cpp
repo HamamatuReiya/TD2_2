@@ -1,5 +1,6 @@
 ﻿#include "FollowCamera.h"
 #include"Mymath.h"
+#include"ImGuiManager.h"
 
 void FollowCamera::Initialize() 
 { 
@@ -28,7 +29,7 @@ void FollowCamera::Update()
 #pragma region プレイヤーのカメラ回転
 	//回転
 	RotateSpeed_RL = 0.05f;
-	RotateSpeed_UD = 0.02f;
+	RotateSpeed_UD = 0.015f;
 	
 
 	if (input_->PushKey(DIK_LEFT)) {
@@ -43,7 +44,33 @@ void FollowCamera::Update()
 	if (input_->PushKey(DIK_DOWN)) {
 		viewProjection_.rotation_.x = viewProjection_.rotation_.x + RotateSpeed_UD;
 	}
+
+	//上下回転制限
+	if (viewProjection_.rotation_.x <= -0.3f){
+		viewProjection_.rotation_.x = -0.3f;
+	}
+	if (viewProjection_.rotation_.x >= 0.5f) {
+		viewProjection_.rotation_.x = 0.5f;
+	}
+
 #pragma endregion
+
+	// デバック
+	float RotateDebug[3] = {
+	    viewProjection_.rotation_.x, viewProjection_.rotation_.y, viewProjection_.rotation_.z};
+
+	// 画面の座標を表示
+	ImGui::Begin("PlayerRotate");
+	ImGui::SliderFloat3("PlayerRotate", RotateDebug, -28.0f, 28.0f);
+	ImGui::Text("UP,DOWN,LEFT,RIGHT...CAMERA\n");
+	ImGui::End();
+
+	viewProjection_.rotation_.x = RotateDebug[0];
+	viewProjection_.rotation_.y = RotateDebug[1];
+	viewProjection_.rotation_.z = RotateDebug[2];
+
+
+	
 	
 	//ビュー行列の更新と転送
 	viewProjection_.UpdateMatrix();
