@@ -5,7 +5,9 @@ void FollowCamera::Initialize()
 { 
 	// ワールドトランスフォーム
 	worldTransform_.Initialize();
+	//ビュープロジェクション
 	viewProjection_.Initialize();
+
 	input_ = Input::GetInstance();
 }
 
