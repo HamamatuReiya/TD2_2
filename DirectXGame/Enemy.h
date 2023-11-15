@@ -25,6 +25,8 @@ private:
 
 	Phase phase_;
 
+	bool phase1SpeedFlag=true;
+
 	bool encountFlag;
 
 	WorldTransform worldTransform_;
@@ -35,7 +37,7 @@ private:
 
 	float kEnemySpeed_;
 
-	Vector3 move_;
+	Vector3 move_ = {0.0f,0.0f,0.0f};
 
 	Vector3 moveRotate_;
 };
