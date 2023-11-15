@@ -40,5 +40,6 @@ private:
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
 	bool isKeytouch_ = false;
+	//ジャンプ
 
 };
