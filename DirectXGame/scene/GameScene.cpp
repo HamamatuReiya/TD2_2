@@ -60,11 +60,12 @@ void GameScene::Initialize() {
 	ground_->Initialize(groundModel_.get());
 
 	// 鍵の生成
-	Key_= std::make_unique<KeyItem>();
+	Key_= std::make_unique<Item>();
 	// 3Dモデルの生成
 	KeyModel_.reset(Model::CreateFromOBJ("key", true));
 	// 地面の初期化
-	Key_->Initialize(KeyModel_.get());
+	Key_->Initialize(KeyModel_.get(), KeyModel_.get(), KeyModel_.get());
+	GameStart = false;
 
 	// 部屋00の生成
 	Room_00_ = std::make_unique<Object>();
@@ -77,13 +78,21 @@ void GameScene::Initialize() {
 
 void GameScene::Update() 
 {
+	RandTime_++;
 	player_->Update();
 	enemy_->Update();
 	debugCamera_->Update();
 	//追従カメラの更新
 	followCamera_->Update();
-	//key
-	Key_->Update();
+	if (RandTime_>=10&&RandTime_<=30) {
+		// key
+		Key_->Update();
+	}
+	if (GameStart == true) {
+		if (input_->TriggerKey(DIK_T)) {
+			GameStart = false;
+		}
+	}
 	//部屋00
 	Room_00_->Update();
 
@@ -158,4 +167,13 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+void GameScene::sceneReset() {
+	// シーンの切り替えフラグ
+	isSceneEnd = false;
+	//// プレイヤーの体力
+
+	//// BGMの停止
+	//audio_->StopWave(bgmHandle_);
+	//bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
 }
