@@ -27,6 +27,9 @@ public:
 		viewProjection_ = viewProjection;
 	}
 
+	//鍵に触れたかどうか
+	bool isKeytouch() const { return isKeytouch_; }
+
 private:
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
@@ -35,6 +38,8 @@ private:
 	Input* input_ = nullptr;
 	//回転スピード
 	float kRotateSpeed;
-	
+	// 鍵に触れたかどうかフラグ
+	bool isKeytouch_ = false;
+	//ジャンプ
 
 };
