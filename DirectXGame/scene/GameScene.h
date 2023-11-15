@@ -13,8 +13,9 @@
 #include "DebugCamera.h"
 #include "Ground.h"
 #include "FollowCamera.h"
-#include "KeyItem.h"
+#include "Item.h"
 #include "Object.h"
+#include <Scene.h>
 
 /// <summary>
 /// ゲームシーン
@@ -47,6 +48,14 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	// シーンのリセット
+	void sceneReset();
+
+	bool isSceneEnd = false;
+
+	bool IsSceneEnd() { return isSceneEnd; }
+	SceneType NextScene() { return SceneType::kTitle; }
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	//ワールドトランスフォーム
@@ -54,6 +63,7 @@ private: // メンバ変数
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
+private:
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	std::unique_ptr<Model> model_ = nullptr;
@@ -85,7 +95,7 @@ private: // メンバ変数
 	// 3Dモデル
 	std::unique_ptr<Model> KeyModel_ = nullptr;
 	// 鍵
-	std::unique_ptr<KeyItem> Key_;
+	std::unique_ptr<Item> Key_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_00 = nullptr;

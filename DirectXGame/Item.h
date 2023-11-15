@@ -2,13 +2,13 @@
 #include "Model.h"
 #include "WorldTransform.h"
 
-class KeyItem 
+class Item 
 {
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model);
+	void Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel);
 
 	/// <summary>
 	/// 更新
@@ -21,14 +21,12 @@ public:
 	void Draw(ViewProjection& viewProjection);
 
 private:
-	enum ItemType {
-		KEYCRAFT, // 鍵作成エリア(0)
-		KEYUP,    // 鍵上の部分(1)
-		KEYDOWN,  // 鍵下の部分(2)
-		MOLD,     // 鍵の型(3)
-	};
+	//鍵用のランダム変数
+	float Keynumber = 0;
+
 private:
-	ItemType itemType_;
-	WorldTransform worldTransform_;
-	Model* model_ = nullptr;
+	WorldTransform worldTransform_[3];
+	Model* keyupModel_ = nullptr;
+	Model* keydownModel_ = nullptr;
+	Model* keymoldModel_ = nullptr;
 };
