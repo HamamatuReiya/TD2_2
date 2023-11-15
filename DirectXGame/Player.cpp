@@ -30,7 +30,7 @@ void Player::Update() {
 	}
 	//Dash
 	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
-		move_ = {0.0f, 0.0f, 0.4f};
+		move_ = {0.0f, 0.0f, 0.35f};
 	}
 
 	
@@ -58,7 +58,7 @@ void Player::Update() {
 	// 画面の座標を表示
 	ImGui::Begin("Player");
 	ImGui::SliderFloat3("playerPos", playerPos, -28.0f, 28.0f);
-	ImGui::Text("AorD...CAMERA\nUP,DOWN,LEFT,RIGHT...MOVE\nShift...Dash\n");
+	ImGui::Text("W,A,S,D...MOVE\nShift...Dash\n");
 	ImGui::End();
 
 	worldTransform_.translation_.x = playerPos[0];
