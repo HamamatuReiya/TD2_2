@@ -63,6 +63,9 @@ private: // メンバ変数
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
+	bool GameStart = false;
+	float RandTime_ = 0;
+
 private:
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;

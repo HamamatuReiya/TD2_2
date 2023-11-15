@@ -1,6 +1,7 @@
 ﻿#include<time.h>
 #include "Model.h"
 #include "WorldTransform.h"
+#include <Input.h>
 
 class Item 
 {
@@ -29,4 +30,5 @@ private:
 	Model* keyupModel_ = nullptr;
 	Model* keydownModel_ = nullptr;
 	Model* keymoldModel_ = nullptr;
+	Input* input_ = nullptr;
 };

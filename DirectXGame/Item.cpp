@@ -1,4 +1,5 @@
 ﻿#include "Item.h"
+#include "ImGuiManager.h"
 
 void Item::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel) {
 	//鍵モデル
@@ -11,17 +12,17 @@ void Item::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldMode
 		worldTransform_[i].rotation_ = {0.0f, -45.0f, 0.0f};
 		worldTransform_[i].translation_ = {0.0f, -1.0f, 0.0f};
 	}
+	
 }
 
 void Item::Update() {
-	//ランダム
-	//1～3を鍵分とアイテム個別で用意
+	// ランダム
 	Keynumber = static_cast<float>(rand() % 3 + 1);
 
 	if (Keynumber == 1) {
-		worldTransform_[0].translation_ = {-2.0f, -1.0f, 0.0f};
-		worldTransform_[1].translation_ = {0.0f, -1.0f, 0.0f};
-		worldTransform_[2].translation_ = {2.0f, -1.0f, 0.0f};
+		worldTransform_[0].translation_ = {-2.0f, -1.0f, 2.0f};
+		worldTransform_[1].translation_ = {0.0f, -1.0f, 2.0f};
+		worldTransform_[2].translation_ = {2.0f, -1.0f, 2.0f};
 	}
 	if (Keynumber == 2) {
 		worldTransform_[0].translation_ = {-4.0f, -1.0f, 0.0f};
@@ -29,14 +30,19 @@ void Item::Update() {
 		worldTransform_[2].translation_ = {4.0f, -1.0f, 0.0f};
 	}
 	if (Keynumber == 3) {
-		worldTransform_[0].translation_ = {-6.0f, -1.0f, 0.0f};
-		worldTransform_[1].translation_ = {0.0f, -1.0f, 0.0f};
-		worldTransform_[2].translation_ = {6.0f, -1.0f, 0.0f};
+		worldTransform_[0].translation_ = {-6.0f, -1.0f, -2.0f};
+		worldTransform_[1].translation_ = {0.0f, -1.0f, -2.0f};
+		worldTransform_[2].translation_ = {6.0f, -1.0f, -2.0f};
 	}
+	
 	for (int i = 0; i < 3; i++) {
 		// 行列の更新
 		worldTransform_[i].UpdateMatrix();
 	}
+	// 画面の座標を表示
+	ImGui::Begin("Item");
+	ImGui::Text("%f",Keynumber);
+	ImGui::End();
 }
 
 void Item::Draw(ViewProjection& viewProjection) {
