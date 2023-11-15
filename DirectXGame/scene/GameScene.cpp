@@ -73,6 +73,13 @@ void GameScene::Initialize() {
 	// 部屋00の初期化
 	Room_00_->Initialize(RoomModel_R_00.get());
 
+	// 部屋01の生成
+	Room_01_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_01.reset(Model::CreateFromOBJ("Stage1", true));
+	// 部屋00の初期化
+	Room_01_->Initialize(RoomModel_R_01.get());
+
 }
 
 void GameScene::Update() 
@@ -141,6 +148,7 @@ void GameScene::Draw() {
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
 	Room_00_->Draw(viewProjection_);
+	Room_01_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

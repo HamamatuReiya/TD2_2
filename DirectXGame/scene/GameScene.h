@@ -92,6 +92,11 @@ private: // メンバ変数
 	// 部屋00
 	std::unique_ptr<Object> Room_00_;
 
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_01 = nullptr;
+	// 部屋01
+	std::unique_ptr<Object> Room_01_;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
