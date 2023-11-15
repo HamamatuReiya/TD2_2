@@ -20,7 +20,7 @@ void Item::Update() {
 	// ランダム
 	Keynumber = {static_cast<float>(rand() % 3 + 1)};
 	RandTime_++;
-	if (RandTime_ > 0 && RandTime_ <= 30) {
+	if (RandTime_ > 0 && RandTime_ <= 5) {
 		if (Keynumber == 1) {
 			worldTransform_[0].translation_ = {-2.0f, -1.0f, 2.0f};
 			worldTransform_[1].translation_ = {0.0f, -1.0f, 2.0f};
