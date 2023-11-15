@@ -65,7 +65,6 @@ void GameScene::Initialize() {
 	KeyModel_.reset(Model::CreateFromOBJ("key", true));
 	// 地面の初期化
 	Key_->Initialize(KeyModel_.get(), KeyModel_.get(), KeyModel_.get());
-	GameStart = false;
 
 	// 部屋00の生成
 	Room_00_ = std::make_unique<Object>();
@@ -78,21 +77,13 @@ void GameScene::Initialize() {
 
 void GameScene::Update() 
 {
-	RandTime_++;
+	
 	player_->Update();
 	enemy_->Update();
 	debugCamera_->Update();
 	//追従カメラの更新
 	followCamera_->Update();
-	if (RandTime_>=10&&RandTime_<=30) {
-		// key
-		Key_->Update();
-	}
-	if (GameStart == true) {
-		if (input_->TriggerKey(DIK_T)) {
-			GameStart = false;
-		}
-	}
+	Key_->Update();
 	//部屋00
 	Room_00_->Update();
 

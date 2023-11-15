@@ -12,29 +12,31 @@ void Item::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldMode
 		worldTransform_[i].rotation_ = {0.0f, -45.0f, 0.0f};
 		worldTransform_[i].translation_ = {0.0f, -1.0f, 0.0f};
 	}
-	
+	//// 乱数の初期化(シード値の設定)
+	srand((unsigned int)time(nullptr));
 }
 
 void Item::Update() {
 	// ランダム
-	Keynumber = static_cast<float>(rand() % 3 + 1);
-
-	if (Keynumber == 1) {
-		worldTransform_[0].translation_ = {-2.0f, -1.0f, 2.0f};
-		worldTransform_[1].translation_ = {0.0f, -1.0f, 2.0f};
-		worldTransform_[2].translation_ = {2.0f, -1.0f, 2.0f};
+	Keynumber = {static_cast<float>(rand() % 3 + 1)};
+	RandTime_++;
+	if (RandTime_ > 0 && RandTime_ <= 5) {
+		if (Keynumber == 1) {
+			worldTransform_[0].translation_ = {-2.0f, -1.0f, 2.0f};
+			worldTransform_[1].translation_ = {0.0f, -1.0f, 2.0f};
+			worldTransform_[2].translation_ = {2.0f, -1.0f, 2.0f};
+		}
+		if (Keynumber == 2) {
+			worldTransform_[0].translation_ = {-4.0f, -1.0f, 0.0f};
+			worldTransform_[1].translation_ = {0.0f, -1.0f, 0.0f};
+			worldTransform_[2].translation_ = {4.0f, -1.0f, 0.0f};
+		}
+		if (Keynumber == 3) {
+			worldTransform_[0].translation_ = {-6.0f, -1.0f, -2.0f};
+			worldTransform_[1].translation_ = {0.0f, -1.0f, -2.0f};
+			worldTransform_[2].translation_ = {6.0f, -1.0f, -2.0f};
+		}
 	}
-	if (Keynumber == 2) {
-		worldTransform_[0].translation_ = {-4.0f, -1.0f, 0.0f};
-		worldTransform_[1].translation_ = {0.0f, -1.0f, 0.0f};
-		worldTransform_[2].translation_ = {4.0f, -1.0f, 0.0f};
-	}
-	if (Keynumber == 3) {
-		worldTransform_[0].translation_ = {-6.0f, -1.0f, -2.0f};
-		worldTransform_[1].translation_ = {0.0f, -1.0f, -2.0f};
-		worldTransform_[2].translation_ = {6.0f, -1.0f, -2.0f};
-	}
-	
 	for (int i = 0; i < 3; i++) {
 		// 行列の更新
 		worldTransform_[i].UpdateMatrix();
