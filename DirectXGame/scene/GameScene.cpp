@@ -136,7 +136,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	/*player_->Draw(viewProjection_);*/
+	player_->Draw(viewProjection_);
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
