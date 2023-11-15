@@ -20,10 +20,13 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
+	
+
 
 private:
 	//鍵用のランダム変数
 	float Keynumber = 0;
+	
 
 private:
 	WorldTransform worldTransform_[3];
@@ -31,4 +34,6 @@ private:
 	Model* keydownModel_ = nullptr;
 	Model* keymoldModel_ = nullptr;
 	Input* input_ = nullptr;
+	float RandTime_ = 0;
+	
 };
