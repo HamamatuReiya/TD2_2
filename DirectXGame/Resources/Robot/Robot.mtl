@@ -1,16 +1,6 @@
 # Blender 3.5.0 MTL File: 'Robot.blend'
 # www.blender.org
 
-newmtl Material
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd gazo/Material Base Color.png
-
 newmtl Material.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
@@ -20,16 +10,6 @@ Ni 1.450000
 d 1.000000
 illum 2
 map_Kd gazo/立方体.022 Base Color.png
-
-newmtl Material.002
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd gazo/球 Base Color.png
 
 newmtl Material.003
 Ns 250.000000
@@ -270,3 +250,23 @@ Ni 1.450000
 d 1.000000
 illum 2
 map_Kd gazo/立方体.011 Base Color.png
+
+newmtl マテリアル.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd gazo/球 Base Color.png
+
+newmtl マテリアル.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd gazo/Material Base Color.png
