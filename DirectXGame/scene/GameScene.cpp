@@ -70,12 +70,9 @@ void GameScene::Initialize() {
 	// 地面の初期化
 	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
 
-	// 部屋00の生成
-	Room_00_ = std::make_unique<Object>();
-	// 3Dモデルの生成
-	RoomModel_R_00.reset(Model::CreateFromOBJ("Stage", true));
-	// 部屋00の初期化
-	Room_00_->Initialize(RoomModel_R_00.get());
+	//部屋の生成,初期化
+	Room();
+
 }
 
 void GameScene::Update() {
@@ -87,6 +84,18 @@ void GameScene::Update() {
 
 	// 部屋00
 	Room_00_->Update();
+	//部屋01
+	Room_01_->Update();
+	// 部屋02
+	Room_02_->Update();
+	// 部屋03
+	Room_03_->Update();
+	// 部屋04
+	Room_04_->Update();
+	// 部屋05
+	Room_05_->Update();
+	// 部屋06
+	Room_06_->Update();
 
 	CheakCollisions();
 }
@@ -122,6 +131,12 @@ void GameScene::Draw() {
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
 	Room_00_->Draw(viewProjection_);
+	Room_01_->Draw(viewProjection_);
+	Room_02_->Draw(viewProjection_);
+	Room_03_->Draw(viewProjection_);
+	Room_04_->Draw(viewProjection_);
+	Room_05_->Draw(viewProjection_);
+	Room_06_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -203,4 +218,77 @@ void GameScene::CameraUpdate() {
 		viewProjection_.TransferMatrix();
 	}
 
+}
+
+void GameScene::Room() 
+{
+	// 部屋00の生成
+	Room_00_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_00.reset(Model::CreateFromOBJ("Stage", true));
+
+	// 部屋01の生成
+	Room_01_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_01.reset(Model::CreateFromOBJ("Stage1", true));
+
+	// 部屋02の生成
+	Room_02_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_02.reset(Model::CreateFromOBJ("Stage2", true));
+
+	// 部屋03の生成
+	Room_03_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_03.reset(Model::CreateFromOBJ("Stage3", true));
+
+	// 部屋04の生成
+	Room_04_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_04.reset(Model::CreateFromOBJ("Stage4", true));
+
+	// 部屋05の生成
+	Room_05_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_05.reset(Model::CreateFromOBJ("Stage5", true));
+
+	// 部屋06の生成
+	Room_06_ = std::make_unique<Object>();
+	// 3Dモデルの生成
+	RoomModel_R_06.reset(Model::CreateFromOBJ("Stage6", true));
+
+	// 部屋00の初期化
+	Room_00_->Initialize(
+	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
+	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
+
+	// 部屋01の初期化
+	Room_01_->Initialize(
+	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
+	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
+
+	// 部屋02の初期化
+	Room_02_->Initialize(
+	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
+	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
+
+	// 部屋03の初期化
+	Room_03_->Initialize(
+	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
+	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
+
+	// 部屋04の初期化
+	Room_04_->Initialize(
+	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
+	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
+
+	// 部屋05の初期化
+	Room_05_->Initialize(
+	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
+	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
+
+	// 部屋06の初期化
+	Room_06_->Initialize(
+	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
+	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
 }
