@@ -60,7 +60,7 @@ void GameScene::Initialize() {
 	ground_->Initialize(groundModel_.get());
 
 	// 鍵の生成
-	Key_ = std::make_unique<Item>();
+	Key_ = std::make_unique<Key>();
 	// 3Dモデルの生成
 	KeyModel_.reset(Model::CreateFromOBJ("key", true));
 	// 3Dモデルの生成
@@ -177,21 +177,21 @@ void GameScene::CheakCollisions() {
 	// 自キャラの半径
 	float playerRadius = 2.0f;
 	// 鍵の半径
-	float keyRadius = 0.5f;
+	float keyRadius = 1.0f;
 	// 鍵の半径
 	float keyUpRadius = 1.0f;
 	// 鍵の半径
-	float keyDounRadius = 1.5f;
+	float keyDounRadius = 1.0f;
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
 	posA = player_->GetWorldPosition();
-	// 鍵の座標
-	posB = Key_->GetWorldPosition();
-	// 鍵の座標
-	posC = Key_->GetWorldPosition();
-	// 鍵の座標
-	posD = Key_->GetWorldPosition();
+	// 鍵上の座標
+	posB = Key_->GetKeyUpWorldPosition();
+	// 鍵型の座標
+	posC = Key_->GetKeyWorldPosition();
+	// 鍵下の座標
+	posD = Key_->GetKeyDownWorldPosition();
 	// AとBの距離を求める
 	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
 	        (posB.z - posA.z) * (posB.z - posA.z);
@@ -205,22 +205,22 @@ void GameScene::CheakCollisions() {
 	// AとCの距離を求める
 	posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
 	        (posC.z - posA.z) * (posC.z - posA.z);
-	// プレイヤーと上鍵の当たり判定
+	// プレイヤーと鍵型の当たり判定
 	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
 		// 自キャラの衝突時コールバックを呼び出す
 		player_->OnCollision();
 		// 鍵の衝突時コールバックを呼び出す
-		Key_->OnKeyDownCollision();
+		Key_->OnKeyCollision();
 	}
 	// AとDの距離を求める
 	posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
 	        (posD.z - posA.z) * (posD.z - posA.z);
-	// プレイヤーと上鍵の当たり判定
+	// プレイヤーと下鍵の当たり判定
 	if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
 		// 自キャラの衝突時コールバックを呼び出す
 		player_->OnCollision();
 		// 鍵の衝突時コールバックを呼び出す
-		Key_->OnKeyCollision();
+		Key_->OnKeyDownCollision();
 	}
 #pragma endregion
 }

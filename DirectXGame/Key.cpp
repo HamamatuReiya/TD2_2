@@ -1,7 +1,7 @@
-﻿#include "Item.h"
+﻿#include "Key.h"
 #include "ImGuiManager.h"
 
-void Item::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel) {
+void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel) {
 	//鍵モデル
 	keyupModel_ = keyupModel;
 	keydownModel_ = keydownModel;
@@ -16,7 +16,7 @@ void Item::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldMode
 	srand((unsigned int)time(nullptr));
 }
 
-void Item::Update() {
+void Key::Update() {
 	// ランダム
 	Keynumber = {static_cast<float>(rand() % 3 + 1)};
 	RandTime_++;
@@ -44,12 +44,12 @@ void Item::Update() {
 	// 画面の座標を表示
 	ImGui::Begin("Item");
 	ImGui::Text("%f",Keynumber);
+	ImGui::Text("%d\n%d\n%d\n", isKeyDead_, isKeyUpDead_, isKeyDownDead_);
 	ImGui::End();
 }
 
-void Item::Draw(ViewProjection& viewProjection) {
+void Key::Draw(ViewProjection& viewProjection) {
 	if (isKeyDead_ == false) {
-
 		keyupModel_->Draw(worldTransform_[0], viewProjection);
 	}
 	if (isKeyUpDead_ == false) {
@@ -60,18 +60,48 @@ void Item::Draw(ViewProjection& viewProjection) {
 	}
 }
 
-void Item::OnKeyCollision() { isKeyDead_ = true; }
-void Item::OnKeyUpCollision() { isKeyUpDead_ = true; }
-void Item::OnKeyDownCollision() { isKeyDownDead_ = true; }
+void Key::OnKeyCollision() { isKeyDead_ = true; }
+void Key::OnKeyUpCollision() { isKeyUpDead_ = true; }
+void Key::OnKeyDownCollision() { isKeyDownDead_ = true; }
 
-Vector3 Item::GetWorldPosition() {
+Vector3 Key::GetKeyWorldPosition() {
 	Vector3 worldPos;
-	for (int i = 0; i < 3; i++) {
-		worldPos.x = worldTransform_[i].matWorld_.m[3][0];
-		worldPos.y = worldTransform_[i].matWorld_.m[3][1];
-		worldPos.z = worldTransform_[i].matWorld_.m[3][2];
-	}
+	worldPos.x = worldTransform_[0].matWorld_.m[3][0];
+	worldPos.y = worldTransform_[0].matWorld_.m[3][1];
+	worldPos.z = worldTransform_[0].matWorld_.m[3][2];
 
 	return worldPos;
 }
+Vector3 Key::GetKeyUpWorldPosition() {
+	Vector3 worldPos;
+	worldPos.x = worldTransform_[1].matWorld_.m[3][0];
+	worldPos.y = worldTransform_[1].matWorld_.m[3][1];
+	worldPos.z = worldTransform_[1].matWorld_.m[3][2];
+
+	return worldPos;
+}
+Vector3 Key::GetKeyDownWorldPosition() {
+	Vector3 worldPos;
+	worldPos.x = worldTransform_[2].matWorld_.m[3][0];
+	worldPos.y = worldTransform_[2].matWorld_.m[3][1];
+	worldPos.z = worldTransform_[2].matWorld_.m[3][2];
+
+	return worldPos;
+}
+
+//Vector3 Item::GetKeyWorldPosition(int index) {
+//	Vector3 worldPos;
+//	worldPos.x = worldTransform_[index].matWorld_.m[3][0];
+//	worldPos.y = worldTransform_[index].matWorld_.m[3][1];
+//	worldPos.z = worldTransform_[index].matWorld_.m[3][2];
+//
+//	return worldPos;
+//}
+
+//for (int i = 0; i < 3; i++) {
+//	GetKeyWorldPosition(i).x;
+//	if (collision) {
+//		OnCollision(i);
+//	}
+//}
 

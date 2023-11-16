@@ -3,7 +3,7 @@
 #include "WorldTransform.h"
 #include <Input.h>
 
-class Item 
+class Key 
 {
 public:
 	/// <summary>
@@ -29,7 +29,11 @@ public:
 	void OnKeyDownCollision();
 
 	// ワールド座標を取得
-	Vector3 GetWorldPosition(); 
+	Vector3 GetKeyWorldPosition(); 
+	// ワールド座標を取得
+	Vector3 GetKeyUpWorldPosition(); 
+	// ワールド座標を取得
+	Vector3 GetKeyDownWorldPosition(); 
 
 private:
 	//鍵用のランダム変数

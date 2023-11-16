@@ -13,7 +13,7 @@
 #include "DebugCamera.h"
 #include "Ground.h"
 #include "FollowCamera.h"
-#include "Item.h"
+#include "Key.h"
 #include "Object.h"
 #include <Scene.h>
 
@@ -110,7 +110,7 @@ private: // メンバ変数
 	// 3Dモデル
 	std::unique_ptr<Model> KeyDownModel_ = nullptr;
 	// 鍵
-	std::unique_ptr<Item> Key_;
+	std::unique_ptr<Key> Key_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_00 = nullptr;
