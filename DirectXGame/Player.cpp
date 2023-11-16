@@ -31,11 +31,9 @@ void Player::Update() {
 	//Dash
 	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
 		StaminaTimer_++;
-		isDash_ = true;
-		if (isDash_ = true&&StaminaTimer_ <= 120)
+		if (StaminaTimer_ <= 120)
 		{
 		    move_ = {0.0f, 0.0f, 0.35f};
-			isDash_ = false;
 		}
 	} else {
 		StaminaTimer_ = 0;
@@ -95,7 +93,6 @@ void Player::RoomCollision() {
 	//部屋0
 	if (worldTransform_.translation_.x <=-8.6f) {//左
 		worldTransform_.translation_.x = -8.6f;
-
 	}
 	if (worldTransform_.translation_.z <= -8.8f) {//下
 		worldTransform_.translation_.z = -8.8f;

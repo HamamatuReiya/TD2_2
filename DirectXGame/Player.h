@@ -58,7 +58,5 @@ private:
 
 	//部屋にいるフラグ
 	bool Room[7];
-	//ダッシュしてるかフラグ
-	bool isDash_ = false;
 	
 };
