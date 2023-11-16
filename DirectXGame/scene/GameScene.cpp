@@ -75,6 +75,7 @@ void GameScene::Update()
 {
 	
 	player_->Update();
+	enemy_->SetPlayer(player_.get());
 	enemy_->Update();
 	debugCamera_->Update();
 	//追従カメラの更新
