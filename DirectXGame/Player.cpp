@@ -31,16 +31,19 @@ void Player::Update() {
 	//Dash
 	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
 		StaminaTimer_++;
-		if (StaminaTimer_ <= 120)
+		isDash_ = true;
+		if (isDash_ = true&&StaminaTimer_ <= 120)
 		{
 		    move_ = {0.0f, 0.0f, 0.35f};
+			isDash_ = false;
 		}
 	} else {
 		StaminaTimer_ = 0;
 	}
 
+	RoomCollision();
 
-	
+
 	// カメラの角度から回転行列を計算する
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
 	//カメラとリンク
@@ -78,6 +81,34 @@ void Player::Draw(ViewProjection& viewProjection)
 	model_->Draw(worldTransform_, viewProjection); 
 }
 
+void Player::RoomCollision() {
+	for (int i = 0; i < 7; i++) {
+		Room[i] = false;
+	}
+
+	if (worldTransform_.translation_.z <= 8.4f) {
+		Room[0] = true;
+	}
+
+
+	if (Room[0] == true)
+	//部屋0
+	if (worldTransform_.translation_.x <=-8.6f) {//左
+		worldTransform_.translation_.x = -8.6f;
+
+	}
+	if (worldTransform_.translation_.z <= -8.8f) {//下
+		worldTransform_.translation_.z = -8.8f;
+	}
+	if (worldTransform_.translation_.x >= 8.6f) {//右
+		worldTransform_.translation_.x = 8.6f;
+	}
+	if (worldTransform_.translation_.z >= 8.2f) {//上
+		worldTransform_.translation_.z = 8.2f;
+	}
+
+	
+}
 Vector3 Player::GetWorldPosition() {
 	Vector3 worldPos;
 
@@ -89,4 +120,5 @@ Vector3 Player::GetWorldPosition() {
 }
 
 void Player::OnCollision() {}
+
 
