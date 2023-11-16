@@ -63,8 +63,12 @@ void GameScene::Initialize() {
 	Key_= std::make_unique<Item>();
 	// 3Dモデルの生成
 	KeyModel_.reset(Model::CreateFromOBJ("key", true));
+	// 3Dモデルの生成
+	KeyUpModel_.reset(Model::CreateFromOBJ("KeyUp", true));
+	// 3Dモデルの生成
+	KeyDownModel_.reset(Model::CreateFromOBJ("KeyDown", true));
 	// 地面の初期化
-	Key_->Initialize(KeyModel_.get(), KeyModel_.get(), KeyModel_.get());
+	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
 
 	// 部屋00の生成
 	Room_00_ = std::make_unique<Object>();
@@ -77,7 +81,6 @@ void GameScene::Initialize() {
 
 void GameScene::Update() 
 {
-	
 	player_->Update();
 	enemy_->Update();
 	debugCamera_->Update();
@@ -106,6 +109,11 @@ void GameScene::Update()
 	} else {
 		viewProjection_.TransferMatrix();
 	}
+	/*if (Key_->IsDead()) {
+		delete ;
+		return true;
+	}*/
+
 }
 
 void GameScene::Draw() {
@@ -167,4 +175,33 @@ void GameScene::sceneReset() {
 	//// BGMの停止
 	//audio_->StopWave(bgmHandle_);
 	//bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
+}
+void GameScene::CheakCollisions() {
+	// 判定対象AとBの座標
+	Vector3 posA, posB;
+
+	// 2間点の距離(自キャラと鍵の当たり判定)
+	float posAB;
+
+	// 自キャラの半径
+	float playerRadius = 50.0f;
+	// 鍵の半径
+	float keyRadius = 50.0f;
+	
+#pragma region 自キャラと鍵の当たり判定
+	// 自キャラのワールド座標
+	posA = player_->GetWorldPosition();	
+	// 敵弾の座標
+	posB = Key_->GetWorldPosition();
+	//AとBの距離を求める
+	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+		(posB.z - posA.z) * (posB.z - posA.z);
+	// 球と球の当たり判定
+	if (posAB <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
+		// 自キャラの衝突時コールバックを呼び出す
+		player_->OnCollision();
+		//敵弾の衝突時コールバックを呼び出す
+		Key_->OnCollision();
+	}
+#pragma endregion
 }

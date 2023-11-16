@@ -48,11 +48,25 @@ void Item::Update() {
 }
 
 void Item::Draw(ViewProjection& viewProjection) {
-	for (int i = 0; i < 3; i++) {
+	if (isKeyDead_ == false) {
+		for (int i = 0; i < 3; i++) {
 		keyupModel_->Draw(worldTransform_[0], viewProjection);
 		keydownModel_->Draw(worldTransform_[1], viewProjection);
 		keymoldModel_->Draw(worldTransform_[2], viewProjection);
+	    }
 	}
 }
 
+void Item::OnCollision() { isKeyDead_ = true; }
+
+Vector3 Item::GetWorldPosition() {
+	Vector3 worldPos;
+	for (int i = 0; i < 3; i++) {
+		worldPos.x = worldTransform_[i].matWorld_.m[3][0];
+		worldPos.y = worldTransform_[i].matWorld_.m[3][1];
+		worldPos.z = worldTransform_[i].matWorld_.m[3][2];
+	}
+
+	return worldPos;
+}
 

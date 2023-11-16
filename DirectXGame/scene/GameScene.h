@@ -48,6 +48,11 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheakCollisions();
+
 	// シーンのリセット
 	void sceneReset();
 
@@ -97,6 +102,10 @@ private:
 
 	// 3Dモデル
 	std::unique_ptr<Model> KeyModel_ = nullptr;
+	// 3Dモデル
+	std::unique_ptr<Model> KeyUpModel_ = nullptr;
+	// 3Dモデル
+	std::unique_ptr<Model> KeyDownModel_ = nullptr;
 	// 鍵
 	std::unique_ptr<Item> Key_;
 

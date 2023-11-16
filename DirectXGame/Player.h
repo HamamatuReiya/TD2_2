@@ -20,6 +20,12 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	// コールバック関数
+	void OnCollision();
+
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
 
 	void SetViewProjection(const ViewProjection* viewProjection)
@@ -40,4 +46,7 @@ private:
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
 	bool isKeytouch_ = false;
+	//スタミナ
+	float StaminaTimer_ = 0;
+
 };

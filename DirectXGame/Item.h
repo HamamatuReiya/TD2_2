@@ -21,12 +21,19 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 	
+	// コールバック関数
+	void OnCollision();
 
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	bool IsDead() const { return isKeyDead_; }
 
 private:
 	//鍵用のランダム変数
 	float Keynumber = 0;
-	
+	//デスフラグ
+	bool isKeyDead_ = false;
 
 private:
 	WorldTransform worldTransform_[3];
