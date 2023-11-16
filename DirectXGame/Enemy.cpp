@@ -1,5 +1,6 @@
 ﻿#include "Enemy.h"
 #include"ImGuiManager.h"
+#include "Player.h"
 
 void Enemy::Initialize(Model* model) {
 	model_ = model;
@@ -112,10 +113,8 @@ void Enemy::Update() {
 			}
 			break;
 		case Chase:
-
-			if (move_.z != 0 || move_.y != 0) {
-				worldTransform_.rotation_.y = std::atan2(move_.x, move_.z);
-			}
+			
+			Homing(kEnemySpeed_);
 			break;
 		case posReset:
 
@@ -181,4 +180,23 @@ void Enemy::Update() {
 	
 }
 
+void Enemy::Homing(float enemySpeed_) {
+	Vector3 A = player_->GetWorldPosition();
+	Vector3 B = Enemy::GetWorldPosition();
+	Vector3 C = Subtract(A, B);
+	Vector3 vector = Normalize(C);
+	vector = Multiply(enemySpeed_, vector);
+	move_.x = vector.x;
+	move_.z = vector.z;
+}
+
 void Enemy::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
+
+
+Vector3 Enemy::GetWorldPosition() {
+	Vector3 worldPos;
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	return worldPos;
+}

@@ -4,6 +4,8 @@
 #include "Mymath.h"
 #include <math.h>
 
+class Player;
+
 class Enemy {
 public:
 	void Initialize(Model* model);
@@ -11,6 +13,12 @@ public:
 	void Update();
 
 	void Draw(ViewProjection& viewProjection);
+
+	void Homing(float enemySpeed);
+
+	void SetPlayer(Player* player) { player_ = player; }
+
+	Vector3 GetWorldPosition();
 
 private:
 	enum Phase {
@@ -60,5 +68,7 @@ private:
 	Vector3 move_ = {0.0f,0.0f,0.0f};
 
 	Vector3 moveRotate_;
+
+	Player* player_ = nullptr;
 
 };

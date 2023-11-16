@@ -36,6 +36,8 @@ public:
 	//鍵に触れたかどうか
 	bool isKeytouch() const { return isKeytouch_; }
 
+	Vector3 GetWorldPosition();
+
 private:
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
