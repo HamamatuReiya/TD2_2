@@ -10,13 +10,13 @@ void Player::Initialize(Model* model) {
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
 }
 
 void Player::Update() {
 	Vector3 move_ = {0, 0, 0};
 	Vector3 rotate = {0, 0, 0};
-	
+	Room[0] = false;
 	// 移動処理
 	if (input_->PushKey(DIK_W)) {
 		move_ = {0.0f,0.0f,0.2f};
@@ -28,18 +28,20 @@ void Player::Update() {
 	} else if (input_->PushKey(DIK_A)) {
 		move_ = {-0.1f, 0.0f, 0.0f};
 	}
-	//Dash
-	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
-		StaminaTimer_++;
-		if (StaminaTimer_ <= 120)
-		{
-		    move_ = {0.0f, 0.0f, 0.35f};
-		}
-	} else {
-		StaminaTimer_ = 0;
-	}
+	////Dash
+	//if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
+	//	StaminaTimer_++;
+	//	if (StaminaTimer_ <= 120)
+	//	{
+	//	    move_ = {0.0f, 0.0f, 0.35f};
+	//	}
+	//} else {
+	//	StaminaTimer_ = 0;
+	//}
 
-	RoomCollision();
+	//部屋の当たり判定の関数
+	RoomZeroCollision();
+	
 
 
 	// カメラの角度から回転行列を計算する
@@ -55,8 +57,6 @@ void Player::Update() {
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
-
-	
 
 	//デバック
 	float playerPos[3] = {
@@ -79,31 +79,31 @@ void Player::Draw(ViewProjection& viewProjection)
 	model_->Draw(worldTransform_, viewProjection); 
 }
 
-void Player::RoomCollision() {
-	for (int i = 0; i < 7; i++) {
-		Room[i] = false;
-	}
-
-	if (worldTransform_.translation_.z <= 8.4f) {
+void Player::RoomZeroCollision() {
+	/*if (worldTransform_.translation_.x >= -2.522f && worldTransform_.translation_.x >= -5.417f &&
+	    worldTransform_.translation_.z >= 10.880f) {
 		Room[0] = true;
-	}
-
-
-	if (Room[0] == true)
-	//部屋0
-	if (worldTransform_.translation_.x <=-8.6f) {//左
-		worldTransform_.translation_.x = -8.6f;
-	}
-	if (worldTransform_.translation_.z <= -8.8f) {//下
-		worldTransform_.translation_.z = -8.8f;
-	}
-	if (worldTransform_.translation_.x >= 8.6f) {//右
-		worldTransform_.translation_.x = 8.6f;
-	}
-	if (worldTransform_.translation_.z >= 8.2f) {//上
-		worldTransform_.translation_.z = 8.2f;
-	}
-
+	}*/
+	/*if (Room[0] == true)
+	{*/
+		// 部屋0
+		if (worldTransform_.translation_.x <= -8.6f) { // 左
+			worldTransform_.translation_.x = -8.6f;
+		}
+		if (worldTransform_.translation_.z <= -8.8f) { // 下
+			worldTransform_.translation_.z = -8.8f;
+		}
+		// if (worldTransform_.translation_.x >= 8.6f) {//右
+		//	worldTransform_.translation_.x = 8.6f;
+		// }
+		if (worldTransform_.translation_.z >= 7.6f && worldTransform_.translation_.x <= -6.006f &&
+		    worldTransform_.translation_.x <= 8.6f) { // 上左
+			worldTransform_.translation_.z = 7.6f;
+		}
+		if (worldTransform_.translation_.z >= 7.6f && worldTransform_.translation_.x >= -2.652f &&
+		    worldTransform_.translation_.x <= 9.2f) { // 上右
+			worldTransform_.translation_.z = 7.6f;
+		}
 	
 }
 Vector3 Player::GetWorldPosition() {

@@ -38,7 +38,7 @@ public:
 	//鍵に触れたかどうか
 	bool isKeytouch() const { return isKeytouch_; }
 
-	void RoomCollision();
+	void RoomZeroCollision();
 
 private:
 	WorldTransform worldTransform_;
