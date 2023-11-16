@@ -1,6 +1,6 @@
 #include "GameScene.h"
-#include "TextureManager.h"
 #include "AxisIndicator.h"
+#include "TextureManager.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -12,7 +12,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	
+
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -32,24 +32,24 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	// 3Dモデルの生成
 	playerModel_.reset(Model::CreateFromOBJ("Player", true));
-	
+
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 
-	//敵キャラの生成
+	// 敵キャラの生成
 	enemy_ = std::make_unique<Enemy>();
-	//モデルの生成
+	// モデルの生成
 	enemyModel_.reset(Model::CreateFromOBJ("Robot", true));
-	//初期化
+	// 初期化
 	enemy_->Initialize(enemyModel_.get());
-	
-	//追従カメラの生成
+
+	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 
-	//自キャラのワールドトランスフォームを追従カメラにセット
+	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
-	//Player&followCamera
+	// Player&followCamera
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 地面の生成
@@ -60,7 +60,7 @@ void GameScene::Initialize() {
 	ground_->Initialize(groundModel_.get());
 
 	// 鍵の生成
-	Key_= std::make_unique<Item>();
+	Key_ = std::make_unique<Item>();
 	// 3Dモデルの生成
 	KeyModel_.reset(Model::CreateFromOBJ("key", true));
 	// 3Dモデルの生成
@@ -76,44 +76,19 @@ void GameScene::Initialize() {
 	RoomModel_R_00.reset(Model::CreateFromOBJ("Stage", true));
 	// 部屋00の初期化
 	Room_00_->Initialize(RoomModel_R_00.get());
-
 }
 
-void GameScene::Update() 
-{
+void GameScene::Update() {
+	CameraUpdate();
+
 	player_->Update();
 	enemy_->Update();
-	debugCamera_->Update();
-	//追従カメラの更新
-	followCamera_->Update();
 	Key_->Update();
-	//部屋00
+
+	// 部屋00
 	Room_00_->Update();
 
-	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-	viewProjection_.matView = followCamera_->GetViewProjection().matView;
-
-
-#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_C)) {
-		isDebugCameraActive_ = true;
-	} else if (input_->TriggerKey(DIK_B)) {
-		isDebugCameraActive_ = false;
-	}
-#endif
-	if (isDebugCameraActive_) {
-		debugCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		viewProjection_.TransferMatrix();
-	} else {
-		viewProjection_.TransferMatrix();
-	}
-	/*if (Key_->IsDead()) {
-		delete ;
-		return true;
-	}*/
-
+	CheakCollisions();
 }
 
 void GameScene::Draw() {
@@ -128,8 +103,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
-	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -173,9 +146,10 @@ void GameScene::sceneReset() {
 	//// プレイヤーの体力
 
 	//// BGMの停止
-	//audio_->StopWave(bgmHandle_);
-	//bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
+	// audio_->StopWave(bgmHandle_);
+	// bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
 }
+
 void GameScene::CheakCollisions() {
 	// 判定対象AとBの座標
 	Vector3 posA, posB;
@@ -184,24 +158,49 @@ void GameScene::CheakCollisions() {
 	float posAB;
 
 	// 自キャラの半径
-	float playerRadius = 50.0f;
+	float playerRadius = 3.0f;
 	// 鍵の半径
-	float keyRadius = 50.0f;
-	
+	float keyRadius = 3.0f;
+
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
-	posA = player_->GetWorldPosition();	
+	posA = player_->GetWorldPosition();
 	// 敵弾の座標
 	posB = Key_->GetWorldPosition();
-	//AとBの距離を求める
+	// AとBの距離を求める
 	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
-		(posB.z - posA.z) * (posB.z - posA.z);
+	        (posB.z - posA.z) * (posB.z - posA.z);
 	// 球と球の当たり判定
 	if (posAB <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
 		// 自キャラの衝突時コールバックを呼び出す
 		player_->OnCollision();
-		//敵弾の衝突時コールバックを呼び出す
+		// 敵弾の衝突時コールバックを呼び出す
 		Key_->OnCollision();
 	}
 #pragma endregion
+}
+
+void GameScene::CameraUpdate() {
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_C)) {
+		isDebugCameraActive_ = true;
+	} else if (input_->TriggerKey(DIK_B)) {
+		isDebugCameraActive_ = false;
+	}
+#endif
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	} else {
+		// 追従カメラの更新
+		followCamera_->Update();
+		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		viewProjection_.matView = followCamera_->GetViewProjection().matView;
+
+		viewProjection_.TransferMatrix();
+	}
+
 }

@@ -44,6 +44,10 @@ void FollowCamera::Update()
 	if (input_->PushKey(DIK_DOWN)) {
 		viewProjection_.rotation_.x = viewProjection_.rotation_.x + RotateSpeed_UD;
 	}
+	////歩いているように見せる
+	//if (input_->PushKey(DIK_LEFT)) {
+	//	viewProjection_.rotation_.y = viewProjection_.rotation_.y - RotateSpeed_RL;
+	//}
 
 	//上下回転制限
 	if (viewProjection_.rotation_.x <= -0.3f){

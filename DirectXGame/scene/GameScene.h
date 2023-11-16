@@ -48,11 +48,6 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	/// <summary>
-	/// 衝突判定と応答
-	/// </summary>
-	void CheakCollisions();
-
 	// シーンのリセット
 	void sceneReset();
 
@@ -61,6 +56,15 @@ public: // メンバ関数
 	bool IsSceneEnd() { return isSceneEnd; }
 	SceneType NextScene() { return SceneType::kTitle; }
 
+private: //
+
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheakCollisions();
+
+	void CameraUpdate();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	//ワールドトランスフォーム
@@ -68,10 +72,6 @@ private: // メンバ変数
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
-	
-	
-
-private:
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	std::unique_ptr<Model> model_ = nullptr;
