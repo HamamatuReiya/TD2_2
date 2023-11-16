@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "Mymath.h"
+#include <math.h>
 
 class Enemy {
 public:
@@ -11,19 +12,36 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
-	void Search(Vector3 move);
-
-	void Chase(Vector3 move);
-
 private:
-
 	enum Phase {
 		phase1,
 		phase2,
 		phase3,
 	};
-
 	Phase phase_;
+
+	enum State {
+		search,
+		Chase,
+		posReset,
+	};
+	State phase1State;
+	State phase2State;
+	State phase3State;
+
+	enum Phase1Move {
+		move1,
+		move2,
+		move3,
+		move4,
+		move5,
+		move6
+	};
+
+	Phase1Move phase1Move;
+	bool flag = false;
+
+private:
 
 	bool phase1SpeedFlag=true;
 
@@ -37,7 +55,10 @@ private:
 
 	float kEnemySpeed_;
 
+	float rotateSpeed_;
+
 	Vector3 move_ = {0.0f,0.0f,0.0f};
 
 	Vector3 moveRotate_;
+
 };
