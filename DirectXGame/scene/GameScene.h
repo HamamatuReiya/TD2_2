@@ -68,7 +68,6 @@ private: //
 
 	void CameraUpdate();
 
-	void Room();
 	void RoomInitialize();
 	void RoomUpdate();
 	void RoomDraw();
