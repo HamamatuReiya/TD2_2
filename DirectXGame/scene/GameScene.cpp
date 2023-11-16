@@ -1,6 +1,6 @@
 #include "GameScene.h"
-#include "TextureManager.h"
 #include "AxisIndicator.h"
+#include "TextureManager.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -12,7 +12,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	
+
 	// 3Dモデル生成
 	model_.reset(Model::Create());
 	// ワールドトランスフォームの初期化
@@ -32,24 +32,24 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	// 3Dモデルの生成
 	playerModel_.reset(Model::CreateFromOBJ("Player", true));
-	
+
 	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 
-	//敵キャラの生成
+	// 敵キャラの生成
 	enemy_ = std::make_unique<Enemy>();
-	//モデルの生成
+	// モデルの生成
 	enemyModel_.reset(Model::CreateFromOBJ("Robot", true));
-	//初期化
+	// 初期化
 	enemy_->Initialize(enemyModel_.get());
-	
-	//追従カメラの生成
+
+	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 
-	//自キャラのワールドトランスフォームを追従カメラにセット
+	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
-	//Player&followCamera
+	// Player&followCamera
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 地面の生成
@@ -60,11 +60,15 @@ void GameScene::Initialize() {
 	ground_->Initialize(groundModel_.get());
 
 	// 鍵の生成
-	Key_= std::make_unique<Item>();
+	Key_ = std::make_unique<Key>();
 	// 3Dモデルの生成
 	KeyModel_.reset(Model::CreateFromOBJ("key", true));
-	// 地面の初期化
-	Key_->Initialize(KeyModel_.get(), KeyModel_.get(), KeyModel_.get());
+	// 3Dモデルの生成
+	KeyUpModel_.reset(Model::CreateFromOBJ("KeyUp", true));
+	// 3Dモデルの生成
+	KeyDownModel_.reset(Model::CreateFromOBJ("KeyDown", true));
+	// 鍵の初期化
+	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
 
 	//部屋の生成,初期化
 	RoomInitialize();
@@ -74,39 +78,19 @@ void GameScene::Initialize() {
 
 }
 
-void GameScene::Update() 
-{
-	
+void GameScene::Update() {
+	CameraUpdate();
+
 	player_->Update();
+	enemy_->SetPlayer(player_.get());
 	enemy_->Update();
-	debugCamera_->Update();
-	//追従カメラの更新
-	followCamera_->Update();
 	Key_->Update();
 	//部屋の更新
 	RoomUpdate();
 	//道の更新
 	LoadUpdate();
 
-	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-	viewProjection_.matView = followCamera_->GetViewProjection().matView;
-
-
-#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_C)) {
-		isDebugCameraActive_ = true;
-	} else if (input_->TriggerKey(DIK_B)) {
-		isDebugCameraActive_ = false;
-	}
-#endif
-	if (isDebugCameraActive_) {
-		debugCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		viewProjection_.TransferMatrix();
-	} else {
-		viewProjection_.TransferMatrix();
-	}
+	CheakCollisions();
 }
 
 void GameScene::Draw() {
@@ -121,8 +105,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
-	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -169,8 +151,93 @@ void GameScene::sceneReset() {
 	//// プレイヤーの体力
 
 	//// BGMの停止
-	//audio_->StopWave(bgmHandle_);
-	//bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
+	// audio_->StopWave(bgmHandle_);
+	// bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
+}
+
+void GameScene::CheakCollisions() {
+	// 判定対象AとBの座標
+	Vector3 posA, posB,posC,posD;
+
+	// 2間点の距離(自キャラと鍵の当たり判定)
+	float posAB;
+	float posAC;
+	float posAD;
+
+	// 自キャラの半径
+	float playerRadius = 2.0f;
+	// 鍵の半径
+	float keyRadius = 1.0f;
+	// 鍵の半径
+	float keyUpRadius = 1.0f;
+	// 鍵の半径
+	float keyDounRadius = 1.0f;
+
+#pragma region 自キャラと鍵の当たり判定
+	// 自キャラのワールド座標
+	posA = player_->GetWorldPosition();
+	// 鍵上の座標
+	posB = Key_->GetKeyUpWorldPosition();
+	// 鍵型の座標
+	posC = Key_->GetKeyWorldPosition();
+	// 鍵下の座標
+	posD = Key_->GetKeyDownWorldPosition();
+	// AとBの距離を求める
+	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+	        (posB.z - posA.z) * (posB.z - posA.z);
+	// プレイヤーと上鍵の当たり判定
+	if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
+		// 自キャラの衝突時コールバックを呼び出す
+		player_->OnCollision();
+		// 鍵の衝突時コールバックを呼び出す
+		Key_->OnKeyUpCollision();
+	}
+	// AとCの距離を求める
+	posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
+	        (posC.z - posA.z) * (posC.z - posA.z);
+	// プレイヤーと鍵型の当たり判定
+	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
+		// 自キャラの衝突時コールバックを呼び出す
+		player_->OnCollision();
+		// 鍵の衝突時コールバックを呼び出す
+		Key_->OnKeyCollision();
+	}
+	// AとDの距離を求める
+	posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
+	        (posD.z - posA.z) * (posD.z - posA.z);
+	// プレイヤーと下鍵の当たり判定
+	if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
+		// 自キャラの衝突時コールバックを呼び出す
+		player_->OnCollision();
+		// 鍵の衝突時コールバックを呼び出す
+		Key_->OnKeyDownCollision();
+	}
+#pragma endregion
+}
+
+void GameScene::CameraUpdate() {
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_C)) {
+		isDebugCameraActive_ = true;
+	} else if (input_->TriggerKey(DIK_B)) {
+		isDebugCameraActive_ = false;
+	}
+#endif
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	} else {
+		// 追従カメラの更新
+		followCamera_->Update();
+		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		viewProjection_.matView = followCamera_->GetViewProjection().matView;
+
+		viewProjection_.TransferMatrix();
+	}
+
 }
 
 void GameScene::RoomInitialize() {

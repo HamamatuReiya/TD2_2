@@ -3,7 +3,7 @@
 #include "WorldTransform.h"
 #include <Input.h>
 
-class Item 
+class Key 
 {
 public:
 	/// <summary>
@@ -21,12 +21,27 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 	
+	// コールバック関数
+	void OnKeyCollision();
+	// コールバック関数
+	void OnKeyUpCollision();
+	// コールバック関数
+	void OnKeyDownCollision();
 
+	// ワールド座標を取得
+	Vector3 GetKeyWorldPosition(); 
+	// ワールド座標を取得
+	Vector3 GetKeyUpWorldPosition(); 
+	// ワールド座標を取得
+	Vector3 GetKeyDownWorldPosition(); 
 
 private:
 	//鍵用のランダム変数
 	float Keynumber = 0;
-	
+	//デスフラグ
+	bool isKeyDead_ = false;
+	bool isKeyUpDead_ = false;
+	bool isKeyDownDead_ = false;
 
 private:
 	WorldTransform worldTransform_[3];

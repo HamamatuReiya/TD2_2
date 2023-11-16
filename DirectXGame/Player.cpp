@@ -30,8 +30,15 @@ void Player::Update() {
 	}
 	//Dash
 	if (input_->PushKey(DIK_LSHIFT)&&input_->PushKey(DIK_W)) {
-		move_ = {0.0f, 0.0f, 0.35f};
+		StaminaTimer_++;
+		if (StaminaTimer_ <= 120)
+		{
+		    move_ = {0.0f, 0.0f, 0.35f};
+		}
+	} else {
+		StaminaTimer_ = 0;
 	}
+
 
 	
 	// カメラの角度から回転行列を計算する
@@ -70,3 +77,16 @@ void Player::Draw(ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection); 
 }
+
+Vector3 Player::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
+void Player::OnCollision() {}
+

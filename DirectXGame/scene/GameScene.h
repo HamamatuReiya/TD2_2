@@ -13,7 +13,7 @@
 #include "DebugCamera.h"
 #include "Ground.h"
 #include "FollowCamera.h"
-#include "Item.h"
+#include "Key.h"
 #include "Object.h"
 #include <Scene.h>
 #include "Room.h"
@@ -59,6 +59,16 @@ public: // メンバ関数
 	bool IsSceneEnd() { return isSceneEnd; }
 	SceneType NextScene() { return SceneType::kTitle; }
 
+private: //
+
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheakCollisions();
+
+	void CameraUpdate();
+
+	void Room();
 	void RoomInitialize();
 	void RoomUpdate();
 	void RoomDraw();
@@ -73,6 +83,7 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+
 	
 private:
 	Input* input_ = nullptr;
@@ -105,8 +116,12 @@ private:
 
 	// 3Dモデル
 	std::unique_ptr<Model> KeyModel_ = nullptr;
+	// 3Dモデル
+	std::unique_ptr<Model> KeyUpModel_ = nullptr;
+	// 3Dモデル
+	std::unique_ptr<Model> KeyDownModel_ = nullptr;
 	// 鍵
-	std::unique_ptr<Item> Key_;
+	std::unique_ptr<Key> Key_;
 
 
 	// 3Dモデル
