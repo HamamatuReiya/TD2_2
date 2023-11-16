@@ -179,9 +179,9 @@ void GameScene::CheakCollisions() {
 	// 鍵の半径
 	float keyRadius = 0.5f;
 	// 鍵の半径
-	float keyUpRadius = 0.5f;
+	float keyUpRadius = 1.0f;
 	// 鍵の半径
-	float keyDounRadius = 0.5f;
+	float keyDounRadius = 1.5f;
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標

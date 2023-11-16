@@ -22,19 +22,19 @@ void Item::Update() {
 	RandTime_++;
 	if (RandTime_ > 0 && RandTime_ <= 5) {
 		if (Keynumber == 1) {
-			worldTransform_[0].translation_ = {-2.0f, 1.5f, 2.0f};
-			worldTransform_[1].translation_ = {0.0f, 1.5f, 2.0f};
-			worldTransform_[2].translation_ = {2.0f, 1.5f, 2.0f};
+			worldTransform_[0].translation_ = {13.5f, 1.5f, 19.4f};
+			worldTransform_[1].translation_ = {32.4f, 1.5f, 40.8f};
+			worldTransform_[2].translation_ = {11.3f, 1.5f, 67.65f};
 		}
 		if (Keynumber == 2) {
-			worldTransform_[0].translation_ = {-4.0f, 1.5f, 0.0f};
-			worldTransform_[1].translation_ = {0.0f, 1.5f, 0.0f};
-			worldTransform_[2].translation_ = {4.0f, 1.5f, 0.0f};
+			worldTransform_[0].translation_ = {41.5, 1.5f, 9.45f};
+			worldTransform_[1].translation_ = {75.6f, 1.5f, -11.95f};
+			worldTransform_[2].translation_ = {52.8f, 1.5f, 81.35f};
 		}
 		if (Keynumber == 3) {
-			worldTransform_[0].translation_ = {-6.0f, 1.5f, -2.0f};
-			worldTransform_[1].translation_ = {0.0f, 1.5f, -2.0f};
-			worldTransform_[2].translation_ = {6.0f, 1.5f, -2.0f};
+			worldTransform_[0].translation_ = {11.7f, 1.5f, -8.65f};
+			worldTransform_[1].translation_ = {7.3f, 1.5f, 6.0f};
+			worldTransform_[2].translation_ = {25.6f, 1.5f, 80.85f};
 		}
 	}
 	for (int i = 0; i < 3; i++) {
