@@ -48,6 +48,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+
 	// シーンのリセット
 	void sceneReset();
 
@@ -55,6 +56,8 @@ public: // メンバ関数
 
 	bool IsSceneEnd() { return isSceneEnd; }
 	SceneType NextScene() { return SceneType::kTitle; }
+
+	void Room();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -109,6 +112,31 @@ private:
 	std::unique_ptr<Model> RoomModel_R_01 = nullptr;
 	// 部屋01
 	std::unique_ptr<Object> Room_01_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_02 = nullptr;
+	// 部屋02
+	std::unique_ptr<Object> Room_02_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_03 = nullptr;
+	// 部屋03
+	std::unique_ptr<Object> Room_03_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_04 = nullptr;
+	// 部屋04
+	std::unique_ptr<Object> Room_04_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_05 = nullptr;
+	// 部屋05
+	std::unique_ptr<Object> Room_05_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> RoomModel_R_06 = nullptr;
+	// 部屋06
+	std::unique_ptr<Object> Room_06_;
 
 	/// <summary>
 	/// ゲームシーン用

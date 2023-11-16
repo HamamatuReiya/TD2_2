@@ -1,4 +1,4 @@
-# Blender 3.5.0 MTL File: 'Stage1.blend'
+# Blender 3.5.0 MTL File: 'Stage5.blend'
 # www.blender.org
 
 newmtl Material
@@ -11,7 +11,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.008
+newmtl Material.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -21,7 +21,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.009
+newmtl Material.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -31,7 +31,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.010
+newmtl Material.003
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -41,7 +41,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.011
+newmtl Material.004
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -51,7 +51,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.012
+newmtl Material.005
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -61,7 +61,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.013
+newmtl Material.006
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -71,7 +71,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.014
+newmtl Material.007
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
