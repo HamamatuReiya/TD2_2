@@ -35,11 +35,10 @@ void Player::Update() {
 		{
 		    move_ = {0.0f, 0.0f, 0.35f};
 		}
-	}
-	else
-	{
+	} else {
 		StaminaTimer_ = 0;
 	}
+
 
 	
 	// カメラの角度から回転行列を計算する
