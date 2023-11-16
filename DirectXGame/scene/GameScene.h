@@ -16,6 +16,8 @@
 #include "Item.h"
 #include "Object.h"
 #include <Scene.h>
+#include "Room.h"
+#include "Load.h"
 
 /// <summary>
 /// ゲームシーン
@@ -57,7 +59,13 @@ public: // メンバ関数
 	bool IsSceneEnd() { return isSceneEnd; }
 	SceneType NextScene() { return SceneType::kTitle; }
 
-	void Room();
+	void RoomInitialize();
+	void RoomUpdate();
+	void RoomDraw();
+
+	void LoadInitialize();
+	void LoadUpdate();
+	void LoadDraw();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -65,10 +73,7 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
-
 	
-	
-
 private:
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -103,40 +108,72 @@ private:
 	// 鍵
 	std::unique_ptr<Item> Key_;
 
+
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_00 = nullptr;
 	// 部屋00
-	std::unique_ptr<Object> Room_00_;
+	std::unique_ptr<Room> Room_00_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_01 = nullptr;
 	// 部屋01
-	std::unique_ptr<Object> Room_01_;
+	std::unique_ptr<Room> Room_01_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_02 = nullptr;
 	// 部屋02
-	std::unique_ptr<Object> Room_02_;
+	std::unique_ptr<Room> Room_02_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_03 = nullptr;
 	// 部屋03
-	std::unique_ptr<Object> Room_03_;
+	std::unique_ptr<Room> Room_03_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_04 = nullptr;
 	// 部屋04
-	std::unique_ptr<Object> Room_04_;
+	std::unique_ptr<Room> Room_04_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_05 = nullptr;
 	// 部屋05
-	std::unique_ptr<Object> Room_05_;
+	std::unique_ptr<Room> Room_05_;
 
 	// 3Dモデル
 	std::unique_ptr<Model> RoomModel_R_06 = nullptr;
 	// 部屋06
-	std::unique_ptr<Object> Room_06_;
+	std::unique_ptr<Room> Room_06_;
+
+
+	// 3Dモデル
+	std::unique_ptr<Model> LoadModel0_ = nullptr;
+	// 道0
+	std::unique_ptr<Load> Load_0_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> LoadModel1_ = nullptr;
+	// 道1
+	std::unique_ptr<Load> Load_1_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> LoadModel2_ = nullptr;
+	// 道2
+	std::unique_ptr<Load> Load_2_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> LoadModel3_ = nullptr;
+	// 道3
+	std::unique_ptr<Load> Load_3_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> LoadModel4_ = nullptr;
+	// 道4
+	std::unique_ptr<Load> Load_4_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> LoadModel5_ = nullptr;
+	// 道5
+	std::unique_ptr<Load> Load_5_;
 
 	/// <summary>
 	/// ゲームシーン用

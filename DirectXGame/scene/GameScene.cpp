@@ -67,7 +67,10 @@ void GameScene::Initialize() {
 	Key_->Initialize(KeyModel_.get(), KeyModel_.get(), KeyModel_.get());
 
 	//部屋の生成,初期化
-	Room();
+	RoomInitialize();
+
+	//道の生成,初期化
+	LoadInitialize();
 
 }
 
@@ -80,20 +83,10 @@ void GameScene::Update()
 	//追従カメラの更新
 	followCamera_->Update();
 	Key_->Update();
-	//部屋00
-	Room_00_->Update();
-	//部屋01
-	Room_01_->Update();
-	// 部屋02
-	Room_02_->Update();
-	// 部屋03
-	Room_03_->Update();
-	// 部屋04
-	Room_04_->Update();
-	// 部屋05
-	Room_05_->Update();
-	// 部屋06
-	Room_06_->Update();
+	//部屋の更新
+	RoomUpdate();
+	//道の更新
+	LoadUpdate();
 
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -148,13 +141,10 @@ void GameScene::Draw() {
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
-	Room_00_->Draw(viewProjection_);
-	Room_01_->Draw(viewProjection_);
-	Room_02_->Draw(viewProjection_);
-	Room_03_->Draw(viewProjection_);
-	Room_04_->Draw(viewProjection_);
-	Room_05_->Draw(viewProjection_);
-	Room_06_->Draw(viewProjection_);
+	//部屋の描画
+	RoomDraw();
+	//道の描画
+	LoadDraw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -183,40 +173,39 @@ void GameScene::sceneReset() {
 	//bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
 }
 
-void GameScene::Room() 
-{
+void GameScene::RoomInitialize() {
 	// 部屋00の生成
-	Room_00_ = std::make_unique<Object>();
+	Room_00_ = std::make_unique<Room>();
 	// 3Dモデルの生成
 	RoomModel_R_00.reset(Model::CreateFromOBJ("Stage", true));
 
 	// 部屋01の生成
-	Room_01_ = std::make_unique<Object>();
+	Room_01_ = std::make_unique<Room>();
 	// 3Dモデルの生成
 	RoomModel_R_01.reset(Model::CreateFromOBJ("Stage1", true));
 
 	// 部屋02の生成
-	Room_02_ = std::make_unique<Object>();
+	Room_02_ = std::make_unique<Room>();
 	// 3Dモデルの生成
 	RoomModel_R_02.reset(Model::CreateFromOBJ("Stage2", true));
 
 	// 部屋03の生成
-	Room_03_ = std::make_unique<Object>();
+	Room_03_ = std::make_unique<Room>();
 	// 3Dモデルの生成
 	RoomModel_R_03.reset(Model::CreateFromOBJ("Stage3", true));
 
 	// 部屋04の生成
-	Room_04_ = std::make_unique<Object>();
+	Room_04_ = std::make_unique<Room>();
 	// 3Dモデルの生成
 	RoomModel_R_04.reset(Model::CreateFromOBJ("Stage4", true));
 
 	// 部屋05の生成
-	Room_05_ = std::make_unique<Object>();
+	Room_05_ = std::make_unique<Room>();
 	// 3Dモデルの生成
 	RoomModel_R_05.reset(Model::CreateFromOBJ("Stage5", true));
 
 	// 部屋06の生成
-	Room_06_ = std::make_unique<Object>();
+	Room_06_ = std::make_unique<Room>();
 	// 3Dモデルの生成
 	RoomModel_R_06.reset(Model::CreateFromOBJ("Stage6", true));
 
@@ -254,4 +243,114 @@ void GameScene::Room()
 	Room_06_->Initialize(
 	    RoomModel_R_00.get(), RoomModel_R_01.get(), RoomModel_R_02.get(), RoomModel_R_03.get(),
 	    RoomModel_R_04.get(), RoomModel_R_05.get(), RoomModel_R_06.get());
+}
+
+void GameScene::RoomUpdate() {
+	// 部屋00
+	Room_00_->Update();
+	// 部屋01
+	Room_01_->Update();
+	// 部屋02
+	Room_02_->Update();
+	// 部屋03
+	Room_03_->Update();
+	// 部屋04
+	Room_04_->Update();
+	// 部屋05
+	Room_05_->Update();
+	// 部屋06
+	Room_06_->Update();
+}
+
+void GameScene::RoomDraw() {
+	Room_00_->Draw(viewProjection_);
+	Room_01_->Draw(viewProjection_);
+	Room_02_->Draw(viewProjection_);
+	Room_03_->Draw(viewProjection_);
+	Room_04_->Draw(viewProjection_);
+	Room_05_->Draw(viewProjection_);
+	Room_06_->Draw(viewProjection_);
+}
+
+
+void GameScene::LoadInitialize() {
+	// 道0の生成
+	Load_0_ = std::make_unique<Load>();
+	// 3Dモデルの生成
+	LoadModel0_.reset(Model::CreateFromOBJ("Load", true));
+
+	// 道1の生成
+	Load_1_ = std::make_unique<Load>();
+	// 3Dモデルの生成
+	LoadModel1_.reset(Model::CreateFromOBJ("Load1", true));
+
+	// 道2の生成
+	Load_2_ = std::make_unique<Load>();
+	// 3Dモデルの生成
+	LoadModel2_.reset(Model::CreateFromOBJ("Load2", true));
+
+	// 道3の生成
+	Load_3_ = std::make_unique<Load>();
+	// 3Dモデルの生成
+	LoadModel3_.reset(Model::CreateFromOBJ("Load3", true));
+
+	// 道4の生成
+	Load_4_ = std::make_unique<Load>();
+	// 3Dモデルの生成
+	LoadModel4_.reset(Model::CreateFromOBJ("Load4", true));
+
+	// 道5の生成
+	Load_5_ = std::make_unique<Load>();
+	// 3Dモデルの生成
+	LoadModel5_.reset(Model::CreateFromOBJ("Load5", true));
+
+
+	// 道0の初期化
+	Load_0_->Initialize(
+	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
+	    LoadModel4_.get(), LoadModel5_.get());
+
+	// 道1の初期化
+	Load_1_->Initialize(
+	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
+	    LoadModel4_.get(), LoadModel5_.get());
+
+	// 道2の初期化
+	Load_2_->Initialize(
+	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
+	    LoadModel4_.get(), LoadModel5_.get());
+
+	// 道3の初期化
+	Load_3_->Initialize(
+	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
+	    LoadModel4_.get(), LoadModel5_.get());
+
+	// 道4の初期化
+	Load_4_->Initialize(
+	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
+	    LoadModel4_.get(), LoadModel5_.get());
+
+	// 道5の初期化
+	Load_5_->Initialize(
+	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
+	    LoadModel4_.get(), LoadModel5_.get());
+
+}
+
+void GameScene::LoadUpdate() {
+	Load_0_->Update();
+	Load_1_->Update();
+	Load_2_->Update();
+	Load_3_->Update();
+	Load_4_->Update();
+	Load_5_->Update();
+}
+
+void GameScene::LoadDraw() {
+	Load_0_->Draw(viewProjection_);
+	//Load_1_->Draw(viewProjection_);
+	//Load_2_->Draw(viewProjection_);
+	//Load_3_->Draw(viewProjection_);
+	//Load_4_->Draw(viewProjection_);
+	//Load_5_->Draw(viewProjection_);
 }
