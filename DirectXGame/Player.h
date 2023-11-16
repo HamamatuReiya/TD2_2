@@ -48,5 +48,6 @@ private:
 	bool isKeytouch_ = false;
 	//スタミナ
 	float StaminaTimer_ = 0;
-
+	////スタミナクールタイム
+	//float Cooltime_ = 0;
 };

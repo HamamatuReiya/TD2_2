@@ -67,7 +67,7 @@ void GameScene::Initialize() {
 	KeyUpModel_.reset(Model::CreateFromOBJ("KeyUp", true));
 	// 3Dモデルの生成
 	KeyDownModel_.reset(Model::CreateFromOBJ("KeyDown", true));
-	// 地面の初期化
+	// 鍵の初期化
 	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
 
 	//部屋の生成,初期化
@@ -167,30 +167,60 @@ void GameScene::sceneReset() {
 
 void GameScene::CheakCollisions() {
 	// 判定対象AとBの座標
-	Vector3 posA, posB;
+	Vector3 posA, posB,posC,posD;
 
 	// 2間点の距離(自キャラと鍵の当たり判定)
 	float posAB;
+	float posAC;
+	float posAD;
 
 	// 自キャラの半径
-	float playerRadius = 3.0f;
+	float playerRadius = 2.0f;
 	// 鍵の半径
-	float keyRadius = 3.0f;
+	float keyRadius = 0.5f;
+	// 鍵の半径
+	float keyUpRadius = 0.5f;
+	// 鍵の半径
+	float keyDounRadius = 0.5f;
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
 	posA = player_->GetWorldPosition();
-	// 敵弾の座標
+	// 鍵の座標
 	posB = Key_->GetWorldPosition();
+	// 鍵の座標
+	posC = Key_->GetWorldPosition();
+	// 鍵の座標
+	posD = Key_->GetWorldPosition();
 	// AとBの距離を求める
 	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
 	        (posB.z - posA.z) * (posB.z - posA.z);
-	// 球と球の当たり判定
-	if (posAB <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
+	// プレイヤーと上鍵の当たり判定
+	if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
 		// 自キャラの衝突時コールバックを呼び出す
 		player_->OnCollision();
-		// 敵弾の衝突時コールバックを呼び出す
-		Key_->OnCollision();
+		// 鍵の衝突時コールバックを呼び出す
+		Key_->OnKeyUpCollision();
+	}
+	// AとCの距離を求める
+	posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
+	        (posC.z - posA.z) * (posC.z - posA.z);
+	// プレイヤーと上鍵の当たり判定
+	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
+		// 自キャラの衝突時コールバックを呼び出す
+		player_->OnCollision();
+		// 鍵の衝突時コールバックを呼び出す
+		Key_->OnKeyDownCollision();
+	}
+	// AとDの距離を求める
+	posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
+	        (posD.z - posA.z) * (posD.z - posA.z);
+	// プレイヤーと上鍵の当たり判定
+	if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
+		// 自キャラの衝突時コールバックを呼び出す
+		player_->OnCollision();
+		// 鍵の衝突時コールバックを呼び出す
+		Key_->OnKeyCollision();
 	}
 #pragma endregion
 }
