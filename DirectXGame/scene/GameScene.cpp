@@ -80,7 +80,6 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	CameraUpdate();
-
 	player_->Update();
 	enemy_->SetPlayer(player_.get());
 	enemy_->Update();

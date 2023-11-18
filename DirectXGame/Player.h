@@ -57,6 +57,6 @@ private:
 	//float Cooltime_ = 0;
 
 	//部屋にいるフラグ
-	bool Room[7];
+	bool isRoom[7];
 	
 };
