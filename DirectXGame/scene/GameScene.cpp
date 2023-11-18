@@ -40,8 +40,40 @@ void GameScene::Initialize() {
 	enemy_ = std::make_unique<Enemy>();
 	// モデルの生成
 	enemyModel_.reset(Model::CreateFromOBJ("Robot", true));
+	// モデルの生成
+	enemyModel2_.reset(Model::CreateFromOBJ("Robot2", true));
+	// モデルの生成
+	enemyModel3_.reset(Model::CreateFromOBJ("Robot3", true));
+	// モデルの生成
+	enemyModel4_.reset(Model::CreateFromOBJ("Robot4", true));
+	// モデルの生成
+	enemyModel5_.reset(Model::CreateFromOBJ("Robot5", true));
+	// モデルの生成
+	enemyModel6_.reset(Model::CreateFromOBJ("Robot6", true));
+	// モデルの生成
+	enemyModel7_.reset(Model::CreateFromOBJ("Robot7", true));
+	// モデルの生成
+	enemyModel8_.reset(Model::CreateFromOBJ("Robot8", true));
+	// モデルの生成
+	enemyModel9_.reset(Model::CreateFromOBJ("Robot9", true));
+	// モデルの生成
+	enemyModel10_.reset(Model::CreateFromOBJ("Robot10", true));
+	// モデルの生成
+	enemyModel11_.reset(Model::CreateFromOBJ("Robot11", true));
+	// モデルの生成
+	enemyModel12_.reset(Model::CreateFromOBJ("Robot12", true));
+	// モデルの生成
+	enemyModel13_.reset(Model::CreateFromOBJ("Robot13", true));
+	// モデルの生成
+	enemyModel14_.reset(Model::CreateFromOBJ("Robot14", true));
+	// モデルの生成
+	enemyModel15_.reset(Model::CreateFromOBJ("Robot15", true));
 	// 初期化
-	enemy_->Initialize(enemyModel_.get());
+	enemy_->Initialize(
+	    enemyModel_.get(), enemyModel2_.get(), enemyModel3_.get(), enemyModel4_.get(),
+	    enemyModel5_.get(), enemyModel6_.get(), enemyModel7_.get(), enemyModel8_.get(),
+	    enemyModel9_.get(), enemyModel10_.get(), enemyModel11_.get(), enemyModel12_.get(),
+	    enemyModel13_.get(), enemyModel14_.get(), enemyModel15_.get() );
 
 	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -80,7 +112,6 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	CameraUpdate();
-
 	player_->Update();
 	enemy_->SetPlayer(player_.get());
 	enemy_->Update();

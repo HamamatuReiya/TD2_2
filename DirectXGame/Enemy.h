@@ -8,7 +8,10 @@ class Player;
 
 class Enemy {
 public:
-	void Initialize(Model* model);
+	void Initialize(
+	    Model* model, Model* model2, Model* model3, Model* model4, Model* model5,
+	    Model* model6, Model* model7, Model* model8, Model* model9, Model* model10, Model* model11,
+	    Model* model12, Model* model13, Model* model14, Model* model15);
 
 	void Update();
 
@@ -60,6 +63,20 @@ private:
 	ViewProjection viewProjection_;
 
 	Model* model_ = nullptr;
+	Model* model2_ = nullptr;
+	Model* model3_ = nullptr;
+	Model* model4_ = nullptr;
+	Model* model5_ = nullptr;
+	Model* model6_ = nullptr;
+	Model* model7_ = nullptr;
+	Model* model8_ = nullptr;
+	Model* model9_ = nullptr;
+	Model* model10_ = nullptr;
+	Model* model11_ = nullptr;
+	Model* model12_ = nullptr;
+	Model* model13_ = nullptr;
+	Model* model14_ = nullptr;
+	Model* model15_ = nullptr;
 
 	float kEnemySpeed_;
 

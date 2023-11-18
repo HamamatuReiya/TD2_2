@@ -99,7 +99,34 @@ private:
 	std::unique_ptr<Model> enemyModel_ = nullptr;
 	//敵キャラ
 	std::unique_ptr<Enemy> enemy_;
-
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel2_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel3_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel4_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel5_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel6_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel7_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel8_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel9_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel10_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel11_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel12_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel13_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel14_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel15_ = nullptr;
 
 	// デバックカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;

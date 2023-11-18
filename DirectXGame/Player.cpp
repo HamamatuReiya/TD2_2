@@ -10,7 +10,8 @@ void Player::Initialize(Model* model) {
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {0.0f, 3.0f, 0.0f};
+	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
+	isRoom[0] = true;
 }
 
 void Player::Update() {
@@ -38,8 +39,14 @@ void Player::Update() {
 	} else {
 		StaminaTimer_ = 0;
 	}
-
-	RoomCollision();
+	
+	//  部屋の当たり判定の関数
+	if (isRoom[0] == true)
+	{
+		Room00Collision();
+	}
+	
+	
 
 
 	// カメラの角度から回転行列を計算する
@@ -55,8 +62,6 @@ void Player::Update() {
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
-
-	
 
 	//デバック
 	float playerPos[3] = {
@@ -79,33 +84,39 @@ void Player::Draw(ViewProjection& viewProjection)
 	model_->Draw(worldTransform_, viewProjection); 
 }
 
-void Player::RoomCollision() {
-	for (int i = 0; i < 7; i++) {
-		Room[i] = false;
-	}
-
-	if (worldTransform_.translation_.z <= 8.4f) {
-		Room[0] = true;
-	}
-
-
-	if (Room[0] == true)
-	//部屋0
-	if (worldTransform_.translation_.x <=-8.6f) {//左
+void Player::Room00Collision() {
+	// 部屋0
+	if (worldTransform_.translation_.x <= -8.6f) { // 左
 		worldTransform_.translation_.x = -8.6f;
 	}
-	if (worldTransform_.translation_.z <= -8.8f) {//下
+	if (worldTransform_.translation_.z <= -8.8f) { // 下
 		worldTransform_.translation_.z = -8.8f;
 	}
-	if (worldTransform_.translation_.x >= 8.6f) {//右
-		worldTransform_.translation_.x = 8.6f;
+	if (worldTransform_.translation_.z >= 8.0f && worldTransform_.translation_.x <= -5.925f &&
+	    worldTransform_.translation_.x <= 8.6f&&worldTransform_.translation_.z <= 9.082f) { // 上左
+		worldTransform_.translation_.z = 8.0f;
 	}
-	if (worldTransform_.translation_.z >= 8.2f) {//上
-		worldTransform_.translation_.z = 8.2f;
+	if (worldTransform_.translation_.z >= 8.0f && worldTransform_.translation_.x >= -2.652f &&
+	    worldTransform_.translation_.x <= 9.2f &&worldTransform_.translation_.z <= 9.082f) { // 上右
+		worldTransform_.translation_.z = 8.0f;
 	}
-
-	
+	if (worldTransform_.translation_.x >= 8.737f && worldTransform_.translation_.z <= -1.888f) { // 左壁
+		worldTransform_.translation_.x = 8.737f;
+	}
+	if (worldTransform_.translation_.x >= 8.737f && worldTransform_.translation_.z >= 1.190 &&
+	    worldTransform_.translation_.z <= 8.0f) { // 右壁
+		worldTransform_.translation_.x = 8.737f;
+	}
 }
+
+void Player::Load00Collision() {
+	if (worldTransform_.translation_.x >= 8.737f) { // 右壁
+		worldTransform_.translation_.x = 8.737f;
+	}
+}
+
+
+
 Vector3 Player::GetWorldPosition() {
 	Vector3 worldPos;
 

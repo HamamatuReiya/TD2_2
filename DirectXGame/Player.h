@@ -38,7 +38,6 @@ public:
 	//鍵に触れたかどうか
 	bool isKeytouch() const { return isKeytouch_; }
 
-	void RoomCollision();
 
 private:
 	WorldTransform worldTransform_;
@@ -47,6 +46,15 @@ private:
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
 	
+	//部屋関数
+	void Room00Collision();
+	//道関数
+	void Load00Collision();
+
+
+
+
+
 	//回転スピード
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
@@ -57,6 +65,6 @@ private:
 	//float Cooltime_ = 0;
 
 	//部屋にいるフラグ
-	bool Room[7];
+	bool isRoom[7];
 	
 };
