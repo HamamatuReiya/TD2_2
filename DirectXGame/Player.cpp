@@ -43,7 +43,7 @@ void Player::Update() {
 	//  部屋の当たり判定の関数
 	if (isRoom[0] == true)
 	{
-		RoomZeroCollision();
+		Room00Collision();
 	}
 	
 	
@@ -84,7 +84,7 @@ void Player::Draw(ViewProjection& viewProjection)
 	model_->Draw(worldTransform_, viewProjection); 
 }
 
-void Player::RoomZeroCollision() {
+void Player::Room00Collision() {
 	// 部屋0
 	if (worldTransform_.translation_.x <= -8.6f) { // 左
 		worldTransform_.translation_.x = -8.6f;
@@ -107,8 +107,16 @@ void Player::RoomZeroCollision() {
 	    worldTransform_.translation_.z <= 8.0f) { // 右壁
 		worldTransform_.translation_.x = 8.737f;
 	}
-	
 }
+
+void Player::Load00Collision() {
+	if (worldTransform_.translation_.x >= 8.737f) { // 右壁
+		worldTransform_.translation_.x = 8.737f;
+	}
+}
+
+
+
 Vector3 Player::GetWorldPosition() {
 	Vector3 worldPos;
 
