@@ -2,8 +2,26 @@
 #include"ImGuiManager.h"
 #include "Player.h"
 
-void Enemy::Initialize(Model* model) {
+void Enemy::Initialize(
+    Model* model, Model* model2, Model* model3, Model* model4, Model* model5, Model* model6,
+    Model* model7, Model* model8, Model* model9, Model* model10, Model* model11, Model* model12,
+    Model* model13, Model* model14, Model* model15) {
 	model_ = model;
+	model2_ = model2;
+	model3_ = model3;
+	model4_ = model4;
+	model5_ = model5;
+	model6_ = model6;
+	model7_ = model7;
+	model8_ = model8;
+	model9_ = model9;
+	model10_ = model10;
+	model11_ = model11;
+	model12_ = model12;
+	model13_ = model13;
+	model14_ = model14;
+	model15_ = model15;
+
 	worldTransform_.Initialize();
 	move_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
@@ -190,7 +208,24 @@ void Enemy::Homing(float enemySpeed_) {
 	move_.z = vector.z;
 }
 
-void Enemy::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
+void Enemy::Draw(ViewProjection& viewProjection) { 
+	model_->Draw(worldTransform_, viewProjection);
+	model2_->Draw(worldTransform_, viewProjection);
+	model3_->Draw(worldTransform_, viewProjection);
+	model4_->Draw(worldTransform_, viewProjection);
+	model5_->Draw(worldTransform_, viewProjection);
+	model6_->Draw(worldTransform_, viewProjection);
+	model7_->Draw(worldTransform_, viewProjection);
+	model8_->Draw(worldTransform_, viewProjection);
+	model9_->Draw(worldTransform_, viewProjection);
+	model10_->Draw(worldTransform_, viewProjection);
+	model11_->Draw(worldTransform_, viewProjection);
+	model12_->Draw(worldTransform_, viewProjection);
+	model13_->Draw(worldTransform_, viewProjection);
+	model14_->Draw(worldTransform_, viewProjection);
+	model15_->Draw(worldTransform_, viewProjection);
+
+}
 
 
 Vector3 Enemy::GetWorldPosition() {
