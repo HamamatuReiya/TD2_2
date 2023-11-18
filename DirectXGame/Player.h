@@ -2,6 +2,8 @@
 #include "WorldTransform.h"
 #include <Input.h>
 #include"ViewProjection.h"
+
+
 class Player {
 public:
 	/// <summary>
@@ -36,7 +38,7 @@ public:
 	//鍵に触れたかどうか
 	bool isKeytouch() const { return isKeytouch_; }
 
-	
+	void RoomCollision();
 
 private:
 	WorldTransform worldTransform_;
@@ -44,6 +46,7 @@ private:
 	const ViewProjection*viewProjection_=nullptr;
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
+	
 	//回転スピード
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
@@ -52,4 +55,8 @@ private:
 	float StaminaTimer_ = 0;
 	////スタミナクールタイム
 	//float Cooltime_ = 0;
+
+	//部屋にいるフラグ
+	bool Room[7];
+	
 };
