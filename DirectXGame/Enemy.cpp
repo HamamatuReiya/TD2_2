@@ -25,8 +25,8 @@ void Enemy::Initialize(
 	worldTransform_.Initialize();
 	move_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
-	worldTransform_.rotation_ = {0.0f, -1.6f, 0.0f};
-	worldTransform_.translation_ = {52.0f, 0.7f, 19.5f};
+	worldTransform_.rotation_ = {0.0f, 1.6f, 0.0f};
+	worldTransform_.translation_ = {63.0f, 0.7f, 48.0f};
 	encountFlag = false;
 	kEnemySpeed_ = 0.0f;
 	rotateSpeed_ = 0.05f;
@@ -35,7 +35,7 @@ void Enemy::Initialize(
 	phase2State = search;
 	phase3State = search;
 	phase1Move = move1;
-	flag = false;
+	stateFlag1 = false;
 }
 
 void Enemy::Update() { 
@@ -46,88 +46,124 @@ void Enemy::Update() {
 		case search:
 			switch (phase1Move) {
 			case (move1):
-				move_.x = -kEnemySpeed_;
-				if (worldTransform_.translation_.x <= 23.8f) {
-					worldTransform_.translation_.x = 23.8f;
-					worldTransform_.translation_.z = 19.5f;
+				move_.x = kEnemySpeed_;
+				if (worldTransform_.translation_.x >= 84.0f) {
+					worldTransform_.translation_.x = 84.0f;
+					worldTransform_.translation_.z = 48.5f;
 					worldTransform_.rotation_.y -= rotateSpeed_;
-					move_.x = 0;
-					if (worldTransform_.rotation_.y <= -3.2f) {
-						worldTransform_.rotation_.y = -3.2f;
+					move_.x = 0.0f;
+					if (worldTransform_.rotation_.y <= 0.0f) {
+						worldTransform_.rotation_.y = 0.0f;
 						phase1Move = move2;
 					}
 				}
 				break;
 			case (move2):
-				move_.z =- kEnemySpeed_;
-				if (worldTransform_.translation_.z <= -7.8f) {
-					worldTransform_.translation_.z = -7.8f;
-					worldTransform_.translation_.x = 23.8f;
-					move_.z = 0;
+				move_.z = kEnemySpeed_;
+				if (worldTransform_.translation_.z >= 76.0f) {
+					worldTransform_.translation_.z = 76.0f;
 					worldTransform_.rotation_.y -= rotateSpeed_;
-					if (worldTransform_.rotation_.y <= 1.6f) {
-						worldTransform_.rotation_.y = 1.6f;
+					move_.z = 0.0f;
+					if (worldTransform_.rotation_.y <= -1.6f) {
+						worldTransform_.rotation_.y = -1.6f;
 						phase1Move = move3;
 					}
 				}
 				break;
 			case (move3):
-				move_.x = kEnemySpeed_;
-				if (worldTransform_.translation_.x >= 48.0f) {
-					worldTransform_.translation_.x = 48.0f;
-					worldTransform_.translation_.z = -7.8f;
-					worldTransform_.rotation_.y -= rotateSpeed_;
-					move_.x = 0;
-					if (worldTransform_.rotation_.y <= 0.0f) {
-						worldTransform_.rotation_.y = 0.0f;
-						phase1Move = move4;
+				move_.x = -kEnemySpeed_;
+				if (worldTransform_.translation_.x <= 56.0f) {
+					worldTransform_.translation_.x = 56.0f;
+					move_.x = 0.0f;
+					if (stateFlag1 == false) {
+						worldTransform_.rotation_.y += rotateSpeed_;
+						if (worldTransform_.rotation_.y >= -0.8f) {
+							worldTransform_.rotation_.y = -0.8f;
+							stateFlag1 = true;
+						}
+					}
+					if (stateFlag1 == true) {
+						worldTransform_.rotation_.y -= rotateSpeed_;
+						if (worldTransform_.rotation_.y <= -2.4f) {
+							worldTransform_.rotation_.y = -2.4f;
+							phase1Move = move4;
+						}
 					}
 				}
 				break;
-				case (move4):
-				if (flag == false) {
-					move_.z = kEnemySpeed_;
-				}
-				if (worldTransform_.translation_.z >= 1.0f) {
-					if (flag == false) {
-						worldTransform_.translation_.z = 1.0f;
-						move_.z = 0;
-					}
+			case (move4):
+				stateFlag1 = false;
+				move_.x = -kEnemySpeed_ / 2;
+				move_.z = -kEnemySpeed_ / 2;
+				if (worldTransform_.translation_.x <= 52.0f &&
+				    worldTransform_.translation_.z <= 72.0f) {
+					worldTransform_.translation_.x = 52.0f;
+					worldTransform_.translation_.z = 72.0f;
+					move_.x = 0.0f;
+					move_.z = 0.0f;
 					worldTransform_.rotation_.y += rotateSpeed_;
-					if (worldTransform_.rotation_.y >= 0.8f) {
-						flag = true;
-						worldTransform_.rotation_.y = 0.8f;
-						move_.x = kEnemySpeed_/2;
-						move_.z = kEnemySpeed_/2;
-					}
-					if (worldTransform_.translation_.x > 52.0f&&worldTransform_.translation_.z>5.0f) {
-						worldTransform_.translation_.x = 52.0f;
-						worldTransform_.translation_.z = 5.0f;
-						move_.x = 0; 
-						move_.z = 0;
-						phase1Move =move5;
+					if (worldTransform_.rotation_.y >= -1.6f) {
+						worldTransform_.rotation_.y = -1.6f;
+						phase1Move = move5;
 					}
 				}
 				break;
-			    case (move5):
-				flag = false;
-				worldTransform_.rotation_.y -= rotateSpeed_;
-				if (worldTransform_.rotation_.y <= 0.0f) {
-					move_.z = kEnemySpeed_;
-					if (worldTransform_.translation_.z > 19.5) {
-						worldTransform_.translation_.z = 19.5;
-						move_.z = 0;
+			case (move5):
+				move_.x = -kEnemySpeed_;
+				if (worldTransform_.translation_.x <= 31.0f) {
+					worldTransform_.translation_.x = 31.0f;
+					move_.x = 0;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= -0.8f) {
+						worldTransform_.rotation_.y = -0.8f;
 						phase1Move = move6;
 					}
 				}
+				break;
+			case (move6):
+				move_.x = (- kEnemySpeed_) / 2;
+				move_.z = kEnemySpeed_;
+				if (worldTransform_.translation_.x <= 27.0f &&
+				    worldTransform_.translation_.z >= 76.0f) {
+					worldTransform_.translation_.x = 27.0f;
+					worldTransform_.translation_.z = 76.0f;
+					move_.x = 0;
+					move_.z = 0;
+					worldTransform_.rotation_.y -= rotateSpeed_;
+					if (worldTransform_.rotation_.y <= -1.6f) {
+						worldTransform_.rotation_.y = -1.6f;
+						phase1Move = move7;
+					}
 					break;
-				case(move6):
-				    worldTransform_.rotation_.y -= rotateSpeed_;
-				    if (worldTransform_.rotation_.y <= -1.6f) {
-					worldTransform_.rotation_.y = -1.6f;
-					phase1Move = move1;
-				    }
-					break;
+				}
+			case (move7):
+				move_.x = -kEnemySpeed_;
+				if (worldTransform_.translation_.x <= -4.0f) {
+					worldTransform_.translation_.x = -4.0f;
+					move_.x = 0;
+				}
+				break;
+			case (move8):
+
+				break;
+			case (move9):
+
+				break;
+			case (move10):
+
+				break;
+			case (move11):
+
+				break;
+			case (move12):
+
+				break;
+			case (move13):
+
+				break;
+			case (move14):
+
+				break;
 			}
 			break;
 		case Chase:
@@ -147,9 +183,7 @@ void Enemy::Update() {
 			break;
 		case Chase:
 
-			if (move_.z != 0 || move_.y != 0) {
-				worldTransform_.rotation_.y = std::atan2(move_.x, move_.z);
-			}
+			
 			break;
 		case posReset:
 
@@ -164,9 +198,7 @@ void Enemy::Update() {
 			break;
 		case Chase:
 
-			if (move_.z != 0 || move_.y != 0) {
-				worldTransform_.rotation_.y = std::atan2(move_.x, move_.z);
-			}
+			
 			break;
 		case posReset:
 
@@ -179,13 +211,18 @@ void Enemy::Update() {
 	ImGui::Begin("EnemyMove");
 	ImGui::SliderFloat2("EnemyMove", enemyMove, -0.3f, 0.3f);
 	ImGui::End();
-	move_.x = enemyMove[0];
-	move_.z = enemyMove[1];
-
 	float enemyRotate[2] = {worldTransform_.rotation_.x, worldTransform_.rotation_.y};
 	ImGui::Begin("EnemyRotate");
 	ImGui::SliderFloat2("EnemyRotate", enemyRotate, -0.3f, 0.3f);
 	ImGui::End();
+	float enemyPos[2] = {worldTransform_.translation_.x, worldTransform_.translation_.z};
+	ImGui::Begin("EnemyPos");
+	ImGui::SliderFloat2("EnemyPos", enemyPos, -300.0f, 300.0f);
+	ImGui::End();
+	worldTransform_.translation_.x = enemyPos[0];
+	worldTransform_.translation_.z = enemyPos[1];
+	move_.x = enemyMove[0];
+	move_.z = enemyMove[1];
 	worldTransform_.rotation_.x = enemyRotate[0];
 	worldTransform_.rotation_.y = enemyRotate[1];
 
