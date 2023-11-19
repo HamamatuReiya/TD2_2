@@ -18,6 +18,7 @@
 #include <Scene.h>
 #include "Room.h"
 #include "Load.h"
+#include "Table.h"
 
 /// <summary>
 /// ゲームシーン
@@ -75,6 +76,10 @@ private: //
 	void LoadInitialize();
 	void LoadUpdate();
 	void LoadDraw();
+
+	void TableInitialize();
+	void TableUpdate();
+	void TableDraw();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -215,6 +220,43 @@ private:
 	std::unique_ptr<Model> LoadModel5_ = nullptr;
 	// 道5
 	std::unique_ptr<Load> Load_5_;
+
+	//3Dモデル
+	std::unique_ptr<Model> TableModel0_ = nullptr;
+	//テーブル0
+	std::unique_ptr<Table> Table_0_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel1_ = nullptr;
+	// テーブル1
+	std::unique_ptr<Table> Table_1_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel2_ = nullptr;
+	// テーブル2
+	std::unique_ptr<Table> Table_2_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel3_ = nullptr;
+	// テーブル3
+	std::unique_ptr<Table> Table_3_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel4_ = nullptr;
+	// テーブル4
+	std::unique_ptr<Table> Table_4_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel5_ = nullptr;
+	// テーブル5
+	std::unique_ptr<Table> Table_5_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel6_ = nullptr;
+	// テーブル6
+	std::unique_ptr<Table> Table_6_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel7_ = nullptr;
+	// テーブル7
+	std::unique_ptr<Table> Table_7_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel8_ = nullptr;
+	// テーブル8
+	std::unique_ptr<Table> Table_8_;
 
 	/// <summary>
 	/// ゲームシーン用

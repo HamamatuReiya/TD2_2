@@ -452,3 +452,9 @@ void GameScene::LoadDraw() {
 	//Load_4_->Draw(viewProjection_);
 	//Load_5_->Draw(viewProjection_);
 }
+
+void GameScene::TableInitialize() {}
+
+void GameScene::TableUpdate() {}
+
+void GameScene::TableDraw() {}
