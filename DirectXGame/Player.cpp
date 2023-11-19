@@ -51,6 +51,8 @@ void Player::Update() {
 		Room01Collision();
 	} else if (collisionType_ == ROOM02) {
 		Room02Collision();
+	} else if (collisionType_ == ROOM03) {
+		Room03Collision();
 	}
 	
 
@@ -206,9 +208,13 @@ void Player::Room01Collision() {
 	    worldTransform_.translation_.x <= 22.411f) { // 
 		worldTransform_.translation_.z = 8.128f;
 	}
-	if (worldTransform_.translation_.z >= 8.128 && worldTransform_.translation_.x >= 25.742f &&
-	    worldTransform_.translation_.x <= 33.468f) { //
+	if (worldTransform_.translation_.z >= 8.128f && worldTransform_.translation_.x >= 25.742f &&
+	    worldTransform_.translation_.x <= 35.468f) { //
 		worldTransform_.translation_.z = 8.128f;
+	}
+	if (worldTransform_.translation_.z <= 10.328f && worldTransform_.translation_.z >= -6.171f &&
+	    worldTransform_.translation_.x >= 32.468f) { // 奥壁
+		worldTransform_.translation_.x = 32.468f;
 	}
 	// 部屋00に移動
 	if (worldTransform_.translation_.x < 10.639f) {
@@ -217,6 +223,10 @@ void Player::Room01Collision() {
 	// 部屋02に移動
 	if (worldTransform_.translation_.z > 10.162f) {
 		collisionType_ = ROOM02;
+	}
+	// 部屋03に移動
+	if (worldTransform_.translation_.x > 34.949f) {
+		collisionType_ = ROOM03;
 	}
 }
 
@@ -233,6 +243,13 @@ void Player::Room02Collision() {
 
 	// 部屋01に移動
 	if (worldTransform_.translation_.z < 10.162f) {
+		collisionType_ = ROOM01;
+	}
+}
+
+void Player::Room03Collision() {
+	// 部屋01に移動
+	if (worldTransform_.translation_.x < 34.949f) {
 		collisionType_ = ROOM01;
 	}
 }

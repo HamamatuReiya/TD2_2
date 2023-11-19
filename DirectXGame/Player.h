@@ -64,6 +64,7 @@ private:
 	void Room00Collision();
 	void Room01Collision();
 	void Room02Collision();
+	void Room03Collision();
 	//道関数
 	void Load00Collision();
 	void Load01Collision();
