@@ -40,7 +40,7 @@ void Player::Update() {
 		StaminaTimer_ = 0;
 	}
 
-	//部屋と道の当たり判定の関数
+	//部屋の当たり判定の関数
 	if (collisionType_==START){
 		StartRoomCollision();
 	} else if (collisionType_ == LOAD00) {
@@ -51,8 +51,6 @@ void Player::Update() {
 		Room01Collision();
 	} else if (collisionType_ == ROOM02) {
 		Room02Collision();
-	} else if (collisionType_ == ROOM03) {
-		Room03Collision();
 	}
 	
 
@@ -223,13 +221,21 @@ void Player::Room01Collision() {
 }
 
 void Player::Room02Collision() {
+	if (worldTransform_.translation_.z <= 11.723f && worldTransform_.translation_.x >= 10.926f &&
+	    worldTransform_.translation_.x <= 22.411f) { //
+		worldTransform_.translation_.z = 11.723f;
+	}
+	if (worldTransform_.translation_.z <= 11.723 && worldTransform_.translation_.x >= 25.742f &&
+	    worldTransform_.translation_.x <= 33.468f) { //
+		worldTransform_.translation_.z = 11.723f;
+	}
+
+
 	// 部屋01に移動
 	if (worldTransform_.translation_.z < 10.162f) {
 		collisionType_ = ROOM01;
 	}
 }
-
-void Player::Room03Collision() {}
 
 void Player::Load01Collision() {}
 
