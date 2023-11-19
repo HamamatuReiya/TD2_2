@@ -57,11 +57,16 @@ private:
 		move14,
 		move15,
 		move16,
-		move17
+		move17,
+		move18,
+		move19,
+		move20
 	};
 
 	Phase1Move phase1Move;
-	bool stateFlag1 = false;
+	bool state1Flag1 = false;
+	bool state1Flag2 = false;
+	bool state1Flag3 = false;
 
 private:
 

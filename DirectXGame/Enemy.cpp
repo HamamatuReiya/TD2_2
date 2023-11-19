@@ -35,7 +35,9 @@ void Enemy::Initialize(
 	phase2State = search;
 	phase3State = search;
 	phase1Move = move1;
-	stateFlag1 = false;
+	state1Flag1 = false;
+	state1Flag2 = false;
+	state1Flag3 = false;
 }
 
 void Enemy::Update() { 
@@ -75,14 +77,14 @@ void Enemy::Update() {
 				if (worldTransform_.translation_.x <= 56.0f) {
 					worldTransform_.translation_.x = 56.0f;
 					move_.x = 0.0f;
-					if (stateFlag1 == false) {
+					if (state1Flag1 == false) {
 						worldTransform_.rotation_.y += rotateSpeed_;
 						if (worldTransform_.rotation_.y >= -0.8f) {
 							worldTransform_.rotation_.y = -0.8f;
-							stateFlag1 = true;
+							state1Flag1 = true;
 						}
 					}
-					if (stateFlag1 == true) {
+					if (state1Flag1 == true) {
 						worldTransform_.rotation_.y -= rotateSpeed_;
 						if (worldTransform_.rotation_.y <= -2.4f) {
 							worldTransform_.rotation_.y = -2.4f;
@@ -92,7 +94,7 @@ void Enemy::Update() {
 				}
 				break;
 			case (move4):
-				stateFlag1 = false;
+				state1Flag1 = false;
 				move_.x = -kEnemySpeed_ / 2;
 				move_.z = -kEnemySpeed_ / 2;
 				if (worldTransform_.translation_.x <= 52.0f &&
@@ -141,28 +143,178 @@ void Enemy::Update() {
 				if (worldTransform_.translation_.x <= -4.0f) {
 					worldTransform_.translation_.x = -4.0f;
 					move_.x = 0;
+					if (state1Flag2 == false) {
+						worldTransform_.rotation_.y -= rotateSpeed_;
+						if (worldTransform_.rotation_.y <= -6.4f) {
+							worldTransform_.rotation_.y = -6.4f;
+							state1Flag2 = true;
+						}
+					}
+					if (state1Flag2 == true) {
+						worldTransform_.rotation_.y += rotateSpeed_;
+						if (worldTransform_.rotation_.y >= -3.2f) {
+							worldTransform_.rotation_.y = -3.2f;
+							phase1Move = move8;
+						}
+					}
 				}
 				break;
 			case (move8):
-
+				state1Flag2 = false;
+				move_.z = -kEnemySpeed_;
+				if (worldTransform_.translation_.z <= 40.0f) {
+					worldTransform_.translation_.z = 40.0f;
+					move_.z = 0;
+					worldTransform_.rotation_.y -= rotateSpeed_;
+					if (worldTransform_.rotation_.y <= 1.6f) {
+						worldTransform_.rotation_.y = 1.6f;
+						phase1Move = move9;
+					}
+				}
 				break;
 			case (move9):
-
+				move_.x = kEnemySpeed_;
+				if (worldTransform_.translation_.x >= 23.0f) {
+					worldTransform_.translation_.x = 23.0f;
+					move_.x = 0.0f;
+					if (state1Flag3 == false) {
+						worldTransform_.rotation_.y += rotateSpeed_;
+						if (worldTransform_.rotation_.y >= 3.8f) {
+							worldTransform_.rotation_.y = 3.8f;
+							state1Flag3 = true;
+						}
+					}
+					if (state1Flag3 == true) {
+						worldTransform_.rotation_.y -= rotateSpeed_;
+						if (worldTransform_.rotation_.y <= 0.0f) {
+							worldTransform_.rotation_.y = 0.0f;
+							phase1Move =move10;
+						}
+					}
+				}
 				break;
 			case (move10):
-
+				state1Flag3 = false;
+				move_.z = kEnemySpeed_;
+				if (worldTransform_.translation_.z >= 56.0f) {
+					worldTransform_.translation_.z = 56.0f;
+					move_.z = 0.0f;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= 1.6f) {
+						worldTransform_.rotation_.y = 1.6f;
+						phase1Move = move11;
+					}
+				}
 				break;
 			case (move11):
-
+				move_.x = kEnemySpeed_;
+				if (worldTransform_.translation_.x >= 34.0f) {
+					worldTransform_.translation_.x = 34.0f;
+					move_.x = 0.0f;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= 3.2f) {
+						worldTransform_.rotation_.y = 3.2f;
+						phase1Move = move12;
+					}
+				}
 				break;
 			case (move12):
-
+				move_.z = -kEnemySpeed_;
+				if (worldTransform_.translation_.z <=32.0f) {
+					worldTransform_.translation_.z = 32.0f;
+					move_.z = 0.0f;
+					worldTransform_.rotation_.y -= rotateSpeed_;
+					if (worldTransform_.rotation_.y <= 1.6f) {
+						worldTransform_.rotation_.y = 1.6f;
+						phase1Move = move13;
+					}
+				}
 				break;
 			case (move13):
-
+				move_.x = +kEnemySpeed_;
+				if (worldTransform_.translation_.x >= 51.8f) {
+					worldTransform_.translation_.x = 51.8f;
+					move_.x = 0.0f;
+					worldTransform_.rotation_.y -= rotateSpeed_;
+					if (worldTransform_.rotation_.y <= 0.0f) {
+						worldTransform_.rotation_.y = 0.0f;
+						phase1Move = move14;
+					}
+				}
 				break;
 			case (move14):
-
+				move_.z = kEnemySpeed_;
+				if (worldTransform_.translation_.z >= 39.7f) {
+					worldTransform_.translation_.z = 39.7f;
+					move_.z = 0.0f;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= 1.6f) {
+						worldTransform_.rotation_.y = 1.6f;
+						phase1Move = move15;
+					}
+				}
+				break;
+			case (move15):
+				move_.x = kEnemySpeed_;
+				if (worldTransform_.translation_.x >= 65.0f) {
+					worldTransform_.translation_.x = 65.0f;
+					move_.x = 0.0f;
+					worldTransform_.rotation_.y -= rotateSpeed_;
+					if (worldTransform_.rotation_.y <= 0.0f) {
+						worldTransform_.rotation_.y = 0.0f;
+						phase1Move = move16;
+					}
+				}
+				break;
+			case (move16):
+				move_.z = kEnemySpeed_;
+				if (worldTransform_.translation_.z >= 48.0f) {
+					worldTransform_.translation_.z = 48.0f;
+					move_.z = 0.0f;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= 1.6f) {
+						worldTransform_.rotation_.y = 1.6f;
+						phase1Move = move17;
+					}
+				}
+				break;
+			case (move17):
+				move_.x = kEnemySpeed_;
+				if (worldTransform_.translation_.x >= 84.0f) {
+					worldTransform_.translation_.x = 84.0f;
+					move_.x = 0.0f;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= 3.1f) {
+						worldTransform_.rotation_.y = 3.1f;
+						phase1Move = move18;
+					}
+				}
+				break;
+			case (move18):
+				move_.z = -kEnemySpeed_;
+				if (worldTransform_.translation_.z <= 4.0f) {
+					worldTransform_.translation_.z = 4.0f;
+					move_.z = 0.0f;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= 4.8f) {
+						worldTransform_.rotation_.y = 4.8f;
+						phase1Move = move19;
+					}
+				}
+				break;
+			case (move19):
+				move_.x = -kEnemySpeed_;
+				if (worldTransform_.translation_.x <= 80.0f) {
+					worldTransform_.translation_.x = 80.0f;
+					move_.x = 0.0f;
+					worldTransform_.rotation_.y -= rotateSpeed_;
+					if (worldTransform_.rotation_.y <= 3.2f) {
+						worldTransform_.rotation_.y = 3.2f;
+						phase1Move = move20;
+					}
+				}
+				break;
+			case (move20):
 				break;
 			}
 			break;
@@ -213,7 +365,7 @@ void Enemy::Update() {
 	ImGui::End();
 	float enemyRotate[2] = {worldTransform_.rotation_.x, worldTransform_.rotation_.y};
 	ImGui::Begin("EnemyRotate");
-	ImGui::SliderFloat2("EnemyRotate", enemyRotate, -0.3f, 0.3f);
+	ImGui::SliderFloat2("EnemyRotate", enemyRotate, -6.4f, 6.4f);
 	ImGui::End();
 	float enemyPos[2] = {worldTransform_.translation_.x, worldTransform_.translation_.z};
 	ImGui::Begin("EnemyPos");
