@@ -120,6 +120,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="Table.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="Table.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
