@@ -221,6 +221,16 @@ void Player::Room01Collision() {
 }
 
 void Player::Room02Collision() {
+	if (worldTransform_.translation_.z <= 11.723f && worldTransform_.translation_.x >= 10.926f &&
+	    worldTransform_.translation_.x <= 22.411f) { //
+		worldTransform_.translation_.z = 11.723f;
+	}
+	if (worldTransform_.translation_.z <= 11.723 && worldTransform_.translation_.x >= 25.742f &&
+	    worldTransform_.translation_.x <= 33.468f) { //
+		worldTransform_.translation_.z = 11.723f;
+	}
+
+
 	// 部屋01に移動
 	if (worldTransform_.translation_.z < 10.162f) {
 		collisionType_ = ROOM01;
