@@ -41,8 +41,10 @@ public:
 	enum CollisionType {
 		START, // スタート地点の部屋(0)
 		LOAD00,// スタート地点から右の道(1)
-		ROOM00,// 右上の部屋(2)
-		ROOM01,// 右上の部屋の隣(3)
+		ROOM00,// 右の部屋(2)
+		ROOM01,// 右の部屋の隣(3)
+		ROOM02, // 右の部屋の隣(4)
+		ROOM03, // 右の部屋の隣(5)
 	};
 
 	void SetType(int collisionType);
