@@ -108,6 +108,9 @@ void GameScene::Initialize() {
 	//道の生成,初期化
 	LoadInitialize();
 
+	//机の生成、初期化
+	TableInitialize();
+
 }
 
 void GameScene::Update() {
@@ -120,6 +123,8 @@ void GameScene::Update() {
 	RoomUpdate();
 	//道の更新
 	LoadUpdate();
+	//机の更新
+	TableUpdate();
 
 	CheakCollisions();
 }
@@ -158,6 +163,8 @@ void GameScene::Draw() {
 	RoomDraw();
 	//道の描画
 	LoadDraw();
+	//机の描画
+	TableDraw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -446,15 +453,135 @@ void GameScene::LoadUpdate() {
 
 void GameScene::LoadDraw() {
 	Load_0_->Draw(viewProjection_);
-	//Load_1_->Draw(viewProjection_);
-	//Load_2_->Draw(viewProjection_);
-	//Load_3_->Draw(viewProjection_);
-	//Load_4_->Draw(viewProjection_);
-	//Load_5_->Draw(viewProjection_);
+	Load_1_->Draw(viewProjection_);
+	Load_2_->Draw(viewProjection_);
+	Load_3_->Draw(viewProjection_);
+	Load_4_->Draw(viewProjection_);
+	Load_5_->Draw(viewProjection_);
 }
 
-void GameScene::TableInitialize() {}
 
-void GameScene::TableUpdate() {}
+void GameScene::TableInitialize() {
+	// 机0の生成
+	Table_0_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel0_.reset(Model::CreateFromOBJ("Table", true));
 
-void GameScene::TableDraw() {}
+	// 机1の生成
+	Table_1_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel1_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机2の生成
+	Table_2_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel2_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机3の生成
+	Table_3_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel3_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机4の生成
+	Table_4_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel4_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机5の生成
+	Table_5_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel5_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机6の生成
+	Table_6_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel6_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机7の生成
+	Table_7_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel7_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机8の生成
+	Table_8_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel8_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机0の初期化
+	Table_0_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机1の初期化
+	Table_1_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机2の初期化
+	Table_2_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机3の初期化
+	Table_3_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机4の初期化
+	Table_4_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机5の初期化
+	Table_5_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机6の初期化
+	Table_6_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机7の初期化
+	Table_7_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机8の初期化
+	Table_8_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+}
+
+void GameScene::TableUpdate() { 
+	Table_0_->Update();
+	Table_1_->Update();
+	Table_2_->Update();
+	Table_3_->Update();
+	Table_4_->Update();
+	Table_5_->Update();
+	Table_6_->Update();
+	Table_7_->Update();
+	Table_8_->Update();
+}
+
+void GameScene::TableDraw() {
+	Table_0_->Draw(viewProjection_);
+	Table_1_->Draw(viewProjection_);
+	Table_2_->Draw(viewProjection_);
+	Table_3_->Draw(viewProjection_);
+	Table_4_->Draw(viewProjection_);
+	Table_5_->Draw(viewProjection_);
+	Table_6_->Draw(viewProjection_);
+	Table_7_->Draw(viewProjection_);
+	Table_8_->Draw(viewProjection_);
+}

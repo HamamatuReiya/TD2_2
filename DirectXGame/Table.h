@@ -3,6 +3,7 @@
 #include "WorldTransform.h"
 
 class Table {
+public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
