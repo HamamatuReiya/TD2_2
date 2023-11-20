@@ -45,6 +45,21 @@ public:
 		ROOM01,// 右の部屋の隣(3)
 		ROOM02, // 右の部屋の隣(4)
 		ROOM03, // 右の部屋の隣(5)
+		ROOM04,//(6)
+		ROOM05,
+		ROOM06,
+		ROOM07,
+		ROOM08,
+		ROOM09,
+		ROOM10,
+		ROOM11,
+		ROOM12,
+		ROOM13,
+		ROOM14,
+		ROOM15,
+		ROOM16,
+		ROOM17,
+		ROOM18,
 	};
 
 	void SetType(int collisionType);
@@ -65,6 +80,7 @@ private:
 	void Room01Collision();
 	void Room02Collision();
 	void Room03Collision();
+	void Room04Collision();
 	//道関数
 	void Load00Collision();
 	void Load01Collision();
