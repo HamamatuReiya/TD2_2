@@ -60,7 +60,17 @@ private:
 		move17,
 		move18,
 		move19,
-		move20
+		move20,
+		move21,
+		move22,
+		move23,
+		move24,
+		move25,
+		move26,
+		move27,
+		move28,
+		move29,
+		move30
 	};
 
 	Phase1Move phase1Move;

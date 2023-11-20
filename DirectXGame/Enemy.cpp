@@ -43,7 +43,7 @@ void Enemy::Initialize(
 void Enemy::Update() { 
 	switch (phase_) {
 	case Enemy::phase1:
-		kEnemySpeed_ = 0.2f;
+		kEnemySpeed_ = 0.3f;
 		switch (phase1State) { 
 		case search:
 			switch (phase1Move) {
@@ -315,6 +315,19 @@ void Enemy::Update() {
 				}
 				break;
 			case (move20):
+				move_.z = -kEnemySpeed_;
+				if (worldTransform_.translation_.z <= -7.9f) {
+					worldTransform_.translation_.z = -7.9f;
+					move_.z = 0.0f;
+					worldTransform_.rotation_.y += rotateSpeed_;
+					if (worldTransform_.rotation_.y >= 4.8f) {
+						worldTransform_.rotation_.y = 4.8f;
+						phase1Move = move21;
+					}
+				}
+				break;
+			case (move21):
+
 				break;
 			}
 			break;
