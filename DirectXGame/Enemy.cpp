@@ -324,7 +324,7 @@ void Enemy::Update() {
 						worldTransform_.rotation_.y = 4.8f;
 						phase1Move = move21;
 					}
-				}
+				} 
 				break;
 			case (move21):
 
