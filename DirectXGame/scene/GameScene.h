@@ -19,6 +19,7 @@
 #include "Room.h"
 #include "Load.h"
 #include "Table.h"
+#include "Ceiling.h"
 
 /// <summary>
 /// ゲームシーン
@@ -221,9 +222,9 @@ private:
 	// 道5
 	std::unique_ptr<Load> Load_5_;
 
-	//3Dモデル
+	// 3Dモデル
 	std::unique_ptr<Model> TableModel0_ = nullptr;
-	//テーブル0
+	// テーブル0
 	std::unique_ptr<Table> Table_0_;
 	// 3Dモデル
 	std::unique_ptr<Model> TableModel1_ = nullptr;
@@ -257,6 +258,11 @@ private:
 	std::unique_ptr<Model> TableModel8_ = nullptr;
 	// テーブル8
 	std::unique_ptr<Table> Table_8_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> CeilingModel_ = nullptr;
+	// 天井
+	std::unique_ptr<Ceiling> ceiling_;
 
 	/// <summary>
 	/// ゲームシーン用

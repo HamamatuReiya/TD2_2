@@ -111,6 +111,13 @@ void GameScene::Initialize() {
 	//机の生成、初期化
 	TableInitialize();
 
+	// 天井の生成
+	ceiling_ = std::make_unique<Ceiling>();
+	//3Dモデルの生成
+	CeilingModel_.reset(Model::CreateFromOBJ("Ceiling", true));
+	// 天井の初期化
+	ceiling_->Initialize(CeilingModel_.get());
+
 }
 
 void GameScene::Update() {
@@ -125,6 +132,9 @@ void GameScene::Update() {
 	LoadUpdate();
 	//机の更新
 	TableUpdate();
+	//天井の更新
+	ceiling_->Update();
+	
 
 	CheakCollisions();
 }
@@ -165,6 +175,8 @@ void GameScene::Draw() {
 	LoadDraw();
 	//机の描画
 	TableDraw();
+	// 天井の描画
+	ceiling_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
