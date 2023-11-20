@@ -332,6 +332,18 @@ void Player::Room04Collision() {
 	}
 }
 
+void Player::Room05Collision() {}
+
+void Player::Room06Collision() {}
+
+void Player::Room07Collision() {}
+
+void Player::Room08Collision() {}
+
+void Player::Room09Collision() {}
+
+void Player::Room10Collision() {}
+
 void Player::Load01Collision() {}
 
 void Player::Load02Collision() {}
