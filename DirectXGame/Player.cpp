@@ -295,6 +295,8 @@ void Player::Room03Collision() {
 }
 
 void Player::Room04Collision() {
+
+
 	// 部屋02に移動
 	if (worldTransform_.translation_.x < 34.153f) {
 		collisionType_ = ROOM02;
