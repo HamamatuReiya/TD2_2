@@ -555,7 +555,7 @@ void Enemy::Update() {
 					}
 				}
 				break;
-			}
+			} 
 			break;
 		case Chase:
 			
