@@ -348,14 +348,14 @@ void Player::Room15Collision() {
 	    worldTransform_.translation_.x >= 73.0f) { // 真ん中壁
 		worldTransform_.translation_.x = 78.832f;
 	}
-	if (worldTransform_.translation_.z >= -2.499f && worldTransform_.translation_.z <= 2.890f &&
-	    worldTransform_.translation_.x >= 69.022f) { // 真ん中壁裏
-		worldTransform_.translation_.x = 69.022f;
-	}
-	if (worldTransform_.translation_.z >= -3.230f && worldTransform_.translation_.x >= 69.395f &&
-	    worldTransform_.translation_.x <= 78.068f) { //// 真ん中壁裏
-		worldTransform_.translation_.z = -3.230f;
-	}
+	//if (worldTransform_.translation_.z >= -2.499f && worldTransform_.translation_.z <= 2.890f &&
+	//    worldTransform_.translation_.x >= 69.022f) { // 真ん中壁裏
+	//	worldTransform_.translation_.x = 69.022f;
+	//}
+	//if (worldTransform_.translation_.z >= -3.230f && worldTransform_.translation_.x >= 69.395f &&
+	//    worldTransform_.translation_.x <= 78.068f) { //// 真ん中壁裏
+	//	worldTransform_.translation_.z = -3.230f;
+	//}
 	if (worldTransform_.translation_.z >= -2.499f && worldTransform_.translation_.z <= 2.890f &&
 	    worldTransform_.translation_.x <= 66.858f) { // 手前壁
 		worldTransform_.translation_.x = 66.858f;
