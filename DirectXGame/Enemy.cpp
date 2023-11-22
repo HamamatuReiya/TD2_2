@@ -54,7 +54,7 @@ void Enemy::Update() {
 				move_.x = kEnemySpeed_;
 				if (worldTransform_.translation_.x >= 84.0f) {
 					worldTransform_.translation_.x = 84.0f;
-					worldTransform_.translation_.z = 48.5f;
+					worldTransform_.translation_.z = 48.0f;
 					worldTransform_.rotation_.y -= rotateSpeed_;
 					move_.x = 0.0f;
 					if (worldTransform_.rotation_.y <= 0.0f) {
