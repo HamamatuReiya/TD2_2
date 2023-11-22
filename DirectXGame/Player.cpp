@@ -170,6 +170,8 @@ void Player::Room00Collision() {
 	if (worldTransform_.translation_.x >= 8.737f && worldTransform_.translation_.z >= 1.190) { // 右壁
 		worldTransform_.translation_.x = 8.737f;
 	}
+	
+
 	// 道00に移動
 	if (worldTransform_.translation_.z > 9.974f) {
 		collisionType_ = LOAD00;
