@@ -41,7 +41,7 @@ void Player::Update() {
 	}
 
 	//部屋の当たり判定の関数
-	if (collisionType_==START){
+	/*if (collisionType_==START){
 		StartRoomCollision();
 	} else if (collisionType_ == LOAD00) {
 		Load00Collision();
@@ -57,7 +57,7 @@ void Player::Update() {
 		Room04Collision();
 	} else if (collisionType_ == LOAD01) {
 		Room04Collision();
-	}
+	}*/
 	
 
 	// カメラの角度から回転行列を計算する

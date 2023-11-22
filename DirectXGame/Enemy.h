@@ -87,6 +87,24 @@ private:
 	bool state1Flag5 = false;
 	bool state1Flag6 = false;
 
+	// ïîâÆä÷êî
+	void StartRoomCollision();
+	void Room00Collision();
+	void Room01Collision();
+	void Room02Collision();
+	void Room03Collision();
+	void Room04Collision();
+	void Room05Collision();
+	void Room06Collision();
+	void Room07Collision();
+	void Room08Collision();
+	void Room09Collision();
+	void Room10Collision();
+	// ìπä÷êî
+	void Load00Collision();
+	void Load01Collision();
+	void Load02Collision();
+
 private:
 
 	bool phase1SpeedFlag=true;
