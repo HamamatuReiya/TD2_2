@@ -5,7 +5,7 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { delete buttonSprite_; }
 
 void GameScene::Initialize() {
 
@@ -118,6 +118,18 @@ void GameScene::Initialize() {
 	// 天井の初期化
 	ceiling_->Initialize(CeilingModel_.get());
 
+	// 出口の生成
+	exit_ = std::make_unique<Exit>();
+	// 3Dモデルの生成
+	ExitModel_.reset(Model::CreateFromOBJ("Exit", true));
+	// 出口の初期化
+	exit_->Initialize(ExitModel_.get());
+
+	// ボタンのテクスチャ読み込み
+	buttonTexture_ = TextureManager::Load("uvChecker.png");
+	// スプライトの生成
+	buttonSprite_ = Sprite::Create(buttonTexture_, {900, 400});
+
 }
 
 void GameScene::Update() {
@@ -134,7 +146,10 @@ void GameScene::Update() {
 	TableUpdate();
 	//天井の更新
 	ceiling_->Update();
+	//出口の更新
+	exit_->Update();
 	
+	GetButton = false;
 
 	CheakCollisions();
 }
@@ -177,6 +192,8 @@ void GameScene::Draw() {
 	TableDraw();
 	// 天井の描画
 	ceiling_->Draw(viewProjection_);
+	// 出口の描画
+	exit_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -189,7 +206,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	if (GetButton == true) {
+		buttonSprite_->Draw();
+	}
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -237,30 +256,39 @@ void GameScene::CheakCollisions() {
 	        (posB.z - posA.z) * (posB.z - posA.z);
 	// プレイヤーと上鍵の当たり判定
 	if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
-		// 自キャラの衝突時コールバックを呼び出す
-		player_->OnCollision();
-		// 鍵の衝突時コールバックを呼び出す
-		Key_->OnKeyUpCollision();
+		GetButton = true;
+		if (input_->TriggerKey(DIK_F)) {
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+			// 鍵の衝突時コールバックを呼び出す
+			Key_->OnKeyUpCollision();
+		}
 	}
 	// AとCの距離を求める
 	posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
 	        (posC.z - posA.z) * (posC.z - posA.z);
 	// プレイヤーと鍵型の当たり判定
 	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
-		// 自キャラの衝突時コールバックを呼び出す
-		player_->OnCollision();
-		// 鍵の衝突時コールバックを呼び出す
-		Key_->OnKeyCollision();
+		GetButton = true;
+		if (input_->TriggerKey(DIK_F)) {
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+			// 鍵の衝突時コールバックを呼び出す
+			Key_->OnKeyCollision();
+		}
 	}
 	// AとDの距離を求める
 	posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
 	        (posD.z - posA.z) * (posD.z - posA.z);
 	// プレイヤーと下鍵の当たり判定
 	if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
-		// 自キャラの衝突時コールバックを呼び出す
-		player_->OnCollision();
-		// 鍵の衝突時コールバックを呼び出す
-		Key_->OnKeyDownCollision();
+		GetButton = true;
+		if (input_->TriggerKey(DIK_F)) {
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+			// 鍵の衝突時コールバックを呼び出す
+			Key_->OnKeyDownCollision();
+		}
 	}
 #pragma endregion
 }
