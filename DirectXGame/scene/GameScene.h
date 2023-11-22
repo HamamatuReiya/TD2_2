@@ -270,6 +270,13 @@ private:
 	// 出口
 	std::unique_ptr<Exit> exit_;
 
+	//スプライト
+	Sprite* buttonSprite_ = nullptr;
+	// ボタン表示
+	uint32_t buttonTexture_ = 0;
+
+	bool GetButton;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
