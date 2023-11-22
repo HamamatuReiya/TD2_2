@@ -83,12 +83,9 @@ void Player::RoomCollision() {
 	for (int i = 0; i < 7; i++) {
 		Room[i] = false;
 	}
-
 	if (worldTransform_.translation_.z <= 8.4f) {
 		Room[0] = true;
 	}
-
-
 	if (Room[0] == true)
 	//部屋0
 	if (worldTransform_.translation_.x <=-8.6f) {//左
