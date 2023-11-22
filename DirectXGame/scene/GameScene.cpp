@@ -128,7 +128,7 @@ void GameScene::Initialize() {
 	// ボタンのテクスチャ読み込み
 	buttonTexture_ = TextureManager::Load("uvChecker.png");
 	// スプライトの生成
-	buttonSprite_ = Sprite::Create(buttonTexture_, {1000, 500});
+	buttonSprite_ = Sprite::Create(buttonTexture_, {900, 400});
 
 }
 
@@ -209,7 +209,6 @@ void GameScene::Draw() {
 	if (GetButton == true) {
 		buttonSprite_->Draw();
 	}
-	
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
