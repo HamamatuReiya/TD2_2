@@ -64,6 +64,7 @@ public:
 		LOAD02,
 	};
 
+
 	void SetType(int collisionType);
 
 	int GetType();
@@ -89,6 +90,11 @@ private:
 	void Room08Collision();
 	void Room09Collision();
 	void Room10Collision();
+	void Room11Collision();
+	void Room12Collision();
+	void Room13Collision();
+	void Room14Collision();
+	void Room15Collision();
 	//道関数
 	void Load00Collision();
 	void Load01Collision();
