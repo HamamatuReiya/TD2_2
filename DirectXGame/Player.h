@@ -38,7 +38,36 @@ public:
 	//鍵に触れたかどうか
 	bool isKeytouch() const { return isKeytouch_; }
 
-	void RoomCollision();
+	enum CollisionType {
+		START, // スタート地点の部屋(0)
+		LOAD00,// スタート地点から右の道(1)
+		ROOM00,// 右の部屋(2)
+		ROOM01,// 右の部屋の隣(3)
+		ROOM02,// 右の部屋の隣(4)
+		ROOM03,// 右の部屋の隣(5)
+		ROOM04,// (6)
+		ROOM05,
+		ROOM06,
+		ROOM07,
+		ROOM08,
+		ROOM09,
+		ROOM10,
+		ROOM11,
+		ROOM12,
+		ROOM13,
+		ROOM14,
+		ROOM15,
+		ROOM16,
+		ROOM17,
+		ROOM18,
+		LOAD01,
+		LOAD02,
+	};
+
+	void SetType(int collisionType);
+
+	int GetType();
+
 
 private:
 	WorldTransform worldTransform_;
@@ -47,6 +76,24 @@ private:
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
 	
+	//部屋関数
+	void StartRoomCollision();
+	void Room00Collision();
+	void Room01Collision();
+	void Room02Collision();
+	void Room03Collision();
+	void Room04Collision();
+	void Room05Collision();
+	void Room06Collision();
+	void Room07Collision();
+	void Room08Collision();
+	void Room09Collision();
+	void Room10Collision();
+	//道関数
+	void Load00Collision();
+	void Load01Collision();
+	void Load02Collision();
+
 	//回転スピード
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
@@ -55,8 +102,6 @@ private:
 	float StaminaTimer_ = 0;
 	////スタミナクールタイム
 	//float Cooltime_ = 0;
-
-	//部屋にいるフラグ
-	bool Room[7];
 	
+	CollisionType collisionType_;
 };

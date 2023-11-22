@@ -18,6 +18,8 @@
 #include <Scene.h>
 #include "Room.h"
 #include "Load.h"
+#include "Table.h"
+#include "Ceiling.h"
 
 /// <summary>
 /// ゲームシーン
@@ -76,6 +78,10 @@ private: //
 	void LoadUpdate();
 	void LoadDraw();
 
+	void TableInitialize();
+	void TableUpdate();
+	void TableDraw();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	//ワールドトランスフォーム
@@ -99,7 +105,34 @@ private:
 	std::unique_ptr<Model> enemyModel_ = nullptr;
 	//敵キャラ
 	std::unique_ptr<Enemy> enemy_;
-
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel2_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel3_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel4_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel5_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel6_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel7_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel8_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel9_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel10_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel11_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel12_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel13_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel14_ = nullptr;
+	// 敵キャラの3Dモデル
+	std::unique_ptr<Model> enemyModel15_ = nullptr;
 
 	// デバックカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
@@ -188,6 +221,48 @@ private:
 	std::unique_ptr<Model> LoadModel5_ = nullptr;
 	// 道5
 	std::unique_ptr<Load> Load_5_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel0_ = nullptr;
+	// テーブル0
+	std::unique_ptr<Table> Table_0_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel1_ = nullptr;
+	// テーブル1
+	std::unique_ptr<Table> Table_1_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel2_ = nullptr;
+	// テーブル2
+	std::unique_ptr<Table> Table_2_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel3_ = nullptr;
+	// テーブル3
+	std::unique_ptr<Table> Table_3_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel4_ = nullptr;
+	// テーブル4
+	std::unique_ptr<Table> Table_4_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel5_ = nullptr;
+	// テーブル5
+	std::unique_ptr<Table> Table_5_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel6_ = nullptr;
+	// テーブル6
+	std::unique_ptr<Table> Table_6_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel7_ = nullptr;
+	// テーブル7
+	std::unique_ptr<Table> Table_7_;
+	// 3Dモデル
+	std::unique_ptr<Model> TableModel8_ = nullptr;
+	// テーブル8
+	std::unique_ptr<Table> Table_8_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> CeilingModel_ = nullptr;
+	// 天井
+	std::unique_ptr<Ceiling> ceiling_;
 
 	/// <summary>
 	/// ゲームシーン用

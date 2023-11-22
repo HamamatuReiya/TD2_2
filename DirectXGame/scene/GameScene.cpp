@@ -40,8 +40,40 @@ void GameScene::Initialize() {
 	enemy_ = std::make_unique<Enemy>();
 	// モデルの生成
 	enemyModel_.reset(Model::CreateFromOBJ("Robot", true));
+	// モデルの生成
+	enemyModel2_.reset(Model::CreateFromOBJ("Robot2", true));
+	// モデルの生成
+	enemyModel3_.reset(Model::CreateFromOBJ("Robot3", true));
+	// モデルの生成
+	enemyModel4_.reset(Model::CreateFromOBJ("Robot4", true));
+	// モデルの生成
+	enemyModel5_.reset(Model::CreateFromOBJ("Robot5", true));
+	// モデルの生成
+	enemyModel6_.reset(Model::CreateFromOBJ("Robot6", true));
+	// モデルの生成
+	enemyModel7_.reset(Model::CreateFromOBJ("Robot7", true));
+	// モデルの生成
+	enemyModel8_.reset(Model::CreateFromOBJ("Robot8", true));
+	// モデルの生成
+	enemyModel9_.reset(Model::CreateFromOBJ("Robot9", true));
+	// モデルの生成
+	enemyModel10_.reset(Model::CreateFromOBJ("Robot10", true));
+	// モデルの生成
+	enemyModel11_.reset(Model::CreateFromOBJ("Robot11", true));
+	// モデルの生成
+	enemyModel12_.reset(Model::CreateFromOBJ("Robot12", true));
+	// モデルの生成
+	enemyModel13_.reset(Model::CreateFromOBJ("Robot13", true));
+	// モデルの生成
+	enemyModel14_.reset(Model::CreateFromOBJ("Robot14", true));
+	// モデルの生成
+	enemyModel15_.reset(Model::CreateFromOBJ("Robot15", true));
 	// 初期化
-	enemy_->Initialize(enemyModel_.get());
+	enemy_->Initialize(
+	    enemyModel_.get(), enemyModel2_.get(), enemyModel3_.get(), enemyModel4_.get(),
+	    enemyModel5_.get(), enemyModel6_.get(), enemyModel7_.get(), enemyModel8_.get(),
+	    enemyModel9_.get(), enemyModel10_.get(), enemyModel11_.get(), enemyModel12_.get(),
+	    enemyModel13_.get(), enemyModel14_.get(), enemyModel15_.get() );
 
 	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -76,11 +108,20 @@ void GameScene::Initialize() {
 	//道の生成,初期化
 	LoadInitialize();
 
+	//机の生成、初期化
+	TableInitialize();
+
+	// 天井の生成
+	ceiling_ = std::make_unique<Ceiling>();
+	//3Dモデルの生成
+	CeilingModel_.reset(Model::CreateFromOBJ("Ceiling", true));
+	// 天井の初期化
+	ceiling_->Initialize(CeilingModel_.get());
+
 }
 
 void GameScene::Update() {
 	CameraUpdate();
-
 	player_->Update();
 	enemy_->SetPlayer(player_.get());
 	enemy_->Update();
@@ -89,6 +130,11 @@ void GameScene::Update() {
 	RoomUpdate();
 	//道の更新
 	LoadUpdate();
+	//机の更新
+	TableUpdate();
+	//天井の更新
+	ceiling_->Update();
+	
 
 	CheakCollisions();
 }
@@ -127,6 +173,10 @@ void GameScene::Draw() {
 	RoomDraw();
 	//道の描画
 	LoadDraw();
+	//机の描画
+	TableDraw();
+	// 天井の描画
+	ceiling_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -415,9 +465,135 @@ void GameScene::LoadUpdate() {
 
 void GameScene::LoadDraw() {
 	Load_0_->Draw(viewProjection_);
-	//Load_1_->Draw(viewProjection_);
-	//Load_2_->Draw(viewProjection_);
-	//Load_3_->Draw(viewProjection_);
-	//Load_4_->Draw(viewProjection_);
-	//Load_5_->Draw(viewProjection_);
+	Load_1_->Draw(viewProjection_);
+	Load_2_->Draw(viewProjection_);
+	Load_3_->Draw(viewProjection_);
+	Load_4_->Draw(viewProjection_);
+	Load_5_->Draw(viewProjection_);
+}
+
+
+void GameScene::TableInitialize() {
+	// 机0の生成
+	Table_0_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel0_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机1の生成
+	Table_1_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel1_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机2の生成
+	Table_2_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel2_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机3の生成
+	Table_3_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel3_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机4の生成
+	Table_4_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel4_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机5の生成
+	Table_5_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel5_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机6の生成
+	Table_6_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel6_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机7の生成
+	Table_7_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel7_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机8の生成
+	Table_8_ = std::make_unique<Table>();
+	// 3Dモデルの生成
+	TableModel8_.reset(Model::CreateFromOBJ("Table", true));
+
+	// 机0の初期化
+	Table_0_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机1の初期化
+	Table_1_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机2の初期化
+	Table_2_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机3の初期化
+	Table_3_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机4の初期化
+	Table_4_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机5の初期化
+	Table_5_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机6の初期化
+	Table_6_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机7の初期化
+	Table_7_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+
+	// 机8の初期化
+	Table_8_->Initialize(
+	    TableModel0_.get(), TableModel1_.get(), TableModel2_.get(), TableModel3_.get(),
+	    TableModel4_.get(), TableModel5_.get(), TableModel6_.get(), TableModel7_.get(),
+	    TableModel8_.get());
+}
+
+void GameScene::TableUpdate() { 
+	Table_0_->Update();
+	Table_1_->Update();
+	Table_2_->Update();
+	Table_3_->Update();
+	Table_4_->Update();
+	Table_5_->Update();
+	Table_6_->Update();
+	Table_7_->Update();
+	Table_8_->Update();
+}
+
+void GameScene::TableDraw() {
+	Table_0_->Draw(viewProjection_);
+	Table_1_->Draw(viewProjection_);
+	Table_2_->Draw(viewProjection_);
+	Table_3_->Draw(viewProjection_);
+	Table_4_->Draw(viewProjection_);
+	Table_5_->Draw(viewProjection_);
+	Table_6_->Draw(viewProjection_);
+	Table_7_->Draw(viewProjection_);
+	Table_8_->Draw(viewProjection_);
 }

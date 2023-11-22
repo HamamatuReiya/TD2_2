@@ -28,7 +28,7 @@ void FollowCamera::Update()
 
 #pragma region プレイヤーのカメラ回転
 	//回転
-	RotateSpeed_RL = 0.05f;
+	RotateSpeed_RL = 0.06f;
 	RotateSpeed_UD = 0.015f;
 	
 
@@ -73,9 +73,6 @@ void FollowCamera::Update()
 	viewProjection_.rotation_.y = RotateDebug[1];
 	viewProjection_.rotation_.z = RotateDebug[2];
 
-
-	
-	
 	//ビュー行列の更新と転送
 	viewProjection_.UpdateMatrix();
 }
