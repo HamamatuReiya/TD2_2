@@ -118,6 +118,13 @@ void GameScene::Initialize() {
 	// 天井の初期化
 	ceiling_->Initialize(CeilingModel_.get());
 
+	// 出口の生成
+	exit_ = std::make_unique<Exit>();
+	// 3Dモデルの生成
+	ExitModel_.reset(Model::CreateFromOBJ("Exit", true));
+	// 出口の初期化
+	exit_->Initialize(ExitModel_.get());
+
 }
 
 void GameScene::Update() {
@@ -134,6 +141,8 @@ void GameScene::Update() {
 	TableUpdate();
 	//天井の更新
 	ceiling_->Update();
+	//出口の更新
+	exit_->Update();
 	
 
 	CheakCollisions();
@@ -177,6 +186,8 @@ void GameScene::Draw() {
 	TableDraw();
 	// 天井の描画
 	ceiling_->Draw(viewProjection_);
+	// 出口の描画
+	exit_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

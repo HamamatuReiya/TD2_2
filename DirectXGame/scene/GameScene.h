@@ -20,6 +20,7 @@
 #include "Load.h"
 #include "Table.h"
 #include "Ceiling.h"
+#include "Exit.h"
 
 /// <summary>
 /// ゲームシーン
@@ -263,6 +264,11 @@ private:
 	std::unique_ptr<Model> CeilingModel_ = nullptr;
 	// 天井
 	std::unique_ptr<Ceiling> ceiling_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> ExitModel_ = nullptr;
+	// 出口
+	std::unique_ptr<Exit> exit_;
 
 	/// <summary>
 	/// ゲームシーン用

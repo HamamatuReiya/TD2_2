@@ -111,6 +111,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Ceiling.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Exit.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Key.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Ceiling.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Exit.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="input\Input.h" />
