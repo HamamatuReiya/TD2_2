@@ -345,20 +345,35 @@ void Player::Room15Collision() {
 	}
 	if (worldTransform_.translation_.z >= -2.499f && worldTransform_.translation_.z <= 2.890f &&
 	    worldTransform_.translation_.x <= 78.832f &&
-	    worldTransform_.translation_.x >= 73.0f) { // 真ん中壁外側
+	    worldTransform_.translation_.x >= 73.0f) { // 真ん中壁
 		worldTransform_.translation_.x = 78.832f;
 	}
 	if (worldTransform_.translation_.z >= -2.499f && worldTransform_.translation_.z <= 2.890f &&
-	    worldTransform_.translation_.x >= 69.457f && worldTransform_.translation_.x <= 73.0f) { // 真ん中壁内側
-		worldTransform_.translation_.x = 69.457f;
+	    worldTransform_.translation_.x >= 69.022f) { // 真ん中壁裏
+		worldTransform_.translation_.x = 69.022f;
+	}
+	if (worldTransform_.translation_.z >= -3.230f && worldTransform_.translation_.x >= 69.395f &&
+	    worldTransform_.translation_.x <= 78.068f) { //// 真ん中壁裏
+		worldTransform_.translation_.z = -3.230f;
 	}
 	if (worldTransform_.translation_.z >= -2.499f && worldTransform_.translation_.z <= 2.890f &&
 	    worldTransform_.translation_.x <= 66.858f) { // 手前壁
 		worldTransform_.translation_.x = 66.858f;
 	}
+	if (worldTransform_.translation_.z >= -3.230f && worldTransform_.translation_.x <= 66.298f &&
+	    worldTransform_.translation_.x >= 61.662f) { // 手前壁裏
+		worldTransform_.translation_.z = -3.230f;
+	}
 	if (worldTransform_.translation_.x >= 85.513f) { // 右壁
 		worldTransform_.translation_.x = 85.513f;
 	}
+	if (worldTransform_.translation_.x <= 62.771f) { // 左壁
+		worldTransform_.translation_.x = 62.771f;
+	}
+	if (worldTransform_.translation_.z <= -13.23f) { // 下壁
+		worldTransform_.translation_.z = -13.23f;
+	}
+
 	// 部屋Load01に移動
 	if (worldTransform_.translation_.z > 2.647f) {
 		collisionType_ = LOAD01;
@@ -411,7 +426,7 @@ void Player::Load01Collision() {
 	if (worldTransform_.translation_.x >= 85.513f) { // 左曲がった右壁
 		worldTransform_.translation_.x = 85.513f;
 	}
-	if (worldTransform_.translation_.z >= 77.421f) { // 右壁1
+	if (worldTransform_.translation_.z >= 77.421f) { // 
 		worldTransform_.translation_.z = 77.421f;
 	}
 	// 部屋4に移動
