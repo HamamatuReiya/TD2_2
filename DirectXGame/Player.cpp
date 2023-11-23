@@ -350,6 +350,29 @@ void Player::Room04Collision() {
 }
 
 void Player::Room05Collision() {
+	if (worldTransform_.translation_.z <= 47.227f && worldTransform_.translation_.x >= 73.744f &&
+	    worldTransform_.translation_.x <= 82.746f) { // LOAD1側左壁
+		worldTransform_.translation_.z = 47.227f;
+	}
+	if (worldTransform_.translation_.z >= 49.183f) { // 右壁
+		worldTransform_.translation_.z = 49.183f;
+	}
+	if (worldTransform_.translation_.z <= 30.951f) { // 左壁
+		worldTransform_.translation_.z = 30.951f;
+	}
+	if (worldTransform_.translation_.z >= 41.527f && worldTransform_.translation_.z <= 50.0f &&
+	    worldTransform_.translation_.x <= 58.714f) { // LOAD4側右壁
+		worldTransform_.translation_.x = 58.714f;
+	}
+	if (worldTransform_.translation_.z <= 38.422f && worldTransform_.translation_.z >= 30.0f &&
+	    worldTransform_.translation_.x <= 58.714f) { // LOAD4側左壁
+		worldTransform_.translation_.x = 58.714f;
+	}
+	if (worldTransform_.translation_.z <= 46.267f && worldTransform_.translation_.z >= 30.0f &&
+	    worldTransform_.translation_.x >= 73.394f) { // 後ろ壁
+		worldTransform_.translation_.x = 73.394f;
+	}
+
 	// 部屋05への道
 	if (worldTransform_.translation_.z >= 46.065f && worldTransform_.translation_.z <= 49.960f &&
 	    worldTransform_.translation_.x >= 82.994f) {
@@ -603,7 +626,9 @@ void Player::Load03Collision() {// 部屋00に移動
 	}
 }
 
-void Player::Load04Collision() {}
+void Player::Load04Collision() {
+
+}
 
 void Player::Load05Collision() {
 	if (worldTransform_.translation_.x < 13.8f) {
