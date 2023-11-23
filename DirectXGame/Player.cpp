@@ -56,13 +56,27 @@ void Player::Update() {
 	} else if (collisionType_ == ROOM04) {
 		Room04Collision();
 	} else if (collisionType_ == LOAD01) {
+		Room04Collision();
+	} else if (collisionType_ == LOAD03) {
+		Load03Collision();
+	} else if (collisionType_ == ROOM08) {
+		Room08Collision();
+	} else if (collisionType_ == LOAD05) {
+		Load05Collision();
+	} else if (collisionType_ == ROOM09) {
+		Room09Collision();
+	} else if (collisionType_ == ROOM10) {
+		Room10Collision();
+	} else if (collisionType_ == ROOM11) {
+		Room11Collision();
+	} else if (collisionType_ == ROOM12) {
+		Room12Collision();
 		Load01Collision();
 	} else if (collisionType_ == ROOM05) {
 		Room05Collision();
 	} else if (collisionType_ == ROOM15) {
 		Room15Collision();
 	}
-	
 
 	// カメラの角度から回転行列を計算する
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
@@ -147,6 +161,11 @@ void Player::StartRoomCollision() {
 	//道00に移動
 	if (worldTransform_.translation_.z < 29.859f) {
 		collisionType_ = LOAD00;
+	}
+
+	// 道03に移動
+	if (worldTransform_.translation_.z > 49.0f) {
+		collisionType_ = LOAD03;
 	}
 }
 
@@ -342,11 +361,119 @@ void Player::Room06Collision() {}
 
 void Player::Room07Collision() {}
 
-void Player::Room08Collision() {}
+void Player::Room08Collision() {
+	// 道03に移動
+	if (worldTransform_.translation_.z < 62.0f) {
+		collisionType_ = LOAD03;
+	}
+	if (worldTransform_.translation_.z <= 62.5f && worldTransform_.translation_.x>=-2.7f) { //
+		worldTransform_.translation_.z = 62.5f;
+	}
+	if (worldTransform_.translation_.z >= 81.0f ) { //
+		worldTransform_.translation_.z = 81.0f;
+	}
+	if (worldTransform_.translation_.x <= -5.0f) { // 左壁
+		worldTransform_.translation_.x = -5.0f;
+	}
+	if (worldTransform_.translation_.x >= 13.53f && worldTransform_.translation_.z<=74.429f) { // 左壁
+		worldTransform_.translation_.x = 13.53f;
+	}
+	if (worldTransform_.translation_.x >= 13.53f &&
+	    worldTransform_.translation_.z >= 77.3f) { // 左壁
+		worldTransform_.translation_.x = 13.53f;
+	}
+	if (worldTransform_.translation_.x > 13.8f) {
+		collisionType_ = LOAD05;
+	}
+}
 
-void Player::Room09Collision() {}
+void Player::Room09Collision() {
+	if (worldTransform_.translation_.x < 22.645f && worldTransform_.translation_.z <= 74.429f) {
+		worldTransform_.translation_.x = 22.645f;
+	}
+	if (worldTransform_.translation_.x < 22.645f && worldTransform_.translation_.z >= 77.3f) {
+		worldTransform_.translation_.x = 22.645f;
+	}
+	if (worldTransform_.translation_.z <= 66.5f) { //
+		worldTransform_.translation_.z = 66.5f;
+	}
+	if (worldTransform_.translation_.z >= 85.0f) { //
+		worldTransform_.translation_.z = 85.0f;
+	}
+	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.z <= 70.5f) {
+		worldTransform_.translation_.x = 33.2f;
+	}
+	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.z >= 73.0f) {
+		worldTransform_.translation_.x = 33.2f;
+	}
+	if (worldTransform_.translation_.x < 22.0f) {
+		collisionType_ = LOAD05;
+	}
+	if (worldTransform_.translation_.x > 33.6f) {
+		collisionType_ = ROOM10;
+	}
+}
 
-void Player::Room10Collision() {}
+void Player::Room10Collision() {
+	if (worldTransform_.translation_.x < 33.6f) {
+		collisionType_ = ROOM09;
+	}
+	//ルーム9側の上の敷居
+	if (worldTransform_.translation_.x > 33.2f &&
+	    worldTransform_.translation_.x < 34.8f&&worldTransform_.translation_.z<=70.5f) {
+		worldTransform_.translation_.z = 70.5f;
+	}
+	////
+	if (worldTransform_.translation_.x < 35.2f && worldTransform_.translation_.z <= 70.0f) {
+		worldTransform_.translation_.x = 35.2f;
+	}
+	// ルーム9側の下の敷居
+	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.x < 34.8f &&
+	    worldTransform_.translation_.z >= 73.0f) {
+		worldTransform_.translation_.z = 73.0f;
+	}
+	////
+	if (worldTransform_.translation_.x < 35.2f && worldTransform_.translation_.z >= 73.5f) {
+		worldTransform_.translation_.x = 35.2f;
+	}
+	if (worldTransform_.translation_.z <= 66.5f) { //
+		worldTransform_.translation_.z = 66.5f;
+	}
+	if (worldTransform_.translation_.z >= 74.9f) { //
+		worldTransform_.translation_.z = 74.9f;
+	}
+	// ルーム12側の上の敷居
+	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
+	    worldTransform_.translation_.z <= 70.5f) {
+		worldTransform_.translation_.z = 70.5f;
+	}
+	////
+	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z <= 70.0f) {
+		worldTransform_.translation_.x = 49.0f;
+	}
+	// ルーム12側の下の敷居
+	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
+	    worldTransform_.translation_.z >= 73.0f) {
+		worldTransform_.translation_.z = 73.0f;
+	}
+	////
+	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z >= 73.5f) {
+		worldTransform_.translation_.x = 49.0f;
+	}
+	if (worldTransform_.translation_.x >= 50.3) {
+		collisionType_ = ROOM12;
+	}
+}
+
+void Player::Room11Collision() {}
+
+void Player::Room12Collision() {
+	if (worldTransform_.translation_.x <= 50.3) {
+		collisionType_ = ROOM10;
+	}
+
+
+}
 
 void Player::Room15Collision() {
 	if (worldTransform_.translation_.z >= -2.499f && worldTransform_.translation_.z <= 2.890f &&
@@ -461,6 +588,39 @@ void Player::Load01Collision() {
 }
 
 void Player::Load02Collision() {}
+
+void Player::Load03Collision() {// 部屋00に移動
+	// 道03に移動
+	if (worldTransform_.translation_.z < 49.0f) {
+		collisionType_ = START;
+	}
+	if (worldTransform_.translation_.x <= -5.0f) { // 左壁
+		worldTransform_.translation_.x = -5.0f;
+	}
+	if (worldTransform_.translation_.x >= -2.7f) { // 右壁
+		worldTransform_.translation_.x = -2.7f;
+	}
+	if (worldTransform_.translation_.z > 62.0f) {
+		collisionType_ = ROOM08;
+	}
+}
+
+void Player::Load04Collision() {}
+
+void Player::Load05Collision() {
+	if (worldTransform_.translation_.x < 13.8f) {
+		collisionType_ = ROOM08;
+	}
+	if (worldTransform_.translation_.z <= 74.429f) {
+		worldTransform_.translation_.z = 74.429f;
+	}
+	if (worldTransform_.translation_.z >= 77.3f) {
+		worldTransform_.translation_.z = 77.3f;
+	}
+	if (worldTransform_.translation_.x >22.0f) {
+		collisionType_ = ROOM09;
+	}
+}
 
 
 
