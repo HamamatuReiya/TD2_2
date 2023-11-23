@@ -190,6 +190,7 @@ void Player::Room00Collision() {
 	    worldTransform_.translation_.z >= 1.190) { // 右壁
 		worldTransform_.translation_.x = 8.737f;
 	}
+	
 
 	// 道00に移動
 	if (worldTransform_.translation_.z > 9.974f) {
@@ -373,8 +374,7 @@ void Player::Room08Collision() {
 	if (worldTransform_.translation_.x <= -5.0f) { // 左壁
 		worldTransform_.translation_.x = -5.0f;
 	}
-	if (worldTransform_.translation_.x >= 13.53f &&
-	    worldTransform_.translation_.z <= 75.0f) { // 左壁
+	if (worldTransform_.translation_.x >= 13.53f && worldTransform_.translation_.z<=75.0f) { // 左壁
 		worldTransform_.translation_.x = 13.53f;
 	}
 	if (worldTransform_.translation_.x >= 13.53f &&
@@ -522,7 +522,8 @@ void Player::Room12Collision() {
 		worldTransform_.translation_.z = 85.0f;
 	}
 
-	// 道の左壁
+	
+	//道の左壁
 	if (worldTransform_.translation_.x >= 57.4f && worldTransform_.translation_.z >= 77.0f) { //
 		worldTransform_.translation_.z = 77.0f;
 	}
@@ -544,6 +545,12 @@ void Player::Room12Collision() {
 	    worldTransform_.translation_.z <= 85.0f) {
 		collisionType_ = ROOM11;
 	}
+
+	if (worldTransform_.translation_.x > 82.746f && worldTransform_.translation_.z <= 77.0f &&
+	    worldTransform_.translation_.z >= 74.0f) {
+		collisionType_ = LOAD01;
+	}
+}
 
 	if (worldTransform_.translation_.x > 82.746f && worldTransform_.translation_.z <= 77.0f &&
 	    worldTransform_.translation_.z >= 74.0f) {
@@ -643,7 +650,7 @@ void Player::Load01Collision() {
 	if (worldTransform_.translation_.x >= 85.513f) { // 左曲がった右壁
 		worldTransform_.translation_.x = 85.513f;
 	}
-	if (worldTransform_.translation_.z >= 77.0f) { //
+	if (worldTransform_.translation_.z >= 77.0f) { // 
 		worldTransform_.translation_.z = 77.0f;
 	}
 	// 部屋4に移動
@@ -654,9 +661,9 @@ void Player::Load01Collision() {
 	if (worldTransform_.translation_.z < 2.647f) {
 		collisionType_ = ROOM15;
 	}
-	// 部屋05に移動
+	//部屋05に移動
 	if (worldTransform_.translation_.x < 82.746f && worldTransform_.translation_.z >= 46.173f &&
-	    worldTransform_.translation_.z <= 49.719f) {
+	    worldTransform_.translation_.z <= 49.719f) { 
 		collisionType_ = ROOM05;
 	}
 	// 部屋12に移動
