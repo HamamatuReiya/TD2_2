@@ -29,7 +29,7 @@ void Enemy::Initialize(
 	worldTransform_.translation_ = {63.0f, 0.7f, 48.0f};
 	encountFlag = false;
 	kEnemySpeed_ = 0.0f;
-	rotateSpeed_ = 0.05f;
+	rotateSpeed_ = 0.10f;
 	phase_ = phase1;
 	phase1State = search;
 	phase2State = search;
