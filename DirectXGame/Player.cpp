@@ -57,6 +57,8 @@ void Player::Update() {
 		Room04Collision();
 	} else if (collisionType_ == LOAD01) {
 		Load01Collision();
+	} else if (collisionType_ == ROOM05) {
+		Room05Collision();
 	} else if (collisionType_ == ROOM15) {
 		Room15Collision();
 	}
@@ -329,9 +331,9 @@ void Player::Room04Collision() {
 }
 
 void Player::Room05Collision() {
-	// 部屋05への道
-	if (worldTransform_.translation_.z >= 46.065f && worldTransform_.translation_.z <= 49.960f &&
-	    worldTransform_.translation_.x >= 82.994f) {
+
+	// 部屋05に移動
+	if (worldTransform_.translation_.x > 82.746f) {
 		collisionType_ = LOAD01;
 	}
 }
@@ -449,6 +451,11 @@ void Player::Load01Collision() {
 	// 部屋15に移動
 	if (worldTransform_.translation_.z < 2.647f) {
 		collisionType_ = ROOM15;
+	}
+	//部屋05に移動
+	if (worldTransform_.translation_.x < 82.746f && worldTransform_.translation_.z >= 46.173f &&
+	    worldTransform_.translation_.z <= 49.719f) { 
+		collisionType_ = ROOM05;
 	}
 	
 }
