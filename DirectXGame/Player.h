@@ -64,7 +64,8 @@ public:
 		LOAD02,
 		LOAD03,
 		LOAD04,
-		LOAD05
+		LOAD05,
+		LOAD06,
 	};
 
 
@@ -105,6 +106,7 @@ private:
 	void Load03Collision();
 	void Load04Collision();
 	void Load05Collision();
+	void Load06Collision();
 
 	//回転スピード
 	float kRotateSpeed;
