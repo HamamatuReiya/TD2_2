@@ -276,6 +276,10 @@ private:
 	uint32_t buttonTexture_ = 0;
 
 	bool GetButton;
+	bool iskeyup;
+	bool iskey;
+	bool iskeydown;
+
 
 	/// <summary>
 	/// ゲームシーン用

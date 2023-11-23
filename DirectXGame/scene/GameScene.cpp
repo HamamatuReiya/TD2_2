@@ -102,6 +102,10 @@ void GameScene::Initialize() {
 	// 鍵の初期化
 	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
 
+	iskeyup = true;
+	iskey = true;
+	iskeydown = true;
+
 	//部屋の生成,初期化
 	RoomInitialize();
 
@@ -126,9 +130,9 @@ void GameScene::Initialize() {
 	exit_->Initialize(ExitModel_.get());
 
 	// ボタンのテクスチャ読み込み
-	buttonTexture_ = TextureManager::Load("uvChecker.png");
+	buttonTexture_ = TextureManager::Load("F.png");
 	// スプライトの生成
-	buttonSprite_ = Sprite::Create(buttonTexture_, {900, 400});
+	buttonSprite_ = Sprite::Create(buttonTexture_, {700, 400});
 
 }
 
@@ -256,12 +260,16 @@ void GameScene::CheakCollisions() {
 	        (posB.z - posA.z) * (posB.z - posA.z);
 	// プレイヤーと上鍵の当たり判定
 	if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
-		GetButton = true;
+		if (iskeyup == true) {
+			GetButton = true;
+		}
 		if (input_->TriggerKey(DIK_F)) {
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyUpCollision();
+			//
+			iskeyup = false;
 		}
 	}
 	// AとCの距離を求める
@@ -269,12 +277,16 @@ void GameScene::CheakCollisions() {
 	        (posC.z - posA.z) * (posC.z - posA.z);
 	// プレイヤーと鍵型の当たり判定
 	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
-		GetButton = true;
+		if (iskey == true) {
+			GetButton = true;
+		}
 		if (input_->TriggerKey(DIK_F)) {
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyCollision();
+			//
+			iskey = false;
 		}
 	}
 	// AとDの距離を求める
@@ -282,12 +294,16 @@ void GameScene::CheakCollisions() {
 	        (posD.z - posA.z) * (posD.z - posA.z);
 	// プレイヤーと下鍵の当たり判定
 	if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
-		GetButton = true;
+		if (iskeydown == true) {
+			GetButton = true;
+		}
 		if (input_->TriggerKey(DIK_F)) {
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyDownCollision();
+			//
+			iskeydown = false;
 		}
 	}
 #pragma endregion
