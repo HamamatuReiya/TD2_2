@@ -56,7 +56,7 @@ void Player::Update() {
 	} else if (collisionType_ == ROOM04) {
 		Room04Collision();
 	} else if (collisionType_ == LOAD01) {
-		Room04Collision();
+		Load01Collision();
 	} else if (collisionType_ == LOAD03) {
 		Load03Collision();
 	} else if (collisionType_ == ROOM08) {
@@ -74,6 +74,8 @@ void Player::Update() {
 		Load01Collision();
 	} else if (collisionType_ == ROOM15) {
 		Room15Collision();
+	} else if (collisionType_ == ROOM05) {
+		Room05Collision();
 	}
 
 	// カメラの角度から回転行列を計算する
@@ -469,8 +471,6 @@ void Player::Room12Collision() {
 	if (worldTransform_.translation_.x <= 50.3) {
 		collisionType_ = ROOM10;
 	}
-
-
 }
 
 void Player::Room15Collision() {
@@ -577,11 +577,11 @@ void Player::Load01Collision() {
 	if (worldTransform_.translation_.z < 2.647f) {
 		collisionType_ = ROOM15;
 	}
-	////部屋05に移動
-	//if (worldTransform_.translation_.x < 82.746f && worldTransform_.translation_.z >= 46.173f &&
-	//    worldTransform_.translation_.z <= 49.719f) { 
-	//	collisionType_ = ROOM05;
-	//}
+	//部屋05に移動
+	if (worldTransform_.translation_.x < 82.746f && worldTransform_.translation_.z >= 46.173f &&
+	    worldTransform_.translation_.z <= 49.719f) { 
+		collisionType_ = ROOM05;
+	}
 	
 }
 
