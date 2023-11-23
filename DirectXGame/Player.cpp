@@ -414,18 +414,21 @@ void Player::Room10Collision() {
 	if (worldTransform_.translation_.x < 33.6f) {
 		collisionType_ = ROOM09;
 	}
-	//ルーム9側の敷居
+	//ルーム9側の上の敷居
 	if (worldTransform_.translation_.x > 33.2f &&
 	    worldTransform_.translation_.x < 34.8f&&worldTransform_.translation_.z<=70.5f) {
 		worldTransform_.translation_.z = 70.5f;
 	}
+	////
 	if (worldTransform_.translation_.x < 35.2f && worldTransform_.translation_.z <= 70.0f) {
 		worldTransform_.translation_.x = 35.2f;
 	}
+	// ルーム9側の下の敷居
 	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.x < 34.8f &&
 	    worldTransform_.translation_.z >= 73.0f) {
 		worldTransform_.translation_.z = 73.0f;
 	}
+	////
 	if (worldTransform_.translation_.x < 35.2f && worldTransform_.translation_.z >= 73.5f) {
 		worldTransform_.translation_.x = 35.2f;
 	}
@@ -435,17 +438,21 @@ void Player::Room10Collision() {
 	if (worldTransform_.translation_.z >= 74.9f) { //
 		worldTransform_.translation_.z = 74.9f;
 	}
+	// ルーム12側の上の敷居
 	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
 	    worldTransform_.translation_.z <= 70.5f) {
 		worldTransform_.translation_.z = 70.5f;
 	}
+	////
 	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z <= 70.0f) {
 		worldTransform_.translation_.x = 49.0f;
 	}
+	// ルーム12側の下の敷居
 	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
 	    worldTransform_.translation_.z >= 73.0f) {
 		worldTransform_.translation_.z = 73.0f;
 	}
+	////
 	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z >= 73.5f) {
 		worldTransform_.translation_.x = 49.0f;
 	}
