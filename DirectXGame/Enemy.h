@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Model.h"
 #include "WorldTransform.h"
 #include "Mymath.h"
@@ -87,6 +87,50 @@ private:
 	bool state1Flag5 = false;
 	bool state1Flag6 = false;
 
+	enum CollisionType {
+		START,  // スタート地点の部屋(0)
+		LOAD00, // スタート地点から右の道(1)
+		ROOM00, // 右の部屋(2)
+		ROOM01, // 右の部屋の隣(3)
+		ROOM02, // 右の部屋の隣(4)
+		ROOM03, // 右の部屋の隣(5)
+		ROOM04, // (6)
+		ROOM05,
+		ROOM06,
+		ROOM07,
+		ROOM08,
+		ROOM09,
+		ROOM10,
+		ROOM11,
+		ROOM12,
+		ROOM13,
+		ROOM14,
+		ROOM15,
+		ROOM16,
+		ROOM17,
+		ROOM18,
+		LOAD01,
+		LOAD02,
+	};
+
+	// 部屋関数
+	void StartRoomCollision();
+	void Room00Collision();
+	void Room01Collision();
+	void Room02Collision();
+	void Room03Collision();
+	void Room04Collision();
+	void Room05Collision();
+	void Room06Collision();
+	void Room07Collision();
+	void Room08Collision();
+	void Room09Collision();
+	void Room10Collision();
+	// 道関数
+	void Load00Collision();
+	void Load01Collision();
+	void Load02Collision();
+
 private:
 
 	bool phase1SpeedFlag=true;
@@ -122,5 +166,7 @@ private:
 	Vector3 moveRotate_;
 
 	Player* player_ = nullptr;
+
+	CollisionType collisionType_;
 
 };

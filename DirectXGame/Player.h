@@ -62,6 +62,9 @@ public:
 		ROOM18,
 		LOAD01,
 		LOAD02,
+		LOAD03,
+		LOAD04,
+		LOAD05
 	};
 
 
@@ -99,6 +102,9 @@ private:
 	void Load00Collision();
 	void Load01Collision();
 	void Load02Collision();
+	void Load03Collision();
+	void Load04Collision();
+	void Load05Collision();
 
 	//回転スピード
 	float kRotateSpeed;
