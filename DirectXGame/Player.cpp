@@ -442,6 +442,8 @@ void Player::Room12Collision() {
 	if (worldTransform_.translation_.x <= 50.3) {
 		collisionType_ = ROOM10;
 	}
+
+
 }
 
 void Player::Load00Collision() {
