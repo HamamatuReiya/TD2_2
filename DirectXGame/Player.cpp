@@ -71,7 +71,7 @@ void Player::Update() {
 		Room11Collision();
 	} else if (collisionType_ == ROOM12) {
 		Room12Collision();
-		//Load01Collision();
+		Load01Collision();
 	} else if (collisionType_ == ROOM15) {
 		Room15Collision();
 	}
