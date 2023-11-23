@@ -414,6 +414,7 @@ void Player::Room10Collision() {
 	if (worldTransform_.translation_.x < 33.6f) {
 		collisionType_ = ROOM09;
 	}
+	//ルーム9側の敷居
 	if (worldTransform_.translation_.x > 33.2f &&
 	    worldTransform_.translation_.x < 34.8f&&worldTransform_.translation_.z<=70.5f) {
 		worldTransform_.translation_.z = 70.5f;
