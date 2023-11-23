@@ -21,6 +21,7 @@
 #include "Table.h"
 #include "Ceiling.h"
 #include "Exit.h"
+#include "Craft.h"
 
 /// <summary>
 /// ゲームシーン
@@ -279,6 +280,11 @@ private:
 	bool iskeyup;
 	bool iskey;
 	bool iskeydown;
+
+	// 3Dモデル
+	std::unique_ptr<Model> CraftModel_ = nullptr;
+	// 作業机
+	std::unique_ptr<Craft> craft_;
 
 
 	/// <summary>

@@ -110,6 +110,7 @@
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Ceiling.cpp" />
+    <ClCompile Include="Craft.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Exit.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Ceiling.h" />
+    <ClInclude Include="Craft.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Exit.h" />
     <ClInclude Include="FollowCamera.h" />
