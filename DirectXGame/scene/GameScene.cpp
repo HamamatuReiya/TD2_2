@@ -134,6 +134,13 @@ void GameScene::Initialize() {
 	// スプライトの生成
 	buttonSprite_ = Sprite::Create(buttonTexture_, {700, 400});
 
+	// 作業机の生成
+	craft_= std::make_unique<Craft>();
+	// 3Dモデルの生成
+	CraftModel_.reset(Model::CreateFromOBJ("craft", true));
+	// 作業机の初期化
+	craft_->Initialize(CraftModel_.get());
+
 }
 
 void GameScene::Update() {
@@ -154,6 +161,8 @@ void GameScene::Update() {
 	exit_->Update();
 	
 	GetButton = false;
+	//作業机の更新
+	craft_->Update();
 
 	CheakCollisions();
 }
@@ -198,6 +207,8 @@ void GameScene::Draw() {
 	ceiling_->Draw(viewProjection_);
 	// 出口の描画
 	exit_->Draw(viewProjection_);
+	// 作業机の描画
+	craft_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
