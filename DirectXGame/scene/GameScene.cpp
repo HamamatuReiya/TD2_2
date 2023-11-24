@@ -155,6 +155,8 @@ void GameScene::Update() {
 	LoadUpdate();
 	//机の更新
 	TableUpdate();
+	// 地面の更新
+	ground_->Update();
 	//天井の更新
 	ceiling_->Update();
 	//出口の更新
