@@ -456,7 +456,7 @@ void Player::Room06Collision() {
 	if (worldTransform_.translation_.z <= 54.488f && worldTransform_.translation_.z >= 29.0f &&
 	    worldTransform_.translation_.x <= 29.0f) { //
 		worldTransform_.translation_.z = 54.488f;
-	}
+	} 
 
 	if (worldTransform_.translation_.z >= 57.219f) { //
 		worldTransform_.translation_.z = 57.219f;
