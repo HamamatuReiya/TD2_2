@@ -31,12 +31,12 @@ void Player::Update() {
 	}
 	// Dash
 	if (input_->PushKey(DIK_LSHIFT) && input_->PushKey(DIK_W)) {
-		StaminaTimer_++;
-		if (StaminaTimer_ <= 120) {
+		stamina_++;
+		if (stamina_ <= 120) {
 			move_ = {0.0f, 0.0f, 0.35f};
 		}
 	} else {
-		StaminaTimer_ = 0;
+		stamina_ = 0;
 	}
 
 	// 部屋の当たり判定の関数

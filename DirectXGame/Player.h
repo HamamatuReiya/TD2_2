@@ -108,14 +108,15 @@ private:
 	void Load05Collision();
 	void Load06Collision();
 
-	//回転スピード
+	// 回転スピード
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
 	bool isKeytouch_ = false;
-	//スタミナ
-	float StaminaTimer_ = 0;
-	////スタミナクールタイム
-	//float Cooltime_ = 0;
+
+	// スタミナ
+	float stamina_ = 0;
+	// 
+	bool isRun;
 	
 	CollisionType collisionType_;
 };
