@@ -114,9 +114,10 @@ private:
 	bool isKeytouch_ = false;
 
 	// スタミナ
-	float stamina_ = 0;
-	// 
-	bool isRun;
+	float stamina_ = 1000;
+	// クールタイム用
+	bool isRun; 
+
 	
 	CollisionType collisionType_;
 };
