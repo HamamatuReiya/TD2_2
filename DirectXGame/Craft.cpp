@@ -5,7 +5,7 @@ void Craft::Initialize(Model* model) {
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {66.0f, 0.0f, 40.0f};
+	worldTransform_.translation_ = {59.0f, 0.0f, 49.0f};
 }
 
 void Craft::Update() {
