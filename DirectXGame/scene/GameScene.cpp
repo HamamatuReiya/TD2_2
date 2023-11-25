@@ -141,7 +141,7 @@ void GameScene::Initialize() {
 	// ボタンのテクスチャ読み込み
 	buttonTexture_ = TextureManager::Load("F.png");
 	// スプライトの生成
-	buttonSprite_ = Sprite::Create(buttonTexture_, {700, 400});
+	buttonSprite_ = Sprite::Create(buttonTexture_, {1250, 600});
 
 	// 作業机の生成
 	craft_= std::make_unique<Craft>();
@@ -177,6 +177,10 @@ void GameScene::Update() {
 
 	ActiveTime++;
 	CheakCollisions();
+	//シーン切り替え
+	if (input_->TriggerKey(DIK_RETURN)) {
+		isSceneEnd = true;
+	}
 }
 
 void GameScene::Draw() {
@@ -236,6 +240,8 @@ void GameScene::Draw() {
 	if (GetButton == true) {
 		buttonSprite_->Draw();
 	}
+
+	
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

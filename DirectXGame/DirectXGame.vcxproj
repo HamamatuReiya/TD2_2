@@ -115,6 +115,7 @@
     <ClCompile Include="EnemyFollowCamera.cpp" />
     <ClCompile Include="Exit.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Load.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="EnemyFollowCamera.h" />
     <ClInclude Include="Exit.h" />
     <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="Key.h" />
