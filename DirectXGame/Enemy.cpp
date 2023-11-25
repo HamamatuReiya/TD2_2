@@ -648,7 +648,6 @@ void Enemy::Update() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move_);
 
 	//move_ = Multiply(kEnemySpeed_, Normalize(move_));
-	worldTransform_.translation_ = Add(worldTransform_.translation_, move_);
 	worldTransform_.UpdateMatrix();
 	
 }

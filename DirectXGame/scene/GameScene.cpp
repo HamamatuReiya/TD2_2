@@ -175,7 +175,7 @@ void GameScene::Update() {
 	//作業机の更新
 	craft_->Update();
 
-	
+	ActiveTime++;
 	CheakCollisions();
 }
 
@@ -269,13 +269,7 @@ void GameScene::CheakCollisions() {
 	// 鍵の半径
 	float keyDounRadius = 1.0f;
 
-	if (ActiveTime<120) {
-		EnemyCameraActive = true;
-	}
-	if (ActiveTime > 120) {
-		ActiveTime = 0;
-		EnemyCameraActive = false;
-	}
+	
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
@@ -299,8 +293,13 @@ void GameScene::CheakCollisions() {
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyUpCollision();
-			ActiveTime++;
+			ActiveTime = 0;
+			// 敵にカメラを向ける
+			EnemyCameraActive = true;
 			iskeyup = false;
+		}
+		if (ActiveTime >= 120) {
+			EnemyCameraActive = false;
 		}
 	}
 	// AとCの距離を求める
@@ -316,10 +315,13 @@ void GameScene::CheakCollisions() {
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyCollision();
-			//
-			iskey = false;
+			ActiveTime = 0;
 			// 敵にカメラを向ける
-			ActiveTime++;
+			EnemyCameraActive = true;
+			iskey = false;
+		}
+		if (ActiveTime >= 120) {
+			EnemyCameraActive = false;
 		}
 	}
 	// AとDの距離を求める
@@ -335,10 +337,13 @@ void GameScene::CheakCollisions() {
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyDownCollision();
-			//
-			iskeydown = false;
+			ActiveTime = 0;
 			// 敵にカメラを向ける
-			ActiveTime++;
+			EnemyCameraActive = true;
+			iskeydown = false;
+		}
+		if (ActiveTime >= 120) {
+			EnemyCameraActive = false;
 		}
 	}
 #pragma endregion
@@ -364,7 +369,8 @@ void GameScene::CameraUpdate() {
 			enemyfollowCamera_->Update();
 			viewProjection_.matProjection = enemyfollowCamera_->GetViewProjection().matProjection;
 			viewProjection_.matView = enemyfollowCamera_->GetViewProjection().matView;
-		} else {
+		} 
+		if (EnemyCameraActive == false) {
 			// 追従カメラの更新
 			followCamera_->Update();
 			viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
