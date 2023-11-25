@@ -111,6 +111,10 @@ private:
 		ROOM18,
 		LOAD01,
 		LOAD02,
+		LOAD03,
+		LOAD04,
+		LOAD05,
+		LOAD06,
 	};
 
 	// 部屋関数
@@ -126,10 +130,19 @@ private:
 	void Room08Collision();
 	void Room09Collision();
 	void Room10Collision();
+	void Room11Collision();
+	void Room12Collision();
+	void Room13Collision();
+	void Room14Collision();
+	void Room15Collision();
 	// 道関数
 	void Load00Collision();
 	void Load01Collision();
 	void Load02Collision();
+	void Load03Collision();
+	void Load04Collision();
+	void Load05Collision();
+	void Load06Collision();
 
 private:
 
