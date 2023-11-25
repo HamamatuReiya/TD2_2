@@ -12,11 +12,10 @@ void EnemyFollowCamera::Initialize() {
 }
 
 void EnemyFollowCamera::Update() {
-	
+	Vector3 Rotate = {90, 0, 0};
+	worldTransform_.rotation_ = Add(worldTransform_.rotation_, Rotate);
 
 	if (target_) {
-		Vector3 Rotate = {90, 0, 0};
-		worldTransform_.rotation_ = Add(worldTransform_.rotation_, Rotate);
 		// 追従対象からカメラまでのオフセット
 		Vector3 offset = {0.0f, 2.5f, -6.0f};
 		offset = TransformNormal(offset, MakeRotateYMatrix(viewProjection_.rotation_.y)); // 途中
