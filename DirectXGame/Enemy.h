@@ -3,6 +3,7 @@
 #include "WorldTransform.h"
 #include "Mymath.h"
 #include <math.h>
+#include"ViewProjection.h"
 
 class Player;
 
@@ -22,6 +23,12 @@ public:
 	void SetPlayer(Player* player) { player_ = player; }
 
 	Vector3 GetWorldPosition();
+
+	WorldTransform& GetWorldTransform() { return worldTransform_; };
+
+	void SetViewProjection(const ViewProjection* viewProjection) {
+		viewProjection_ = viewProjection;
+	}
 
 private:
 	enum Phase {
@@ -131,6 +138,8 @@ private:
 	void Load01Collision();
 	void Load02Collision();
 
+	
+
 private:
 
 	bool phase1SpeedFlag=true;
@@ -139,7 +148,8 @@ private:
 
 	WorldTransform worldTransform_;
 
-	ViewProjection viewProjection_;
+	// ビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
 
 	Model* model_ = nullptr;
 	Model* model2_ = nullptr;
