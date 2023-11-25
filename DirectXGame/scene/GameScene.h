@@ -22,6 +22,7 @@
 #include "Ceiling.h"
 #include "Exit.h"
 #include "Craft.h"
+#include "EnemyFollowCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -145,8 +146,13 @@ private:
 	// 地面
 	std::unique_ptr<Ground> ground_;
 
+
 	//追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+	// 敵追従カメラ
+	std::unique_ptr<EnemyFollowCamera> enemyfollowCamera_;
+	float ActiveTime;
+	bool EnemyCameraActive;
 
 	// 3Dモデル
 	std::unique_ptr<Model> KeyModel_ = nullptr;

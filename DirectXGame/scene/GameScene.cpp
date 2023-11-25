@@ -78,11 +78,20 @@ void GameScene::Initialize() {
 	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
+	// 敵追従カメラの生成
+	enemyfollowCamera_ = std::make_unique<EnemyFollowCamera>();
+	enemyfollowCamera_->Initialize();
+	ActiveTime = 0.0f;
+	EnemyCameraActive = false;
 
 	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
+	// 敵キャラのワールドトランスフォームを追従カメラにセット
+	enemyfollowCamera_->SetTarget(&enemy_->GetWorldTransform());
 	// Player&followCamera
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
+	// Player&followCamera
+	enemy_->SetViewProjection(&enemyfollowCamera_->GetViewProjection());
 
 	// 地面の生成
 	ground_ = std::make_unique<Ground>();
@@ -166,6 +175,7 @@ void GameScene::Update() {
 	//作業机の更新
 	craft_->Update();
 
+	ActiveTime++;
 	CheakCollisions();
 }
 
@@ -259,6 +269,8 @@ void GameScene::CheakCollisions() {
 	// 鍵の半径
 	float keyDounRadius = 1.0f;
 
+	
+
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
 	posA = player_->GetWorldPosition();
@@ -276,13 +288,18 @@ void GameScene::CheakCollisions() {
 		if (iskeyup == true) {
 			GetButton = true;
 		}
-		if (input_->TriggerKey(DIK_F)) {
+		if (input_->TriggerKey(DIK_F)&& iskeyup ==true) {
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyUpCollision();
-			//
+			ActiveTime = 0;
+			// 敵にカメラを向ける
+			EnemyCameraActive = true;
 			iskeyup = false;
+		}
+		if (ActiveTime >= 120) {
+			EnemyCameraActive = false;
 		}
 	}
 	// AとCの距離を求める
@@ -293,13 +310,18 @@ void GameScene::CheakCollisions() {
 		if (iskey == true) {
 			GetButton = true;
 		}
-		if (input_->TriggerKey(DIK_F)) {
+		if (input_->TriggerKey(DIK_F) && iskey == true) {
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyCollision();
-			//
+			ActiveTime = 0;
+			// 敵にカメラを向ける
+			EnemyCameraActive = true;
 			iskey = false;
+		}
+		if (ActiveTime >= 120) {
+			EnemyCameraActive = false;
 		}
 	}
 	// AとDの距離を求める
@@ -310,13 +332,18 @@ void GameScene::CheakCollisions() {
 		if (iskeydown == true) {
 			GetButton = true;
 		}
-		if (input_->TriggerKey(DIK_F)) {
+		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
 			Key_->OnKeyDownCollision();
-			//
+			ActiveTime = 0;
+			// 敵にカメラを向ける
+			EnemyCameraActive = true;
 			iskeydown = false;
+		}
+		if (ActiveTime >= 120) {
+			EnemyCameraActive = false;
 		}
 	}
 #pragma endregion
@@ -337,10 +364,18 @@ void GameScene::CameraUpdate() {
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	} else {
-		// 追従カメラの更新
-		followCamera_->Update();
-		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-		viewProjection_.matView = followCamera_->GetViewProjection().matView;
+		if (EnemyCameraActive == true) {
+			// 敵追従カメラの更新
+			enemyfollowCamera_->Update();
+			viewProjection_.matProjection = enemyfollowCamera_->GetViewProjection().matProjection;
+			viewProjection_.matView = enemyfollowCamera_->GetViewProjection().matView;
+		} 
+		if (EnemyCameraActive == false) {
+			// 追従カメラの更新
+			followCamera_->Update();
+			viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+			viewProjection_.matView = followCamera_->GetViewProjection().matView;
+		}
 
 		viewProjection_.TransferMatrix();
 	}
