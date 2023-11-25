@@ -23,7 +23,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"ゲームタイトル");
+	win->CreateGameWindow(L"人工知能の罠");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
