@@ -5,7 +5,7 @@ void Ceiling::Initialize(Model* model) {
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.translation_ = {40.0f, 2.5f, 36.0f};
+	worldTransform_.translation_ = {40.0f, 3.0f, 36.0f};
 }
 
 void Ceiling::Update() {
