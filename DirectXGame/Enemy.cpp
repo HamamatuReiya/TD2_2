@@ -647,7 +647,7 @@ void Enemy::Update() {
 		Load02Collision();
 	}
 
-	float enemyMove[2] = {move_.x, move_.z};
+	/*float enemyMove[2] = {move_.x, move_.z};
 	ImGui::Begin("EnemyMove");
 	ImGui::SliderFloat2("EnemyMove", enemyMove, -0.3f, 0.3f);
 	ImGui::End();
@@ -664,7 +664,7 @@ void Enemy::Update() {
 	move_.x = enemyMove[0];
 	move_.z = enemyMove[1];
 	worldTransform_.rotation_.x = enemyRotate[0];
-	worldTransform_.rotation_.y = enemyRotate[1];
+	worldTransform_.rotation_.y = enemyRotate[1];*/
 
 	// カメラの角度から回転行列を計算する
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);

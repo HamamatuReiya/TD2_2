@@ -23,10 +23,10 @@ void GameScene::Initialize() {
 	// デバックカメラの生成
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
-	// 軸方向表示の表示を有効にする
-	AxisIndicator::GetInstance()->SetVisible(true);
-	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+	//// 軸方向表示の表示を有効にする
+	//AxisIndicator::GetInstance()->SetVisible(true);
+	//// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
+	//AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
