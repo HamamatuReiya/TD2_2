@@ -12,8 +12,8 @@ void EnemyFollowCamera::Initialize() {
 }
 
 void EnemyFollowCamera::Update() {
-	Vector3 Rotate = {90, 0, 0};
-	worldTransform_.rotation_ = Add(worldTransform_.rotation_, Rotate);
+	viewProjection_.rotation_.y = -18.0f;
+	viewProjection_.rotation_.z = -90.0f;
 
 	if (target_) {
 		// 追従対象からカメラまでのオフセット
