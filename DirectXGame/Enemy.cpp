@@ -47,7 +47,7 @@ void Enemy::Initialize(
 void Enemy::Update() { 
 	switch (phase_) {
 	case Enemy::phase1:
-		kEnemySpeed_ = 0.3f;
+		kEnemySpeed_ = 0.3f; 
 		switch (phase1State) { 
 		case search:
 			switch (phase1Move) {
