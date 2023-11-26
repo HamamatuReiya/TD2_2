@@ -1773,8 +1773,8 @@ void Enemy::Room12Collision() {
 	    worldTransform_.translation_.z >= 74.0f) {
 		collisionType_ = LOAD01;
 	}
-
-	if (worldTransform_.translation_.x > 82.746f && worldTransform_.translation_.z <= 77.0f &&
+	//
+	if (worldTransform_.translation_.x > 82.5f && worldTransform_.translation_.z <= 77.0f &&
 	    worldTransform_.translation_.z >= 74.0f) {
 		collisionType_ = LOAD01;
 	}
@@ -2036,7 +2036,7 @@ void Enemy::Load01Collision() {
 		collisionType_ = ROOM05;
 	}
 	// 部屋12に移動
-	if (worldTransform_.translation_.x < 82.746f && worldTransform_.translation_.z <= 77.0f &&
+	if (worldTransform_.translation_.x < 82.5f && worldTransform_.translation_.z <= 77.0f &&
 	    worldTransform_.translation_.z >= 74.0f) {
 		collisionType_ = ROOM12;
 	}
