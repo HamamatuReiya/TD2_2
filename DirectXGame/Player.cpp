@@ -411,7 +411,7 @@ void Player::Room04Collision() {
 
 void Player::Room05Collision() {
 	if (worldTransform_.translation_.z <= 47.227f && worldTransform_.translation_.x >= 73.744f &&
-	    worldTransform_.translation_.x <= 82.746f) { // LOAD1側左壁
+	    worldTransform_.translation_.x <= 84.746f) { // LOAD1側左壁
 		worldTransform_.translation_.z = 47.227f;
 	}
 	if (worldTransform_.translation_.z >= 49.183f) { // 右壁
