@@ -23,10 +23,10 @@ void GameScene::Initialize() {
 	// デバックカメラの生成
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
-	// 軸方向表示の表示を有効にする
-	AxisIndicator::GetInstance()->SetVisible(true);
-	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+	//// 軸方向表示の表示を有効にする
+	//AxisIndicator::GetInstance()->SetVisible(true);
+	//// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
+	//AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
@@ -150,6 +150,87 @@ void GameScene::Initialize() {
 	// 作業机の初期化
 	craft_->Initialize(CraftModel_.get());
 
+	//クリアタイムテクスチャ
+	ClearTimeInitialize();
+}
+
+void GameScene::ClearTimeInitialize()
+{
+	// クリアタイムの画像
+	// テクスチャ(0～9)
+	uint32_t textureScore0 = TextureManager::Load("number/0.png");
+	uint32_t textureScore1 = TextureManager::Load("number/1.png");
+	uint32_t textureScore2 = TextureManager::Load("number/2.png");
+	uint32_t textureScore3 = TextureManager::Load("number/3.png");
+	uint32_t textureScore4 = TextureManager::Load("number/4.png");
+	uint32_t textureScore5 = TextureManager::Load("number/5.png");
+	uint32_t textureScore6 = TextureManager::Load("number/6.png");
+	uint32_t textureScore7 = TextureManager::Load("number/7.png");
+	uint32_t textureScore8 = TextureManager::Load("number/8.png");
+	uint32_t textureScore9 = TextureManager::Load("number/9.png");
+	// クリアタイム
+	ClearTimeScore1_[0] =
+	    Sprite::Create(textureScore0, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[1] =
+	    Sprite::Create(textureScore1, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[2] =
+	    Sprite::Create(textureScore2, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[3] =
+	    Sprite::Create(textureScore3, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[4] =
+	    Sprite::Create(textureScore4, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[5] =
+	    Sprite::Create(textureScore5, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[6] =
+	    Sprite::Create(textureScore6, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[7] =
+	    Sprite::Create(textureScore7, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[8] =
+	    Sprite::Create(textureScore8, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore1_[9] =
+	    Sprite::Create(textureScore9, {180.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
+	ClearTimeScore2_[0] =
+	    Sprite::Create(textureScore0, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[1] =
+	    Sprite::Create(textureScore1, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[2] =
+	    Sprite::Create(textureScore2, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[3] =
+	    Sprite::Create(textureScore3, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[4] =
+	    Sprite::Create(textureScore4, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[5] =
+	    Sprite::Create(textureScore5, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[6] =
+	    Sprite::Create(textureScore6, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[7] =
+	    Sprite::Create(textureScore7, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[8] =
+	    Sprite::Create(textureScore8, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore2_[9] =
+	    Sprite::Create(textureScore9, {90.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+
+	ClearTimeScore3_[0] =
+	    Sprite::Create(textureScore0, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[1] =
+	    Sprite::Create(textureScore1, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[2] =
+	    Sprite::Create(textureScore2, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[3] =
+	    Sprite::Create(textureScore3, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[4] =
+	    Sprite::Create(textureScore4, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[5] =
+	    Sprite::Create(textureScore5, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[6] =
+	    Sprite::Create(textureScore6, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[7] =
+	    Sprite::Create(textureScore7, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[8] =
+	    Sprite::Create(textureScore8, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
+	ClearTimeScore3_[9] =
+	    Sprite::Create(textureScore9, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 
 void GameScene::Update() {
@@ -177,10 +258,28 @@ void GameScene::Update() {
 
 	ActiveTime++;
 	CheakCollisions();
+	
 	//シーン切り替え
 	if (input_->TriggerKey(DIK_RETURN)) {
 		isSceneEnd = true;
 	}
+	
+	ClearTimeUpdate();
+}
+
+
+void GameScene::ClearTimeUpdate()
+{
+	TimeFrame++;
+	if (TimeFrame>60) {
+		isClearTime_+=1;
+		TimeFrame=0;
+	}
+	
+	// クリアタイム
+	isClearTime_1 = (isClearTime_ / 1) % 10;   // 1の桁
+	isClearTime_2 = (isClearTime_ / 10) % 10;  // 10の桁
+	isClearTime_3 = (isClearTime_ / 100) % 10; // 100の桁
 }
 
 void GameScene::Draw() {
@@ -240,8 +339,10 @@ void GameScene::Draw() {
 	if (GetButton == true) {
 		buttonSprite_->Draw();
 	}
+	ClearTimeScore1_[isClearTime_1]->Draw();
+	ClearTimeScore2_[isClearTime_2]->Draw();
+	ClearTimeScore3_[isClearTime_3]->Draw();
 
-	
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -274,8 +375,6 @@ void GameScene::CheakCollisions() {
 	float keyUpRadius = 1.0f;
 	// 鍵の半径
 	float keyDounRadius = 1.0f;
-
-	
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標

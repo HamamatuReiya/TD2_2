@@ -86,6 +86,9 @@ private: //
 	void TableUpdate();
 	void TableDraw();
 
+	void ClearTimeUpdate();
+	void ClearTimeInitialize();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	//ワールドトランスフォーム
@@ -284,6 +287,18 @@ private:
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
 
+	// クリアタイムの画像
+	Sprite* ClearTimeScore1_[10] = {nullptr};
+	Sprite* ClearTimeScore2_[10] = {nullptr};
+	Sprite* ClearTimeScore3_[10] = {nullptr};
+	// クリアタイムのメンバ変数
+	int isClearTime_ = 0;
+	int isClearTime_1 = 0;
+	int isClearTime_2 = 0;
+	int isClearTime_3 = 0;
+	//時間制限
+	float TimeFrame = 0;
+
 	// ボタン表示
 	uint32_t buttonTexture_ = 0;
 
@@ -297,6 +312,7 @@ private:
 	// 作業机
 	std::unique_ptr<Craft> craft_;
 
+	
 
 	/// <summary>
 	/// ゲームシーン用

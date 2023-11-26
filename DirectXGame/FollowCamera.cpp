@@ -59,19 +59,19 @@ void FollowCamera::Update()
 
 #pragma endregion
 
-	// デバック
-	float RotateDebug[3] = {
-	    viewProjection_.rotation_.x, viewProjection_.rotation_.y, viewProjection_.rotation_.z};
+	//// デバック
+	//float RotateDebug[3] = {
+	//    viewProjection_.rotation_.x, viewProjection_.rotation_.y, viewProjection_.rotation_.z};
 
-	// 画面の座標を表示
-	ImGui::Begin("PlayerRotate");
-	ImGui::SliderFloat3("PlayerRotate", RotateDebug, -28.0f, 28.0f);
-	ImGui::Text("UP,DOWN,LEFT,RIGHT...CAMERA\n");
-	ImGui::End();
+	//// 画面の座標を表示
+	//ImGui::Begin("PlayerRotate");
+	//ImGui::SliderFloat3("PlayerRotate", RotateDebug, -28.0f, 28.0f);
+	//ImGui::Text("UP,DOWN,LEFT,RIGHT...CAMERA\n");
+	//ImGui::End();
 
-	viewProjection_.rotation_.x = RotateDebug[0];
-	viewProjection_.rotation_.y = RotateDebug[1];
-	viewProjection_.rotation_.z = RotateDebug[2];
+	//viewProjection_.rotation_.x = RotateDebug[0];
+	//viewProjection_.rotation_.y = RotateDebug[1];
+	//viewProjection_.rotation_.z = RotateDebug[2];
 
 	//ビュー行列の更新と転送
 	viewProjection_.UpdateMatrix();
