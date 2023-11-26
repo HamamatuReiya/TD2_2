@@ -12,12 +12,11 @@ void EnemyFollowCamera::Initialize() {
 }
 
 void EnemyFollowCamera::Update() {
-	viewProjection_.rotation_.y = -18.0f;
-	viewProjection_.rotation_.z = -90.0f;
+	viewProjection_.rotation_.x = 90.0f;
 
 	if (target_) {
 		// 追従対象からカメラまでのオフセット
-		Vector3 offset = {0.0f, 2.5f, -6.0f};
+		Vector3 offset = {0.0f, 10.0f, 5.0f};
 		offset = TransformNormal(offset, MakeRotateYMatrix(viewProjection_.rotation_.y)); // 途中
 		// 座標をコピーしてオフセット分ずらす
 		viewProjection_.translation_ = Add(target_->translation_, offset);
