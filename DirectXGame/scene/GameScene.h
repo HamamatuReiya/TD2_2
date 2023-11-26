@@ -22,6 +22,9 @@
 #include "Ceiling.h"
 #include "Exit.h"
 #include "Craft.h"
+#include "EnemyFollowCamera.h"
+#include "TitleScene.h"
+#include "GameOverScene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -61,7 +64,7 @@ public: // メンバ関数
 	bool isSceneEnd = false;
 
 	bool IsSceneEnd() { return isSceneEnd; }
-	SceneType NextScene() { return SceneType::kTitle; }
+	SceneType NextScene() { return SceneType::kGameOver; }
 
 private: //
 
@@ -145,8 +148,13 @@ private:
 	// 地面
 	std::unique_ptr<Ground> ground_;
 
+
 	//追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
+	// 敵追従カメラ
+	std::unique_ptr<EnemyFollowCamera> enemyfollowCamera_;
+	float ActiveTime;
+	bool EnemyCameraActive;
 
 	// 3Dモデル
 	std::unique_ptr<Model> KeyModel_ = nullptr;
@@ -273,6 +281,12 @@ private:
 
 	//スプライト
 	Sprite* buttonSprite_ = nullptr;
+
+	//タイトルスプライト
+	TitleScene* titleSprite_ = nullptr;
+	//ゲームオーバースプライト
+	GameOverScene* GameOverSprite_ = nullptr;
+
 	// ボタン表示
 	uint32_t buttonTexture_ = 0;
 

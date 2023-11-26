@@ -666,11 +666,18 @@ void Enemy::Update() {
 	worldTransform_.rotation_.x = enemyRotate[0];
 	worldTransform_.rotation_.y = enemyRotate[1];
 
+	// カメラの角度から回転行列を計算する
+	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(viewProjection_->rotation_.y);
+	// カメラとリンク
+	move_ = TransformNormal(move_, MakeRotateYMatrix(viewProjection_->rotation_.y));
+
 	if (move_.z != 0 || move_.y != 0) {
 		worldTransform_.rotation_.y = std::atan2(move_.x, move_.z);
 	}
-	//move_ = Multiply(kEnemySpeed_, Normalize(move_));
+
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move_);
+
+	//move_ = Multiply(kEnemySpeed_, Normalize(move_));
 	worldTransform_.UpdateMatrix();
 	
 }

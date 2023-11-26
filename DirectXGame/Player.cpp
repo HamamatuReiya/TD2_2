@@ -12,6 +12,7 @@ void Player::Initialize(Model* model) {
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
 	collisionType_ = START;
+	isRun = true;
 }
 
 void Player::Update() {
@@ -31,12 +32,12 @@ void Player::Update() {
 	}
 	// Dash
 	if (input_->PushKey(DIK_LSHIFT) && input_->PushKey(DIK_W)) {
-		stamina_++;
-		if (stamina_ <= 120) {
+		if (isRun == true && stamina_ > 0) {
+			stamina_--;
 			move_ = {0.0f, 0.0f, 0.35f};
 		}
 	} else {
-		stamina_ = 0;
+		stamina_ = 100;
 	}
 
 	// 部屋の当たり判定の関数
