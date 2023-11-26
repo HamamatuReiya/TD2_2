@@ -322,8 +322,8 @@ void GameScene::Draw() {
 	ceiling_->Draw(viewProjection_);
 	// 出口の描画
 	exit_->Draw(viewProjection_);
-	//// 作業机の描画
-	//craft_->Draw(viewProjection_);
+	// 作業机の描画
+	craft_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
