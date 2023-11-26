@@ -741,10 +741,16 @@ void Enemy::StartRoomCollision() {
 	if (worldTransform_.translation_.x >= -8.705f && worldTransform_.translation_.x <= -5.705f &&
 	    worldTransform_.translation_.z <= 30.804f) { // 右の左壁
 		worldTransform_.translation_.z = 30.804f;
+		move_.x = kEnemySpeed_;
+		move_.z = 0;
+		worldTransform_.rotation_.y = 1.5f;
 	}
 	if (worldTransform_.translation_.x >= -2.087f && worldTransform_.translation_.x <= 6.008f &&
 	    worldTransform_.translation_.z <= 30.804f) { // 右の右壁
 		worldTransform_.translation_.z = 30.804f;
+		move_.x = -kEnemySpeed_;
+		move_.z = 0;
+		worldTransform_.rotation_.y = -1.5f;
 	}
 
 	// 道00に移動
