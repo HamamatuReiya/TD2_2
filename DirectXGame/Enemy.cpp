@@ -31,7 +31,7 @@ void Enemy::Initialize(
 	kEnemySpeed_ = 0.0f;
 	rotateSpeed_ = 0.10f;
 	phase_ = phase1;
-	phase1State = search;
+	phase1State = Chase;
 	collisionType_ = ROOM05;
 	phase2State = search;
 	phase3State = search;
@@ -47,7 +47,7 @@ void Enemy::Initialize(
 void Enemy::Update() { 
 	switch (phase_) {
 	case Enemy::phase1:
-		kEnemySpeed_ = 0.3f; 
+		kEnemySpeed_ = 0.22f; 
 		switch (phase1State) { 
 		case search:
 			switch (phase1Move) {
@@ -732,18 +732,30 @@ void Enemy::StartRoomCollision() {
 	if (worldTransform_.translation_.x >= -8.705f && worldTransform_.translation_.x <= -5.705f &&
 	    worldTransform_.translation_.z >= 48.558f) { // 左の左壁
 		worldTransform_.translation_.z = 48.558f;
+		move_.x = kEnemySpeed_;
+		move_.z = 0;
+		worldTransform_.rotation_.y = 1.5f;
 	}
 	if (worldTransform_.translation_.x >= -2.087f && worldTransform_.translation_.x <= 6.008f &&
 	    worldTransform_.translation_.z >= 48.558f) { // 左の右壁
 		worldTransform_.translation_.z = 48.558f;
+		move_.x = -kEnemySpeed_;
+		move_.z = 0;
+		worldTransform_.rotation_.y = -1.5f;
 	}
 	if (worldTransform_.translation_.z <= 38.067f && worldTransform_.translation_.z >= 30.000f &&
 	    worldTransform_.translation_.x >= 4.961f) { // 手前の左壁
 		worldTransform_.translation_.x = 4.961f;
+		move_.z = kEnemySpeed_;
+		move_.x = 0.0f;
+		worldTransform_.rotation_.y = 0.0f;
 	}
 	if (worldTransform_.translation_.z >= 41.721f && worldTransform_.translation_.z <= 49.463f &&
 	    worldTransform_.translation_.x >= 4.961f) { // 手前の右壁
 		worldTransform_.translation_.x = 4.961f;
+		move_.z = -kEnemySpeed_;
+		move_.x = 0.0f;
+		worldTransform_.rotation_.y = -3.0f;
 	}
 	if (worldTransform_.translation_.x >= -8.705f && worldTransform_.translation_.x <= -5.705f &&
 	    worldTransform_.translation_.z <= 30.804f) { // 右の左壁
@@ -1278,15 +1290,36 @@ void Enemy::Room06Collision() {
 	if (worldTransform_.translation_.z >= 33.624f && worldTransform_.translation_.x >= 37.485f &&
 	    worldTransform_.translation_.z <= 60.0f) { // したかべ
 		worldTransform_.translation_.x = 37.485f;
+		if (player_->GetWorldTransform().translation_.x >= 43.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
 
 	if (worldTransform_.translation_.z <= 53.988f && worldTransform_.translation_.z >= 29.0f &&
 	    worldTransform_.translation_.x <= 29.5f) { //
 		worldTransform_.translation_.x = 29.5f;
+		if (player_->GetWorldTransform().translation_.x <= 25.0f) {
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 	if (worldTransform_.translation_.z <= 54.488f && worldTransform_.translation_.z >= 29.0f &&
 	    worldTransform_.translation_.x <= 29.0f) { //
-		worldTransform_.translation_.z = 54.488f;
+		worldTransform_.translation_.z = 54.488f;//右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 
 	if (worldTransform_.translation_.z >= 57.219f) { //
@@ -1309,14 +1342,25 @@ void Enemy::Room07Collision() {
 	if (worldTransform_.translation_.z <= 54.488f && worldTransform_.translation_.z >= 29.0f &&
 	    worldTransform_.translation_.x >= 27.4f) { //
 		worldTransform_.translation_.x = 27.4f;
+		if (player_->GetWorldTransform().translation_.x >= 30) {	
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 	if (worldTransform_.translation_.z <= 58.0f && worldTransform_.translation_.z >= 41.634f &&
 	    worldTransform_.translation_.x <= 18.830f) { //
 		worldTransform_.translation_.x = 18.830f;
+		move_.z = -kEnemySpeed_;
+		move_.x = 0.0f;
+		worldTransform_.rotation_.y = -3.0f;
 	}
 	if (worldTransform_.translation_.z <= 38.229f && worldTransform_.translation_.z >= 29.5f &&
 	    worldTransform_.translation_.x <= 18.830f) { //
 		worldTransform_.translation_.x = 18.830f;
+		move_.z = kEnemySpeed_;
+		move_.x = 0.0f;
+		worldTransform_.rotation_.y = 0.0f;
 	}
 	if (worldTransform_.translation_.z <= 30.528f) {
 		worldTransform_.translation_.z = 30.528f;
@@ -1341,6 +1385,12 @@ void Enemy::Room08Collision() {
 	}
 	if (worldTransform_.translation_.z <= 62.5f && worldTransform_.translation_.x >= -2.7f) { //
 		worldTransform_.translation_.z = 62.5f;
+		if (player_->GetWorldTransform().translation_.z <= 59.0f) {
+
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	if (worldTransform_.translation_.z >= 81.0f) { //
 		worldTransform_.translation_.z = 81.0f;
@@ -1351,10 +1401,21 @@ void Enemy::Room08Collision() {
 	if (worldTransform_.translation_.x >= 13.53f &&
 	    worldTransform_.translation_.z <= 75.0f) { // 左壁
 		worldTransform_.translation_.x = 13.53f;
+		if (player_->GetWorldTransform().translation_.x >= 25.0f) {
+
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 	if (worldTransform_.translation_.x >= 13.53f &&
 	    worldTransform_.translation_.z >= 77.3f) { // 左壁
 		worldTransform_.translation_.x = 13.53f;
+		if (player_->GetWorldTransform().translation_.x >= 25.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
 	if (worldTransform_.translation_.x > 13.8f) {
 		collisionType_ = LOAD05;
@@ -1362,11 +1423,31 @@ void Enemy::Room08Collision() {
 }
 
 void Enemy::Room09Collision() {
-	if (worldTransform_.translation_.x < 22.645f && worldTransform_.translation_.z <= 75.0f) {
-		worldTransform_.translation_.x = 22.645f;
+
+	if (worldTransform_.translation_.x < 22.0f) {
+		collisionType_ = LOAD05;
 	}
-	if (worldTransform_.translation_.x < 22.645f && worldTransform_.translation_.z >= 77.3f) {
+	if (worldTransform_.translation_.x > 33.6f) {
+		collisionType_ = ROOM10;
+	}
+
+	if (worldTransform_.translation_.x <= 22.645f && worldTransform_.translation_.z <= 75.0f) {
 		worldTransform_.translation_.x = 22.645f;
+		if (player_->GetWorldTransform().translation_.x <= 12.0f) {
+			
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
+	}
+	if (worldTransform_.translation_.x <= 22.645f && worldTransform_.translation_.z >= 77.3f) {
+		worldTransform_.translation_.x = 22.645f;
+		if (player_->GetWorldTransform().translation_.x <= 12.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+			
+		}
 	}
 	if (worldTransform_.translation_.z <= 66.5f) { //
 		worldTransform_.translation_.z = 66.5f;
@@ -1374,41 +1455,82 @@ void Enemy::Room09Collision() {
 	if (worldTransform_.translation_.z >= 85.0f) { //
 		worldTransform_.translation_.z = 85.0f;
 	}
-	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.z <= 70.5f) {
+	if (worldTransform_.translation_.x >= 33.2f && worldTransform_.translation_.z <= 70.5f) {
 		worldTransform_.translation_.x = 33.2f;
+		if (player_->GetWorldTransform().translation_.x >= 40.0f) {
+			
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
-	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.z >= 73.0f) {
+	if (worldTransform_.translation_.x >= 33.2f && worldTransform_.translation_.z >= 73.0f) {
 		worldTransform_.translation_.x = 33.2f;
+		if (player_->GetWorldTransform().translation_.x >= 40.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
-	if (worldTransform_.translation_.x < 22.0f) {
-		collisionType_ = LOAD05;
-	}
-	if (worldTransform_.translation_.x > 33.6f) {
-		collisionType_ = ROOM10;
-	}
+	
 }
 
 void Enemy::Room10Collision() {
-	if (worldTransform_.translation_.x < 33.6f) {
+	if (worldTransform_.translation_.x <= 33.6f) {
 		collisionType_ = ROOM09;
 	}
 	// ルーム9側の上の敷居
-	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.x < 34.8f &&
+	if (worldTransform_.translation_.x >= 33.2f && worldTransform_.translation_.x <= 34.8f &&
 	    worldTransform_.translation_.z <= 70.5f) {
 		worldTransform_.translation_.z = 70.5f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	////
-	if (worldTransform_.translation_.x < 35.2f && worldTransform_.translation_.z <= 70.0f) {
+	if (worldTransform_.translation_.x <= 35.2f && worldTransform_.translation_.z <= 70.0f) {
 		worldTransform_.translation_.x = 35.2f;
+		if (player_->GetWorldTransform().translation_.x <= 30.0f) {
+
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 	// ルーム9側の下の敷居
-	if (worldTransform_.translation_.x > 33.2f && worldTransform_.translation_.x < 34.8f &&
+	if (worldTransform_.translation_.x >= 33.2f && worldTransform_.translation_.x <= 34.8f &&
 	    worldTransform_.translation_.z >= 73.0f) {
 		worldTransform_.translation_.z = 73.0f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	////
-	if (worldTransform_.translation_.x < 35.2f && worldTransform_.translation_.z >= 73.5f) {
+	if (worldTransform_.translation_.x <= 35.2f && worldTransform_.translation_.z >= 73.5f) {
 		worldTransform_.translation_.x = 35.2f;
+		if (player_->GetWorldTransform().translation_.x <= 30.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
 	if (worldTransform_.translation_.z <= 66.5f) { //
 		worldTransform_.translation_.z = 66.5f;
@@ -1417,22 +1539,56 @@ void Enemy::Room10Collision() {
 		worldTransform_.translation_.z = 74.9f;
 	}
 	// ルーム12側の上の敷居
-	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
+	if (worldTransform_.translation_.x >= 49.4f && worldTransform_.translation_.x <= 50.3f &&
 	    worldTransform_.translation_.z <= 70.5f) {
 		worldTransform_.translation_.z = 70.5f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	////
-	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z <= 70.0f) {
+	if (worldTransform_.translation_.x >= 49.0f && worldTransform_.translation_.z <= 70.0f) {
 		worldTransform_.translation_.x = 49.0f;
+		if (player_->GetWorldTransform().translation_.x >= 52.0f) {
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 	// ルーム12側の下の敷居
-	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
+	if (worldTransform_.translation_.x >= 49.4f && worldTransform_.translation_.x <= 50.3f &&
 	    worldTransform_.translation_.z >= 73.0f) {
 		worldTransform_.translation_.z = 73.0f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	////
-	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z >= 73.5f) {
+	if (worldTransform_.translation_.x >= 49.0f && worldTransform_.translation_.z >= 73.5f) {
 		worldTransform_.translation_.x = 49.0f;
+		if (player_->GetWorldTransform().translation_.x >= 52.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
 	if (worldTransform_.translation_.x >= 50.3) {
 		collisionType_ = ROOM12;
@@ -1446,6 +1602,9 @@ void Enemy::Room11Collision() {
 	}
 	if (worldTransform_.translation_.z <= 77.0f) { //
 		worldTransform_.translation_.z = 77.0f;
+		move_.x = kEnemySpeed_;
+		move_.z = 0;
+		worldTransform_.rotation_.y = 1.5f;
 	}
 	if (worldTransform_.translation_.z >= 85.0f) { //
 		worldTransform_.translation_.z = 85.0f;
@@ -1454,19 +1613,49 @@ void Enemy::Room11Collision() {
 	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
 	    worldTransform_.translation_.z <= 78.8f) {
 		worldTransform_.translation_.z = 78.8f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	////
 	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z <= 78.3f) {
 		worldTransform_.translation_.x = 49.0f;
+		move_.z = kEnemySpeed_;
+		move_.x = 0.0f;
+		worldTransform_.rotation_.y = 0.0f;
 	}
 	// ルーム12側の下の敷居
 	if (worldTransform_.translation_.x > 49.4f && worldTransform_.translation_.x < 50.3f &&
 	    worldTransform_.translation_.z >= 81.5f) {
 		worldTransform_.translation_.z = 81.5f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	////
 	if (worldTransform_.translation_.x > 49.0f && worldTransform_.translation_.z >= 82.0f) {
 		worldTransform_.translation_.x = 49.0f;
+		move_.z = -kEnemySpeed_;
+		move_.x = 0.0f;
+		worldTransform_.rotation_.y = -3.0f;
 	}
 
 	if (worldTransform_.translation_.x <= 35.0f) {
@@ -1481,13 +1670,38 @@ void Enemy::Room12Collision() {
 	}
 	if (worldTransform_.translation_.x <= 50.7f && worldTransform_.translation_.z <= 70.5f) {
 		worldTransform_.translation_.x = 50.7f;
+		if (player_->GetWorldTransform().translation_.x <= 47.0f) {
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 	if (worldTransform_.translation_.x <= 50.7f && worldTransform_.translation_.z >= 73.0f &&
 	    worldTransform_.translation_.z <= 78.8f) {
 		worldTransform_.translation_.x = 50.7f;
+		if (player_->GetWorldTransform().translation_.x <= 47.0f) {
+			// 上に行く処理
+			if (player_->GetWorldTransform().translation_.z >= worldTransform_.translation_.z) {
+				move_.z = kEnemySpeed_;
+				move_.x = 0.0f;
+				worldTransform_.rotation_.y = 0.0f;
+			}
+			// 下に行く処理
+			else if (
+			    player_->GetWorldTransform().translation_.z <= worldTransform_.translation_.z) {
+				move_.z = -kEnemySpeed_;
+				move_.x = 0.0f;
+				worldTransform_.rotation_.y = -3.0f;
+			}
+		}
 	}
 	if (worldTransform_.translation_.x <= 50.7f && worldTransform_.translation_.z >= 81.5f) {
 		worldTransform_.translation_.x = 50.7f;
+		if (player_->GetWorldTransform().translation_.x <= 47.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
 
 	if (worldTransform_.translation_.z <= 66.5f) { //
@@ -1500,19 +1714,54 @@ void Enemy::Room12Collision() {
 	// 道の左壁
 	if (worldTransform_.translation_.x >= 57.4f && worldTransform_.translation_.z >= 77.0f) { //
 		worldTransform_.translation_.z = 77.0f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	// 道の右壁
 	if (worldTransform_.translation_.x >= 57.4f && worldTransform_.translation_.x <= 82.5f &&
 	    worldTransform_.translation_.z <= 74.6f) { //
 		worldTransform_.translation_.z = 74.6f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	if (worldTransform_.translation_.x >= 57.0f && worldTransform_.translation_.x <= 57.5f &&
 	    worldTransform_.translation_.z >= 77.4f) { //
 		worldTransform_.translation_.x = 57.0f;
+		if (player_->GetWorldTransform().translation_.x >= 60.0f) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+
+		}
 	}
 	if (worldTransform_.translation_.x >= 57.0f && worldTransform_.translation_.x <= 57.5f &&
 	    worldTransform_.translation_.z <= 74.2f) { //
 		worldTransform_.translation_.x = 57.0f;
+		if (player_->GetWorldTransform().translation_.x >= 60.0f) {
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 
 	if (worldTransform_.translation_.x <= 50.3 && worldTransform_.translation_.z >= 75.9f &&
@@ -1797,10 +2046,36 @@ void Enemy::Load02Collision() {
 	if (worldTransform_.translation_.z >= 41.266f && worldTransform_.translation_.x >= 6.000f &&
 	    worldTransform_.translation_.x <= 18.144f) { //
 		worldTransform_.translation_.z = 41.266f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
+
 	}
 	if (worldTransform_.translation_.z <= 38.485f && worldTransform_.translation_.x >= 6.000f &&
 	    worldTransform_.translation_.x <= 18.144f) { //
 		worldTransform_.translation_.z = 38.485f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
+
 	}
 	//  部屋07
 	if (worldTransform_.translation_.x > 17.968f) {
@@ -1822,6 +2097,18 @@ void Enemy::Load03Collision() { // 部屋00に移動
 	}
 	if (worldTransform_.translation_.x >= -2.7f) { // 右壁
 		worldTransform_.translation_.x = -2.7f;
+		// 上に行く処理
+		if (player_->GetWorldTransform().translation_.z >= worldTransform_.translation_.z) {
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
+		// 下に行く処理
+		else if (player_->GetWorldTransform().translation_.z <= worldTransform_.translation_.z) {
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
 	if (worldTransform_.translation_.z > 62.0f) {
 		collisionType_ = ROOM08;
@@ -1838,10 +2125,22 @@ void Enemy::Load04Collision() {
 	if (worldTransform_.translation_.z <= 45.0f && worldTransform_.translation_.z >= 33.75f &&
 	    worldTransform_.translation_.x <= 50.792f) {
 		worldTransform_.translation_.x = 50.792f;
+		if (player_->GetWorldTransform().translation_.x <= 45.0f) {
+
+			move_.z = -kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = -3.0f;
+		}
 	}
 	if (worldTransform_.translation_.z >= 29.0f && worldTransform_.translation_.z <= 38.329f &&
 	    worldTransform_.translation_.x >= 53.324f) {
 		worldTransform_.translation_.x = 53.324f;
+		if (player_->GetWorldTransform().translation_.x>=58.0f) {
+
+			move_.z = kEnemySpeed_;
+			move_.x = 0.0f;
+			worldTransform_.rotation_.y = 0.0f;
+		}
 	}
 	if (worldTransform_.translation_.z <= 30.528f) {
 		worldTransform_.translation_.z = 30.528f;
@@ -1866,9 +2165,33 @@ void Enemy::Load05Collision() {
 	}
 	if (worldTransform_.translation_.z <= 75.0f) {
 		worldTransform_.translation_.z = 75.0f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	if (worldTransform_.translation_.z >= 77.3f) {
 		worldTransform_.translation_.z = 77.3f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	if (worldTransform_.translation_.x > 22.0f) {
 		collisionType_ = ROOM09;
@@ -1883,6 +2206,18 @@ void Enemy::Load06Collision() {
 	if (worldTransform_.translation_.x <= 50.378f && worldTransform_.translation_.x >= 37.378f &&
 	    worldTransform_.translation_.z >= 33.137f) {
 		worldTransform_.translation_.z = 33.137f;
+		// 右に行く処理
+		if (player_->GetWorldTransform().translation_.x >= worldTransform_.translation_.x) {
+			move_.x = kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = 1.5f;
+		}
+		// 左に行く処理
+		else if (player_->GetWorldTransform().translation_.x <= worldTransform_.translation_.x) {
+			move_.x = -kEnemySpeed_;
+			move_.z = 0;
+			worldTransform_.rotation_.y = -1.5f;
+		}
 	}
 	// 道04へ
 	if (worldTransform_.translation_.x > 50.461f) {
