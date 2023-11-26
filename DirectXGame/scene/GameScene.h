@@ -24,7 +24,6 @@
 #include "Craft.h"
 #include "EnemyFollowCamera.h"
 #include "TitleScene.h"
-#include "GameOverScene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -64,7 +63,7 @@ public: // メンバ関数
 	bool isSceneEnd = false;
 
 	bool IsSceneEnd() { return isSceneEnd; }
-	SceneType NextScene() { return SceneType::kGameOver; }
+	SceneType NextScene() { return SceneType::kTitle; }
 
 private: //
 
@@ -284,8 +283,6 @@ private:
 
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
-	//ゲームオーバースプライト
-	GameOverScene* GameOverSprite_ = nullptr;
 
 	// ボタン表示
 	uint32_t buttonTexture_ = 0;
