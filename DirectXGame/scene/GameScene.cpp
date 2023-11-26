@@ -250,7 +250,7 @@ void GameScene::Draw() {
 void GameScene::sceneReset() {
 	// シーンの切り替えフラグ
 	isSceneEnd = false;
-	//// プレイヤーの体力
+	
 
 	//// BGMの停止
 	// audio_->StopWave(bgmHandle_);
