@@ -7,7 +7,6 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 #include "TitleScene.h"
-#include "GameOverScene.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -20,7 +19,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
-	GameOverScene* gameOverScene = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -64,14 +62,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
 	gameScene->Initialize();
+	
 
 	// タイトルシーンの初期化
 	titleScene = new TitleScene();
 	titleScene->Initialize();
-
-	//ゲームオーバーシーンの初期化
-	gameOverScene = new GameOverScene();
-	gameOverScene->Initialize();
 
 	SceneType sceneNo = SceneType::kTitle;
 
@@ -108,20 +103,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				// ゲームシーンの初期化、フラグリセット等
 				gameScene->sceneReset();
+				
 			}
-			break;
-
-		case SceneType::kGameOver:
-			gameOverScene->Update();
-
-			if (gameOverScene->IsSceneEnd()) {
-				// 次のシーンの値を代入してシーン切り替え
-				sceneNo = gameOverScene->NextScene();
-
-				// タイトルシーンの初期化、フラグリセット等
-				gameOverScene->sceneReset();
-			}
-
 			break;
 		}
 		// 軸表示の更新
@@ -137,9 +120,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case SceneType::kGamePlay:
 			gameScene->Draw();
-			break;
-		case SceneType::kGameOver:
-			gameOverScene->Draw();
 			break;
 		}
 
