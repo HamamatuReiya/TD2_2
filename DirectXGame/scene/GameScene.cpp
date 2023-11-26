@@ -235,7 +235,9 @@ void GameScene::ClearTimeInitialize()
 
 void GameScene::Update() {
 	CameraUpdate();
-	player_->Update();
+	if (EnemyCameraActive==false) {
+		player_->Update();
+	}
 	enemy_->SetPlayer(player_.get());
 	enemy_->Update();
 	Key_->Update();

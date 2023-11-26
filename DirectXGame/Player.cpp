@@ -18,7 +18,6 @@ void Player::Initialize(Model* model) {
 void Player::Update() {
 	Vector3 move_ = {0, 0, 0};
 	Vector3 rotate = {0, 0, 0};
-
 	// 移動処理
 	if (input_->PushKey(DIK_W)) {
 		move_ = {0.0f, 0.0f, 0.2f};
@@ -39,6 +38,7 @@ void Player::Update() {
 	} else {
 		stamina_ = 100;
 	}
+	
 
 	// 部屋の当たり判定の関数
 	if (collisionType_ == START) {
