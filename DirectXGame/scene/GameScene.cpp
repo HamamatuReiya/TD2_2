@@ -103,7 +103,7 @@ void GameScene::Initialize() {
 	// 鍵の生成
 	Key_ = std::make_unique<Key>();
 	// 3Dモデルの生成
-	KeyModel_.reset(Model::CreateFromOBJ("key", true));
+	KeyModel_.reset(Model::CreateFromOBJ("Hammer", true));
 	// 3Dモデルの生成
 	KeyUpModel_.reset(Model::CreateFromOBJ("KeyUp", true));
 	// 3Dモデルの生成
