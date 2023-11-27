@@ -158,6 +158,7 @@ void GameScene::Initialize() {
 	LuleInitialize();
 	//クリアタイム
 	ClearTimeInitialize();
+
 }
 
 void GameScene::RoopInitialize() {

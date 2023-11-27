@@ -15,6 +15,9 @@ void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel
 	//// 乱数の初期化(シード値の設定)
 	srand((unsigned int)time(nullptr));
 	RandTime_ = 0;
+	isKeyDead_ = false;
+	isKeyUpDead_ = false;
+	isKeyDownDead_ = false;
 }
 
 void Key::Update() {
