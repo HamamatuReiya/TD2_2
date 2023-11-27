@@ -30,8 +30,15 @@ public:
 		viewProjection_ = viewProjection;
 	}
 
-private:
-	enum Phase {
+	void PhaseCollision();
+
+	bool GetEnemyVisibilityX() { return enemyVisibilityXFlag; }
+	bool GetEnemyVisibility_X() { return enemyVisibility_XFlag; }
+	bool GetEnemyVisibilityZ() { return enemyVisibilityZFlag; }
+	bool GetEnemyVisibility_Z() { return enemyVisibility_ZFlag; }
+									   
+private:							   
+	enum Phase {					   
 		phase1,
 		phase2,
 		phase3,
@@ -155,9 +162,16 @@ private:
 
 private:
 
+	bool enemyVisibilityXFlag = false;
+	bool enemyVisibility_XFlag = false;
+	bool enemyVisibilityZFlag = false;
+	bool enemyVisibility_ZFlag = false;
+
 	bool phase1SpeedFlag=true;
 
 	bool encountFlag;
+
+	int phaseSwitchCount = 300;
 
 	WorldTransform worldTransform_;
 

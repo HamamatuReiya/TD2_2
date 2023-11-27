@@ -28,10 +28,11 @@ void Enemy::Initialize(
 	worldTransform_.rotation_ = {0.0f, 1.6f, 0.0f};
 	worldTransform_.translation_ = {63.0f, 0.7f, 48.0f};
 	encountFlag = false;
-	kEnemySpeed_ = 0.0f;
+	kEnemySpeed_ = 0.22f;
 	rotateSpeed_ = 0.10f;
+	phaseSwitchCount = 10;
 	phase_ = phase1;
-	phase1State = Chase;
+	phase1State = search;
 	collisionType_ = ROOM05;
 	phase2State = search;
 	phase3State = search;
@@ -42,14 +43,18 @@ void Enemy::Initialize(
 	state1Flag4 = false;
 	state1Flag5 = false;
 	state1Flag6 = false;
+	enemyVisibilityXFlag = false;
+	enemyVisibility_XFlag = false;
+	enemyVisibilityZFlag = false;
+	enemyVisibility_ZFlag = false;
 }
 
 void Enemy::Update() { 
 	switch (phase_) {
 	case Enemy::phase1:
-		kEnemySpeed_ = 0.22f; 
 		switch (phase1State) { 
 		case search:
+			
 			switch (phase1Move) {
 			case (move1):
 				move_.x = kEnemySpeed_;
@@ -561,6 +566,18 @@ void Enemy::Update() {
 		case Chase:
 			
 			Homing(kEnemySpeed_);
+			phaseSwitchCount--;
+			if (phaseSwitchCount <= 0) {
+				move_.x = 0.0f;
+				move_.z = 0.0f;
+				worldTransform_.translation_.x = 63.0f;
+				worldTransform_.translation_.z = 48.0f;
+				worldTransform_.rotation_.y = 1.6f;
+				collisionType_ = ROOM05;
+				phase1State = search;
+				phaseSwitchCount = 300;
+				phase1Move = move1;
+			}
 
 			break;
 		case posReset:
@@ -647,6 +664,27 @@ void Enemy::Update() {
 		Load02Collision();
 	}
 
+	if (move_.x > 0.0f) {
+		enemyVisibilityXFlag = true;
+	} else {
+		enemyVisibilityXFlag = false;
+	}
+	if (move_.x < 0.0f) {
+		enemyVisibility_XFlag = true;
+	} else {
+		enemyVisibility_XFlag = false;
+	}
+	if (move_.z > 0.0f) {
+		enemyVisibilityZFlag = true;
+	} else {
+		enemyVisibilityZFlag = false;
+	}
+	if (move_.z < 0.0f) {
+		enemyVisibility_ZFlag = true;
+	} else {
+		enemyVisibility_ZFlag = false;
+	}
+
 	/*float enemyMove[2] = {move_.x, move_.z};
 	ImGui::Begin("EnemyMove");
 	ImGui::SliderFloat2("EnemyMove", enemyMove, -0.3f, 0.3f);
@@ -718,6 +756,10 @@ Vector3 Enemy::GetWorldPosition() {
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 	return worldPos;
+}
+
+void Enemy::PhaseCollision() { phase1State = Chase;
+	phaseSwitchCount = 300;
 }
 
 void Enemy::StartRoomCollision() {
