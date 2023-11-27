@@ -143,15 +143,50 @@ void GameScene::Initialize() {
 	// スプライトの生成
 	buttonSprite_ = Sprite::Create(buttonTexture_, {1250, 600});
 
+	//操作方法のテクスチャ読み込み
+	operationTexture_ = TextureManager::Load("Operation.png");
+	// スプライトの生成
+	operationSprite_ = Sprite::Create(operationTexture_, {0, 0});
+
 	// 作業机の生成
 	craft_= std::make_unique<Craft>();
 	// 3Dモデルの生成
 	CraftModel_.reset(Model::CreateFromOBJ("craft", true));
 	// 作業机の初期化
 	craft_->Initialize(CraftModel_.get());
-
-	//クリアタイムテクスチャ
+	//ルール
+	LuleInitialize();
+	//クリアタイム
 	ClearTimeInitialize();
+}
+
+void GameScene::RoopInitialize() {
+	// 3Dモデル生成
+	model_.reset(Model::Create());
+	// ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	//  自キャラの初期化
+	player_->Initialize(playerModel_.get());
+	// ルール
+	LuleInitialize();
+	// 初期化
+	enemy_->Initialize(
+	    enemyModel_.get(), enemyModel2_.get(), enemyModel3_.get(), enemyModel4_.get(),
+	    enemyModel5_.get(), enemyModel6_.get(), enemyModel7_.get(), enemyModel8_.get(),
+	    enemyModel9_.get(), enemyModel10_.get(), enemyModel11_.get(), enemyModel12_.get(),
+	    enemyModel13_.get(), enemyModel14_.get(), enemyModel15_.get());
+	// 地面の初期化
+	ground_->Initialize(groundModel_.get());
+	// 鍵の初期化
+	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
+	// 出口の初期化
+	exit_->Initialize(ExitModel_.get());
+	// クリアタイム
+	ClearTimeInitialize();
+	isClearTime_ = 0;
+	
 }
 
 void GameScene::ClearTimeInitialize()
@@ -233,40 +268,88 @@ void GameScene::ClearTimeInitialize()
 	    Sprite::Create(textureScore9, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
 }
 
-void GameScene::Update() {
-	CameraUpdate();
-	if (EnemyCameraActive==false) {
-		player_->Update();
-	}
-	enemy_->SetPlayer(player_.get());
-	enemy_->Update();
-	Key_->Update();
-	//部屋の更新
-	RoomUpdate();
-	//道の更新
-	LoadUpdate();
-	//机の更新
-	TableUpdate();
-	// 地面の更新
-	ground_->Update();
-	//天井の更新
-	ceiling_->Update();
-	//出口の更新
-	exit_->Update();
+void GameScene::LuleInitialize() {
+	// ルールのテクスチャ読み込み
+	luleTexture_[0] = TextureManager::Load("Lule1p.png");
+	luleTexture_[1] = TextureManager::Load("Lule2p.png");
 	
-	GetButton = false;
-	//作業机の更新
-	craft_->Update();
+	for (int i = 0; i < 2; i++) {
+		// ルールの生成
+		LuleSprite_[i] = Sprite::Create(luleTexture_[i], {0, 0});
+	}
+	LuleP1Frag = true;
+	LuleP2Frag = false;
+	isLule_ = true;
+}
 
-	ActiveTime++;
-	CheakCollisions();
-	
-	//シーン切り替え
-	if (input_->TriggerKey(DIK_RETURN)) {
-		isSceneEnd = true;
+void GameScene::LuleUpdate() {
+	if (isLule_ == true) {
+		LuleP1Frag = true;
+		if (input_->TriggerKey(DIK_RIGHT)&& LuleP1Frag == true) {
+			LuleP1Frag = false;
+			LuleP2Frag = true;
+		}
+		if (input_->TriggerKey(DIK_ESCAPE) && LuleP2Frag == true) {
+			LuleP1Frag = false;
+			LuleP2Frag = false;
+			isLule_ = false;
+		}
+		if (input_->TriggerKey(DIK_LEFT) && LuleP2Frag == true) {
+			LuleP1Frag = true;
+			LuleP2Frag = false;
+		}
 	}
-	
-	ClearTimeUpdate();
+}
+
+void GameScene::LuleDraw() 
+{
+	if (LuleP1Frag==true) {
+		LuleSprite_[0]->Draw();
+	}
+	if (LuleP2Frag == true) {
+		LuleSprite_[1]->Draw();
+	}
+}
+
+
+void GameScene::Update() {
+	LuleUpdate();
+	if (isLule_==false) {
+		CameraUpdate();
+		if (EnemyCameraActive == false) {
+			player_->Update();
+		}
+		enemy_->SetPlayer(player_.get());
+		enemy_->Update();
+		Key_->Update();
+		// 部屋の更新
+		RoomUpdate();
+		// 道の更新
+		LoadUpdate();
+		// 机の更新
+		TableUpdate();
+		// 地面の更新
+		ground_->Update();
+		// 天井の更新
+		ceiling_->Update();
+		// 出口の更新
+		exit_->Update();
+
+		GetButton = false;
+		// 作業机の更新
+		craft_->Update();
+
+		ActiveTime++;
+		CheakCollisions();
+
+		// シーン切り替え
+		if (input_->TriggerKey(DIK_RETURN)) {
+			isSceneEnd = true;
+			
+		}
+
+		ClearTimeUpdate();
+	}
 }
 
 
@@ -341,19 +424,27 @@ void GameScene::Draw() {
 	if (GetButton == true) {
 		buttonSprite_->Draw();
 	}
+	//クリアタイム
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
 	ClearTimeScore3_[isClearTime_3]->Draw();
+
+	//操作方法表示
+	operationSprite_->Draw();
+	//ルール
+	LuleDraw();
+	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
 }
+
 void GameScene::sceneReset() {
 	// シーンの切り替えフラグ
 	isSceneEnd = false;
-	
+	RoopInitialize();
 
 	//// BGMの停止
 	// audio_->StopWave(bgmHandle_);

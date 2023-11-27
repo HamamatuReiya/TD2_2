@@ -131,14 +131,13 @@ void Player::SetType(int collisionType) {
 int Player::GetType() { return collisionType_; }
 
 void Player::StartRoomCollision() {
-	if (worldTransform_.translation_.z >= 29.368f && worldTransform_.translation_.z <= 38.174f &&
-	    worldTransform_.translation_.x <= -8.705f) { // 出口側の左壁
+	if (worldTransform_.translation_.x <= -8.705f) { // 出口側の左壁
 		worldTransform_.translation_.x = -8.705f;
 	}
-	if (worldTransform_.translation_.z >= 41.974f && worldTransform_.translation_.z <= 49.463f &&
-	    worldTransform_.translation_.x <= -8.705f) { // 出口側の右壁
-		worldTransform_.translation_.x = -8.705f;
-	}
+	//if (worldTransform_.translation_.z >= 41.974f && worldTransform_.translation_.z <= 49.463f &&
+	//    worldTransform_.translation_.x <= -8.705f) { // 出口側の右壁
+	//	worldTransform_.translation_.x = -8.705f;
+	//}
 	if (worldTransform_.translation_.x >= -8.705f && worldTransform_.translation_.x <= -5.705f &&
 	    worldTransform_.translation_.z >= 48.558f) { // 左の左壁
 		worldTransform_.translation_.z = 48.558f;
