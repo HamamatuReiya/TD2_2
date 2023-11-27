@@ -8,7 +8,7 @@ void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel
 	keymoldModel_ = keymoldModel;
 	for (int i = 0; i < 3; i++) {
 		worldTransform_[i].Initialize();
-		worldTransform_[i].scale_ = {1.0f, 1.0f, 1.0f};
+		worldTransform_[i].scale_ = {0.5f, 0.5f, 0.5f};
 		worldTransform_[i].rotation_ = {0.0f, -45.0f, 0.0f};
 		worldTransform_[i].translation_ = {0.0f, -1.5f, 0.0f};
 	}
