@@ -187,7 +187,10 @@ void GameScene::RoopInitialize() {
 	// クリアタイム
 	ClearTimeInitialize();
 	isClearTime_ = 0;
-	
+	iskeydown = true;
+	iskeyup = true;
+	iskey = true;
+
 }
 
 void GameScene::ClearTimeInitialize()
