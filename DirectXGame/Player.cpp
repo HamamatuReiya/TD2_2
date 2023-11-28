@@ -14,8 +14,6 @@ void Player::Initialize(Model* model) {
 	collisionType_ = START;
 	stamina = 720.0f;
 	isRun = true;
-	isClear = false;
-	OpenTimer = 0;
 }
 
 void Player::Update() {
