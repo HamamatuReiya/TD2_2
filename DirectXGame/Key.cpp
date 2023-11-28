@@ -15,6 +15,7 @@ void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* hummerModel)
 	}
 	//// 乱数の初期化(シード値の設定)
 	srand((unsigned int)time(nullptr));
+	Keynumber = {static_cast<float>(rand() % 3 + 1)};
 	RandTime_ = 0;
 	isHummerDead_ = false;
 	isKeyUpDead_ = false;
@@ -23,9 +24,10 @@ void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* hummerModel)
 
 void Key::Update() {
 	// ランダム
-	Keynumber = {static_cast<float>(rand() % 3 + 1)};
-	RandTime_++;
+	
+	/*RandTime_++;
 	if (RandTime_ > 0 && RandTime_ <= 5) {
+	}*/
 		if (Keynumber == 1) {
 			worldTransform_[0].translation_ = {13.5f, 1.5f, 19.4f};
 			worldTransform_[1].translation_ = {32.4f, 1.5f, 40.8f};
@@ -41,16 +43,16 @@ void Key::Update() {
 			worldTransform_[1].translation_ = {7.3f, 1.5f, 6.0f};
 			worldTransform_[2].translation_ = {25.6f, 1.5f, 80.85f};
 		}
-	}
+	
 	for (int i = 0; i < 3; i++) {
 		// 行列の更新
 		worldTransform_[i].UpdateMatrix();
 	}
-	//// 画面の座標を表示
-	//ImGui::Begin("Item");
-	//ImGui::Text("%f",Keynumber);
-	//ImGui::Text("%d\n%d\n%d\n", isKeyDead_, isKeyUpDead_, isKeyDownDead_);
-	//ImGui::End();
+	// 画面の座標を表示
+	ImGui::Begin("Item");
+	ImGui::Text("%f",Keynumber);
+	ImGui::Text("%d\n%d\n%d\n", isHummerDead_, isKeyUpDead_, isKeyDownDead_);
+	ImGui::End();
 }
 
 void Key::Draw(ViewProjection& viewProjection) {
