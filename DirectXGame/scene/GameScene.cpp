@@ -186,6 +186,10 @@ void GameScene::RoopInitialize() {
 	// 出口の初期化
 	exit_->Initialize(ExitModel_.get());
 	// クリアタイム
+	staminaTextur_ = TextureManager::Load("Stamina.png");
+	staminaSprite_ = Sprite::Create(staminaTextur_, {600, 900});
+
+	//クリアタイムテクスチャ
 	ClearTimeInitialize();
 	isClearTime_ = 0;
 	iskeydown = true;
@@ -375,6 +379,22 @@ void GameScene::Update() {
 		// 作業机の更新
 		craft_->Update();
 
+	//ダッシュ
+	size = staminaSprite_->GetSize();
+	size.x = player_->GetStamina();
+
+	staminaSprite_->SetSize(size);
+
+	ActiveTime++;
+	CheakCollisions();
+	
+	//シーン切り替え
+	if (input_->TriggerKey(DIK_RETURN)) {
+		isSceneEnd = true;
+	}
+	
+	ClearTimeUpdate();
+}
 		ActiveTime++;
 		CheakCollisions();
 
@@ -464,6 +484,7 @@ void GameScene::Draw() {
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
 	ClearTimeScore3_[isClearTime_3]->Draw();
+	staminaSprite_->Draw();
 
 	//操作方法表示
 	operationSprite_->Draw();

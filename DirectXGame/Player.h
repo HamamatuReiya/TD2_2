@@ -73,6 +73,8 @@ public:
 
 	int GetType();
 
+	float GetStamina() { return stamina_; };
+
 
 private:
 	WorldTransform worldTransform_;
@@ -114,9 +116,9 @@ private:
 	bool isKeytouch_ = false;
 
 	// スタミナ
-	float stamina_ = 1000;
+	float stamina_ = 720.0f;
 	// クールタイム用
-	bool isRun; 
+	bool isRun;
 
 	
 	CollisionType collisionType_;
