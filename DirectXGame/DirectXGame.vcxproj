@@ -118,6 +118,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Load.cpp" />
+    <ClCompile Include="Lock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Load.h" />
+    <ClInclude Include="Lock.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />

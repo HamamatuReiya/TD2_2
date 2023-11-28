@@ -2,7 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 
-class Craft {
+class Lock {
 public:
 	/// <summary>
 	/// 初期化
@@ -18,10 +18,6 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
-	// ワールド座標を取得
-	Vector3 GetCraftWorldPosition();
-	// コールバック関数
-	void OnCraftCollision();
 
 private:
 	WorldTransform worldTransform_;

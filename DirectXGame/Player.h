@@ -73,6 +73,7 @@ public:
 
 	int GetType();
 
+	float GetStamina() { return stamina; };
 
 private:
 	WorldTransform worldTransform_;
@@ -80,6 +81,11 @@ private:
 	const ViewProjection*viewProjection_=nullptr;
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
+
+	// スタミナ
+	float stamina;
+	// クールタイム用
+	bool isRun;
 	
 	//部屋関数
 	void StartRoomCollision();
@@ -112,12 +118,6 @@ private:
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
 	bool isKeytouch_ = false;
-
-	// スタミナ
-	float stamina_ = 1000;
-	// クールタイム用
-	bool isRun; 
-
 	
 	CollisionType collisionType_;
 };

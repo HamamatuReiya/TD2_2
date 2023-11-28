@@ -24,6 +24,7 @@
 #include "Craft.h"
 #include "EnemyFollowCamera.h"
 #include "TitleScene.h"
+#include "Lock.h"
 
 /// <summary>
 /// ゲームシーン
@@ -306,6 +307,10 @@ private:
 
 	//型スプライト
 	Sprite* MoldSprite_[4] = {nullptr, nullptr,nullptr,nullptr};
+	// スタミナスプライト
+	Sprite* staminaSprite = nullptr;
+	// 表示範囲
+	Vector2 size;
 
 	// クリアタイムの画像
 	Sprite* ClearTimeScore1_[10] = {nullptr};
@@ -327,11 +332,14 @@ private:
 	uint32_t luleTexture_[2] = {0,0};
 	//型表示
 	uint32_t moldTexture_[4] = {0, 0, 0, 0};
+	//スタミナ
+	uint32_t staminaTexture = 0;
 
 	bool GetButton;
 	bool iskeyup;
 	bool isHummer;
 	bool iskeydown;
+	bool isCraft;
 
 	//ルール
 	bool isLule_ = true;
@@ -341,12 +349,16 @@ private:
 	bool Gettingkeyup;
 	bool GettingHummer;
 	bool Gettingkeydown;
-	
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;
 	// 作業机
 	std::unique_ptr<Craft> craft_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> LockModel_ = nullptr;
+	// 南京錠
+	std::unique_ptr<Lock> lock_;
 
 	/// <summary>
 	/// ゲームシーン用
