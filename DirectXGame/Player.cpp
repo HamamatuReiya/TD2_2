@@ -31,12 +31,23 @@ void Player::Update() {
 	}
 	// Dash
 	if (input_->PushKey(DIK_LSHIFT) && input_->PushKey(DIK_W)) {
-		if (isRun == true && stamina_ > 0) {
-			stamina_--;
+		if (isRun == true) {
+			stamina_ -= 2;
 			move_ = {0.0f, 0.0f, 0.35f};
+		} else {
+			stamina_ += 2;
 		}
 	} else {
-		stamina_ = 100;
+		if (stamina_ < 720) {
+			stamina_ += 2;
+		}
+	}
+
+	if (stamina_ <= 0.0f) {
+		isRun = false;
+	}
+	if (isRun == false && stamina_ >= 720.0f) {
+		isRun = true;
 	}
 	
 
