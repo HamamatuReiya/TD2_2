@@ -474,8 +474,6 @@ void GameScene::Draw() {
 		MoldDraw();
 	}
 	
-	
-
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
