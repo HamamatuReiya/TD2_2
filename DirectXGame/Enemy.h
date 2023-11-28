@@ -3,6 +3,7 @@
 #include "WorldTransform.h"
 #include "Mymath.h"
 #include <math.h>
+#include "Sprite.h"
 #include"ViewProjection.h"
 
 class Player;
@@ -18,6 +19,8 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	void EfectDraw();
+
 	void Homing(float enemySpeed);
 
 	void SetPlayer(Player* player) { player_ = player; }
@@ -30,8 +33,20 @@ public:
 		viewProjection_ = viewProjection;
 	}
 
-private:
-	enum Phase {
+	void PhaseCollision();
+
+	bool GetEnemyVisibilityX() { return enemyVisibilityXFlag; }
+	bool GetEnemyVisibility_X() { return enemyVisibility_XFlag; }
+	bool GetEnemyVisibilityZ() { return enemyVisibilityZFlag; }
+	bool GetEnemyVisibility_Z() { return enemyVisibility_ZFlag; }
+
+	void PosReset1();
+	void PosReset2();
+	void PosReset3();
+	void PosReset4();
+									   
+private:							   
+	enum Phase {					   
 		phase1,
 		phase2,
 		phase3,
@@ -155,9 +170,19 @@ private:
 
 private:
 
+	Sprite* efectSprite_ = nullptr;
+	uint32_t efectTexture_ = 0;
+
+	bool enemyVisibilityXFlag = false;
+	bool enemyVisibility_XFlag = false;
+	bool enemyVisibilityZFlag = false;
+	bool enemyVisibility_ZFlag = false;
+
 	bool phase1SpeedFlag=true;
 
 	bool encountFlag;
+
+	int phaseSwitchCount = 300;
 
 	WorldTransform worldTransform_;
 

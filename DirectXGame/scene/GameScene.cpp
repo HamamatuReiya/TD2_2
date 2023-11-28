@@ -474,6 +474,9 @@ void GameScene::Draw() {
 		MoldDraw();
 	}
 	
+	
+	enemy_->EfectDraw();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -492,12 +495,30 @@ void GameScene::sceneReset() {
 
 void GameScene::CheakCollisions() {
 	// 判定対象AとBの座標
-	Vector3 posA, posB,posC,posD;
+	Vector3 posA, posB,posC,posD,posE;
 
 	// 2間点の距離(自キャラと鍵の当たり判定)
 	float posAB;
 	float posAC;
 	float posAD;
+
+	//自機と敵
+	float posAE;
+	// 自機と敵
+	float posAEX;
+	float posAE_X;
+	float posAEZ;
+	float posAE_Z;
+
+	float enemyVisibilityShift = 12.0f;
+
+	//敵にぶつかる半径
+	//float enemyRadius = 3.0f;
+	//敵に見つかる半径
+	float enemySearchRadius = 10.0f;
+
+	// 敵に見つかる半径
+	float enemySearchRadiusXZ = 7.0f;
 
 	// 自キャラの半径
 	float playerRadius = 2.0f;
@@ -511,6 +532,8 @@ void GameScene::CheakCollisions() {
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
 	posA = player_->GetWorldPosition();
+	//敵キャラのワールド座標
+	posE = enemy_->GetWorldPosition();
 	// 鍵上の座標
 	posB = Key_->GetKeyUpWorldPosition();
 	// 鍵型の座標
@@ -586,6 +609,52 @@ void GameScene::CheakCollisions() {
 			EnemyCameraActive = false;
 		}
 	}
+
+	//敵の視界
+	// AとEの距離を求める
+	//敵と自機の半径
+	posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
+	if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
+		enemy_->PhaseCollision();
+	}
+	//左
+	posAE_X =((posE.x - enemyVisibilityShift) - posA.x) * ((posE.x - enemyVisibilityShift) - posA.x) +
+	         (posE.y - posA.y) * (posE.y - posA.y) +
+	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
+	if (posAE_X <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+		if (enemy_->GetEnemyVisibility_X() == true) {
+			enemy_->PhaseCollision();
+		}
+	}
+	// 右
+	posAEX =
+	    ((posE.x + enemyVisibilityShift) - posA.x) * ((posE.x + enemyVisibilityShift) - posA.x) +
+	    (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
+	if (posAEX <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+		if (enemy_->GetEnemyVisibilityX() == true) {
+			enemy_->PhaseCollision();
+		}
+	}
+	// 下
+	posAE_Z =
+	    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+	    ((posE.z - enemyVisibilityShift) - posA.z) * ((posE.z - enemyVisibilityShift) - posA.z);
+	if (posAE_Z <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+		if (enemy_->GetEnemyVisibility_Z() == true) {
+			enemy_->PhaseCollision();
+		}
+	}
+	// 上
+	posAEZ =
+	    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+	    ((posE.z + enemyVisibilityShift) - posA.z) * ((posE.z + enemyVisibilityShift) - posA.z);
+	if (posAEZ <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+		if (enemy_->GetEnemyVisibilityZ() == true) {
+			enemy_->PhaseCollision();
+		}
+	}
+
 #pragma endregion
 }
 

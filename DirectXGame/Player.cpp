@@ -101,10 +101,10 @@ void Player::Update() {
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
 
-	//// デバック
-	//float playerPos[3] = {
-	//    worldTransform_.translation_.x, worldTransform_.translation_.y,
-	//    worldTransform_.translation_.z};
+	// デバック
+	float playerPos[3] = {
+	    worldTransform_.translation_.x, worldTransform_.translation_.y,
+	    worldTransform_.translation_.z};
 
 	//// 画面の座標を表示
 	//ImGui::Begin("Player");
