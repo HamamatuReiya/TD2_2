@@ -568,15 +568,23 @@ void Enemy::Update() {
 			Homing(kEnemySpeed_);
 			phaseSwitchCount--;
 			if (phaseSwitchCount <= 0) {
-				move_.x = 0.0f;
-				move_.z = 0.0f;
-				worldTransform_.translation_.x = 63.0f;
-				worldTransform_.translation_.z = 48.0f;
-				worldTransform_.rotation_.y = 1.6f;
-				collisionType_ = ROOM05;
-				phase1State = search;
-				phaseSwitchCount = 300;
-				phase1Move = move1;
+				if (player_->GetWorldTransform().translation_.x<=37.0f &&
+				    player_->GetWorldTransform().translation_.z <= 40.0f) {
+					PosReset1();
+				}
+				else if (player_->GetWorldTransform().translation_.x <= 37.0f &&
+				    player_->GetWorldTransform().translation_.z >= 40.0f) {
+					PosReset2();
+				} else if (
+				    player_->GetWorldTransform().translation_.x >= 37.0f &&
+				    player_->GetWorldTransform().translation_.z <= 40.0f) {
+					PosReset3();
+				} else if (
+				    player_->GetWorldTransform().translation_.x >= 37.0f &&
+				    player_->GetWorldTransform().translation_.z >= 40.0f) {
+					PosReset4();
+				}
+				
 			}
 
 			break;
@@ -760,6 +768,75 @@ Vector3 Enemy::GetWorldPosition() {
 
 void Enemy::PhaseCollision() { phase1State = Chase;
 	phaseSwitchCount = 300;
+}
+
+void Enemy::PosReset1() {
+	state1Flag1 = false;
+	state1Flag2 = false;
+	state1Flag3 = false;
+	state1Flag4 = false;
+	state1Flag5 = false;
+	state1Flag6 = false;
+	move_.x = 0.0f;
+	move_.z = 0.0f;
+	worldTransform_.translation_.x = 63.0f;
+	worldTransform_.translation_.z = 48.0f;
+	worldTransform_.rotation_.y = 1.6f;
+	collisionType_ = ROOM05;
+	phase1State = search;
+	phaseSwitchCount = 300;
+	phase1Move = move1;
+}
+void Enemy::PosReset2() {
+	state1Flag1 = false;
+	state1Flag2 = false;
+	state1Flag3 = false;
+	state1Flag4 = false;
+	state1Flag5 = false;
+	state1Flag6 = false;
+	move_.x = 0.0f;
+	move_.z = 0.0f;
+	worldTransform_.translation_.x = 65.0f;
+	worldTransform_.translation_.z = 48.0f;
+	worldTransform_.rotation_.y = 1.6f;
+	collisionType_ = ROOM05;
+	phase1State = search;
+	phaseSwitchCount = 300;
+	phase1Move = move16;
+}
+void Enemy::PosReset3() {
+	state1Flag1 = false;
+	state1Flag2 = false;
+	state1Flag3 = false;
+	state1Flag4 = false;
+	state1Flag5 = false;
+	state1Flag6 = false;
+	move_.x = 0.0f;
+	move_.z = 0.0f;
+	worldTransform_.translation_.x =27.0f;
+	worldTransform_.translation_.z = 76.0f;
+	worldTransform_.rotation_.y = -1.6f;
+	collisionType_ = ROOM09;
+	phase1State = search;
+	phaseSwitchCount = 300;
+	phase1Move = move7;
+}
+void Enemy::PosReset4() {
+	state1Flag1 = false;
+	state1Flag2 = false;
+	state1Flag3 = false;
+	state1Flag4 = false;
+	state1Flag5 = false;
+	state1Flag6 = false;
+	move_.x = 0.0f;
+	move_.z = 0.0f;
+	worldTransform_.translation_.x = 24.0f;
+	worldTransform_.translation_.z = 0.0f;
+	worldTransform_.rotation_.y = 4.8f;
+	collisionType_ = ROOM01;
+	phase1State = search;
+	phaseSwitchCount = 300;
+	phase1Move = move27;
 }
 
 void Enemy::StartRoomCollision() {

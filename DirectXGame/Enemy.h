@@ -36,6 +36,11 @@ public:
 	bool GetEnemyVisibility_X() { return enemyVisibility_XFlag; }
 	bool GetEnemyVisibilityZ() { return enemyVisibilityZFlag; }
 	bool GetEnemyVisibility_Z() { return enemyVisibility_ZFlag; }
+
+	void PosReset1();
+	void PosReset2();
+	void PosReset3();
+	void PosReset4();
 									   
 private:							   
 	enum Phase {					   

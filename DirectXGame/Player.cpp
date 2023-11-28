@@ -116,10 +116,10 @@ void Player::Update() {
 	worldTransform_.translation_.y = playerPos[1];
 	worldTransform_.translation_.z = playerPos[2];
 
-	//// 画面の座標を表示
-	//ImGui::Begin("PLACE");
-	//ImGui::Text("%d\n", collisionType_);
-	//ImGui::End();
+	// 画面の座標を表示
+	ImGui::Begin("PLACE");
+	ImGui::Text("%d\n", collisionType_);
+	ImGui::End();
 }
 
 void Player::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
