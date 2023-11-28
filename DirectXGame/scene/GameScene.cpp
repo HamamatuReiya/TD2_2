@@ -384,7 +384,7 @@ void GameScene::Update() {
 
 	//ダッシュ
 	size = staminaSprite_->GetSize();
-	size.x = player_->GetStamina();
+	size.x =player_->GetStamina();
 
 	staminaSprite_->SetSize(size);
 
@@ -398,17 +398,6 @@ void GameScene::Update() {
 	
 	ClearTimeUpdate();
 }
-		ActiveTime++;
-		CheakCollisions();
-
-		// シーン切り替え
-		if (input_->TriggerKey(DIK_RETURN)) {
-			isSceneEnd = true;
-			
-		}
-
-		ClearTimeUpdate();
-	}
 }
 
 
