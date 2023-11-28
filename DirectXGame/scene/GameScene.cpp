@@ -613,9 +613,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	if (GetButton == true) {
-		buttonSprite_->Draw();
+	if (enemy_->Getphase1State() != Chase) {
+		if (GetButton == true) {
+			buttonSprite_->Draw();
+		}
 	}
+
 	//クリアタイム
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
@@ -716,72 +719,75 @@ void GameScene::CheakCollisions() {
 	// 金床の座標
 	posG = lock_->GetLockWorldPosition();
 	// AとBの距離を求める
-	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
-	        (posB.z - posA.z) * (posB.z - posA.z);
-	// プレイヤーと上鍵の当たり判定
-	if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
-		if (iskeyup == true) {
-			GetButton = true;
+
+	if (enemy_->Getphase1State() != Chase) {
+		posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+		        (posB.z - posA.z) * (posB.z - posA.z);
+		// プレイヤーと上鍵の当たり判定
+		if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
+			if (iskeyup == true) {
+				GetButton = true;
+			}
+			if (input_->TriggerKey(DIK_F) && iskeyup == true) {
+				Gettingkeyup = true;
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
+				// 鍵の衝突時コールバックを呼び出す
+				Key_->OnKeyUpCollision();
+				ActiveTime = 0;
+				// 敵にカメラを向ける
+				EnemyCameraActive = true;
+				iskeyup = false;
+			}
+			if (ActiveTime >= 120) {
+				EnemyCameraActive = false;
+			}
 		}
-		if (input_->TriggerKey(DIK_F)&& iskeyup ==true) {
-			Gettingkeyup = true;
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-			// 鍵の衝突時コールバックを呼び出す
-			Key_->OnKeyUpCollision();
-			ActiveTime = 0;
-			// 敵にカメラを向ける
-			EnemyCameraActive = true;
-			iskeyup = false;
+		// AとCの距離を求める
+		posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
+		        (posC.z - posA.z) * (posC.z - posA.z);
+		// プレイヤーと鍵型の当たり判定
+		if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
+			if (isHummer == true) {
+				GetButton = true;
+			}
+			if (input_->TriggerKey(DIK_F) && isHummer == true) {
+				GettingHummer = true;
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
+				// 鍵の衝突時コールバックを呼び出す
+				Key_->OnKeyCollision();
+				ActiveTime = 0;
+				// 敵にカメラを向ける
+				EnemyCameraActive = true;
+				isHummer = false;
+			}
+			if (ActiveTime >= 120) {
+				EnemyCameraActive = false;
+			}
 		}
-		if (ActiveTime >= 120) {
-			EnemyCameraActive = false;
-		}
-	}
-	// AとCの距離を求める
-	posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
-	        (posC.z - posA.z) * (posC.z - posA.z);
-	// プレイヤーと鍵型の当たり判定
-	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
-		if (isHummer == true) {
-			GetButton = true;
-		}
-		if (input_->TriggerKey(DIK_F) && isHummer == true) {
-			GettingHummer = true;
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-			// 鍵の衝突時コールバックを呼び出す
-			Key_->OnKeyCollision();
-			ActiveTime = 0;
-			// 敵にカメラを向ける
-			EnemyCameraActive = true;
-			isHummer = false;
-		}
-		if (ActiveTime >= 120) {
-			EnemyCameraActive = false;
-		}
-	}
-	// AとDの距離を求める
-	posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
-	        (posD.z - posA.z) * (posD.z - posA.z);
-	// プレイヤーと下鍵の当たり判定
-	if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
-		if (iskeydown == true) {
-			GetButton = true;
-		}
-		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
-			Gettingkeydown = true;
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-			// 鍵の衝突時コールバックを呼び出す
-			Key_->OnKeyDownCollision();
-			ActiveTime = 0;
-			// 敵にカメラを向ける
-			EnemyCameraActive = true;
-			iskeydown = false;
-		}
-		if (ActiveTime >= 120) {
-			EnemyCameraActive = false;
+		// AとDの距離を求める
+		posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
+		        (posD.z - posA.z) * (posD.z - posA.z);
+		// プレイヤーと下鍵の当たり判定
+		if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
+			if (iskeydown == true) {
+				GetButton = true;
+			}
+			if (input_->TriggerKey(DIK_F) && iskeydown == true) {
+				Gettingkeydown = true;
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
+				// 鍵の衝突時コールバックを呼び出す
+				Key_->OnKeyDownCollision();
+				ActiveTime = 0;
+				// 敵にカメラを向ける
+				EnemyCameraActive = true;
+				iskeydown = false;
+			}
+			if (ActiveTime >= 120) {
+				EnemyCameraActive = false;
+			}
 		}
 	}
 	// AとFの距離を求める
@@ -834,51 +840,219 @@ void GameScene::CheakCollisions() {
 		}
 	}
 
-	//敵の視界
-	// AとEの距離を求める
-	//敵と自機の半径
-	posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
-	if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
-		enemy_->PhaseCollision();
-	}
-	//左
-	posAE_X =((posE.x - enemyVisibilityShift) - posA.x) * ((posE.x - enemyVisibilityShift) - posA.x) +
-	         (posE.y - posA.y) * (posE.y - posA.y) +
-	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
-	if (posAE_X <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibility_X() == true) {
-			enemy_->PhaseCollision();
+	if (Key_->GetisHummerDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+			if (enemy_->GetEncountMove1Flag() == true) {
+				enemy_->EncountMove1();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag1() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag1(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 2) {
+			if (enemy_->GetEncountMove2Flag() == true) {
+				enemy_->EncountMove2();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag2() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag2(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 3) {
+			if (enemy_->GetEncountMove3Flag() == true) {
+				enemy_->EncountMove3();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag3() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag3(false);
+				}
+			}
+		}
+	} 
+	if (Key_->GetisKeyUpDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+			if (enemy_->GetEncountMove4Flag() == true) {
+				enemy_->EncountMove4();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag4() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag4(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 2) {
+			if (enemy_->GetEncountMove5Flag() == true) {
+				enemy_->EncountMove5();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag5() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag5(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 3) {
+			if (enemy_->GetEncountMove6Flag() == true) {
+				enemy_->EncountMove6();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag6() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag6(false);
+				}
+			}
 		}
 	}
-	// 右
-	posAEX =
-	    ((posE.x + enemyVisibilityShift) - posA.x) * ((posE.x + enemyVisibilityShift) - posA.x) +
-	    (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
-	if (posAEX <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibilityX() == true) {
-			enemy_->PhaseCollision();
+	if (Key_->GetisDownDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+			if (enemy_->GetEncountMove7Flag() == true) {
+				enemy_->EncountMove7();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag7() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag7(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 2) {
+			if (enemy_->GetEncountMove8Flag() == true) {
+				enemy_->EncountMove8();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag8() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag8(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 3) {
+			if (enemy_->GetEncountMove9Flag() == true) {
+				enemy_->EncountMove9();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag9() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag9(false);
+				}
+			}
 		}
-	}
-	// 下
-	posAE_Z =
-	    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	    ((posE.z - enemyVisibilityShift) - posA.z) * ((posE.z - enemyVisibilityShift) - posA.z);
-	if (posAE_Z <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibility_Z() == true) {
-			enemy_->PhaseCollision();
-		}
-	}
-	// 上
-	posAEZ =
-	    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	    ((posE.z + enemyVisibilityShift) - posA.z) * ((posE.z + enemyVisibilityShift) - posA.z);
-	if (posAEZ <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibilityZ() == true) {
-			enemy_->PhaseCollision();
-		}
-	}
+	} 
+	 
+	
 
+	if (EnemyCameraActive == false) {
+		// 敵の視界
+		//  AとEの距離を求める
+		// 敵と自機の半径
+		posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+		        ((posE.z) - posA.z) * ((posE.z) - posA.z);
+		if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
+			enemy_->PhaseCollision();
+		}
+		// 左
+		posAE_X = ((posE.x - enemyVisibilityShift) - posA.x) *
+		              ((posE.x - enemyVisibilityShift) - posA.x) +
+		          (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
+		if (posAE_X <=
+		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibility_X() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+		// 右
+		posAEX = ((posE.x + enemyVisibilityShift) - posA.x) *
+		             ((posE.x + enemyVisibilityShift) - posA.x) +
+		         (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
+		if (posAEX <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibilityX() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+		// 下
+		posAE_Z =
+		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+		    ((posE.z - enemyVisibilityShift) - posA.z) * ((posE.z - enemyVisibilityShift) - posA.z);
+		if (posAE_Z <=
+		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibility_Z() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+		// 上
+		posAEZ =
+		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+		    ((posE.z + enemyVisibilityShift) - posA.z) * ((posE.z + enemyVisibilityShift) - posA.z);
+		if (posAEZ <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibilityZ() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+	}
 #pragma endregion
 }
 

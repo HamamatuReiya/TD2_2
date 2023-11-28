@@ -8,6 +8,14 @@
 
 class Player;
 
+class Key;
+
+enum State {
+	search,
+	Chase,
+	direction,
+};
+
 class Enemy {
 public:
 	void Initialize(
@@ -27,7 +35,57 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	State Getphase1State() { return phase1State; }
+
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
+
+	Vector3 SetTranslation(Vector3 translation) { worldTransform_.translation_ = translation; }
+
+	void SetEnemySpeed(float kEnemySpeed) {kEnemySpeed_ = kEnemySpeed; }
+
+	float GetEnemySpeed() { return kEnemySpeed_; }
+
+	void EncountMove1();
+	void EncountMove2();
+	void EncountMove3();
+	void EncountMove4();
+	void EncountMove5();
+	void EncountMove6();
+	void EncountMove7();
+	void EncountMove8();
+	void EncountMove9();
+
+	bool GetEncountMove1Flag() { return encountMove1; }
+	bool GetEncountMove2Flag() { return encountMove2; }
+	bool GetEncountMove3Flag() { return encountMove3; }
+	bool GetEncountMove4Flag() { return encountMove4; }
+	bool GetEncountMove5Flag() { return encountMove5; }
+	bool GetEncountMove6Flag() { return encountMove6; }
+	bool GetEncountMove7Flag() { return encountMove7; }
+	bool GetEncountMove8Flag() { return encountMove8; }
+	bool GetEncountMove9Flag() { return encountMove9; }
+
+	bool GetSetStateFlag1() { return setStateFlag1; }
+	bool GetSetStateFlag2() { return setStateFlag2; }
+	bool GetSetStateFlag3() { return setStateFlag3; }
+	bool GetSetStateFlag4() { return setStateFlag4; }
+	bool GetSetStateFlag5() { return setStateFlag5; }
+	bool GetSetStateFlag6() { return setStateFlag6; }
+	bool GetSetStateFlag7() { return setStateFlag7; }
+	bool GetSetStateFlag8() { return setStateFlag8; }
+	bool GetSetStateFlag9() { return setStateFlag9; }
+
+	void SetStateFlag1(bool setStateFlag1_) { setStateFlag1 = setStateFlag1_; }
+	void SetStateFlag2(bool setStateFlag2_) { setStateFlag2 = setStateFlag2_; }
+	void SetStateFlag3(bool setStateFlag3_) { setStateFlag3 = setStateFlag3_; }
+	void SetStateFlag4(bool setStateFlag4_) { setStateFlag4 = setStateFlag4_; }
+	void SetStateFlag5(bool setStateFlag5_) { setStateFlag5 = setStateFlag5_; }
+	void SetStateFlag6(bool setStateFlag6_) { setStateFlag6 = setStateFlag6_; }
+	void SetStateFlag7(bool setStateFlag7_) { setStateFlag7 = setStateFlag7_; }
+	void SetStateFlag8(bool setStateFlag8_) { setStateFlag8 = setStateFlag8_; }
+	void SetStateFlag9(bool setStateFlag9_) { setStateFlag9 = setStateFlag9_; }
+
+	void SetState(State state) { phase1State = state; }
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -53,11 +111,7 @@ private:
 	};
 	Phase phase_;
 
-	enum State {
-		search,
-		Chase,
-		posReset,
-	};
+	
 	State phase1State;
 	State phase2State;
 	State phase3State;
@@ -173,6 +227,26 @@ private:
 	Sprite* efectSprite_ = nullptr;
 	uint32_t efectTexture_ = 0;
 
+	bool setStateFlag1 = true;
+	bool setStateFlag2 = true;
+	bool setStateFlag3 = true;
+	bool setStateFlag4 = true;
+	bool setStateFlag5 = true;
+	bool setStateFlag6 = true;
+	bool setStateFlag7 = true;
+	bool setStateFlag8 = true;
+	bool setStateFlag9 = true;
+
+	bool encountMove1 = true;
+	bool encountMove2 = true;
+	bool encountMove3 = true;
+	bool encountMove4 = true;
+	bool encountMove5 = true;
+	bool encountMove6 = true;
+	bool encountMove7 = true;
+	bool encountMove8 = true;
+	bool encountMove9 = true;
+
 	bool enemyVisibilityXFlag = false;
 	bool enemyVisibility_XFlag = false;
 	bool enemyVisibilityZFlag = false;
@@ -214,6 +288,7 @@ private:
 	Vector3 moveRotate_;
 
 	Player* player_ = nullptr;
+	Key* key_ = nullptr;
 
 	CollisionType collisionType_;
 
