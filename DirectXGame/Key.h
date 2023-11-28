@@ -2,6 +2,9 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include <Input.h>
+#include "Enemy.h"
+
+class Enemy;
 
 class Key 
 {
@@ -34,6 +37,11 @@ public:
 	Vector3 GetKeyUpWorldPosition(); 
 	// ワールド座標を取得
 	Vector3 GetKeyDownWorldPosition(); 
+
+	float GetkeyNumber() { return Keynumber; }
+	bool GetisHummerDead() { return isHummerDead_; }
+	bool GetisKeyUpDead() { return isKeyUpDead_; }
+	bool GetisDownDead() { return isKeyDownDead_; }
 
 private:
 	//鍵用のランダム変数

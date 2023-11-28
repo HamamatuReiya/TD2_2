@@ -8,6 +8,14 @@
 
 class Player;
 
+class Key;
+
+enum State {
+	search,
+	Chase,
+	direction,
+};
+
 class Enemy {
 public:
 	void Initialize(
@@ -28,6 +36,9 @@ public:
 	Vector3 GetWorldPosition();
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
+
+	Vector3 SetTranslation(Vector3 translation) { worldTransform_.translation_ = translation; }
+
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -53,11 +64,7 @@ private:
 	};
 	Phase phase_;
 
-	enum State {
-		search,
-		Chase,
-		posReset,
-	};
+	
 	State phase1State;
 	State phase2State;
 	State phase3State;
@@ -214,6 +221,7 @@ private:
 	Vector3 moveRotate_;
 
 	Player* player_ = nullptr;
+	Key* key_ = nullptr;
 
 	CollisionType collisionType_;
 

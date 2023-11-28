@@ -1,6 +1,7 @@
 ﻿#include "Enemy.h"
 #include"ImGuiManager.h"
 #include "Player.h"
+#include "Key.h"
 
 void Enemy::Initialize(
     Model* model, Model* model2, Model* model3, Model* model4, Model* model5, Model* model6,
@@ -589,8 +590,9 @@ void Enemy::Update() {
 			}
 
 			break;
-		case posReset:
-
+		case direction:
+			move_.x = 0.0f;
+			move_.z = 0.0f;
 			break;
 		}
 		break;
@@ -604,7 +606,7 @@ void Enemy::Update() {
 
 			
 			break;
-		case posReset:
+		case direction:
 
 			break;
 		}
@@ -619,7 +621,7 @@ void Enemy::Update() {
 
 			
 			break;
-		case posReset:
+		case direction:
 
 			break;
 		}

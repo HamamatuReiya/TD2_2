@@ -610,6 +610,36 @@ void GameScene::CheakCollisions() {
 		}
 	}
 
+	if (Key_->GetisDownDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+
+		}
+		else if (Key_->GetkeyNumber() == 2) {
+
+		}
+		else if (Key_->GetkeyNumber() == 3) {
+
+		}
+	} else if (Key_->GetisHummerDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+
+		}
+		else if (Key_->GetkeyNumber() == 2) {
+
+		}
+		else if (Key_->GetkeyNumber() == 3) {
+
+		}
+	} else if (Key_->GetisKeyUpDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+
+		} else if (Key_->GetkeyNumber() == 2) {
+
+		} else if (Key_->GetkeyNumber() == 3) {
+
+		}
+	}
+
 	//敵の視界
 	// AとEの距離を求める
 	//敵と自機の半径

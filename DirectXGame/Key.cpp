@@ -6,6 +6,7 @@ void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* hummerModel)
 	keyupModel_ = keyupModel;
 	keydownModel_ = keydownModel;
 	hummerModel_ = hummerModel;
+	Keynumber = 0;
 	for (int i = 0; i < 3; i++) {
 		worldTransform_[i].Initialize();
 		worldTransform_[i].scale_ = {0.5f, 0.5f, 0.5f};
