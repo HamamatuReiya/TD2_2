@@ -3,6 +3,7 @@
 #include "WorldTransform.h"
 #include "Mymath.h"
 #include <math.h>
+#include "Sprite.h"
 #include"ViewProjection.h"
 
 class Player;
@@ -17,6 +18,8 @@ public:
 	void Update();
 
 	void Draw(ViewProjection& viewProjection);
+
+	void EfectDraw();
 
 	void Homing(float enemySpeed);
 
@@ -166,6 +169,9 @@ private:
 	
 
 private:
+
+	Sprite* efectSprite_ = nullptr;
+	uint32_t efectTexture_ = 0;
 
 	bool enemyVisibilityXFlag = false;
 	bool enemyVisibility_XFlag = false;

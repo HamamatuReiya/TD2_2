@@ -21,14 +21,15 @@ void Enemy::Initialize(
 	model13_ = model13;
 	model14_ = model14;
 	model15_ = model15;
-
+	efectTexture_ = TextureManager::Load("BLIND.png");
+	efectSprite_ = Sprite::Create(efectTexture_, {0, 0});
 	worldTransform_.Initialize();
 	move_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	worldTransform_.rotation_ = {0.0f, 1.6f, 0.0f};
 	worldTransform_.translation_ = {63.0f, 0.7f, 48.0f};
 	encountFlag = false;
-	kEnemySpeed_ = 0.22f;
+	kEnemySpeed_ = 0.20f;
 	rotateSpeed_ = 0.10f;
 	phaseSwitchCount = 10;
 	phase_ = phase1;
@@ -564,7 +565,7 @@ void Enemy::Update() {
 			} 
 			break;
 		case Chase:
-			
+			encountFlag = true;
 			Homing(kEnemySpeed_);
 			phaseSwitchCount--;
 			if (phaseSwitchCount <= 0) {
@@ -757,6 +758,12 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 
 }
 
+void Enemy::EfectDraw() {
+	if (encountFlag == true) {
+		efectSprite_->Draw();
+	}
+}
+
 
 Vector3 Enemy::GetWorldPosition() {
 	Vector3 worldPos;
@@ -771,6 +778,7 @@ void Enemy::PhaseCollision() { phase1State = Chase;
 }
 
 void Enemy::PosReset1() {
+	encountFlag = false;
 	state1Flag1 = false;
 	state1Flag2 = false;
 	state1Flag3 = false;
@@ -788,6 +796,7 @@ void Enemy::PosReset1() {
 	phase1Move = move1;
 }
 void Enemy::PosReset2() {
+	encountFlag = false;
 	state1Flag1 = false;
 	state1Flag2 = false;
 	state1Flag3 = false;
@@ -805,6 +814,7 @@ void Enemy::PosReset2() {
 	phase1Move = move16;
 }
 void Enemy::PosReset3() {
+	encountFlag = false;
 	state1Flag1 = false;
 	state1Flag2 = false;
 	state1Flag3 = false;
@@ -822,6 +832,7 @@ void Enemy::PosReset3() {
 	phase1Move = move7;
 }
 void Enemy::PosReset4() {
+	encountFlag = false;
 	state1Flag1 = false;
 	state1Flag2 = false;
 	state1Flag3 = false;

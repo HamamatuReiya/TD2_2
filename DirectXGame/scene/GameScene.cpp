@@ -438,6 +438,7 @@ void GameScene::Draw() {
 	//ルール
 	LuleDraw();
 	
+	enemy_->EfectDraw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
