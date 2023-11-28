@@ -24,6 +24,7 @@
 #include "Craft.h"
 #include "EnemyFollowCamera.h"
 #include "TitleScene.h"
+#include "Lock.h"
 
 /// <summary>
 /// ゲームシーン
@@ -366,6 +367,11 @@ private:
 	std::unique_ptr<Model> CraftModel_ = nullptr;
 	// 作業机
 	std::unique_ptr<Craft> craft_;
+
+	// 3Dモデル
+	std::unique_ptr<Model> LockModel_ = nullptr;
+	// 南京錠
+	std::unique_ptr<Lock> lock_;
 
 	/// <summary>
 	/// ゲームシーン用

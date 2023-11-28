@@ -85,7 +85,7 @@ private:
 	Input* input_ = nullptr;
 
 	// スタミナ
-	float stamina = 720.0f;
+	float stamina;
 	// クールタイム用
 	bool isRun;
 	
@@ -120,7 +120,6 @@ private:
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
 	bool isKeytouch_ = false;
-
 	
 	CollisionType collisionType_;
 };
