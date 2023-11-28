@@ -473,6 +473,7 @@ void GameScene::Draw() {
 		// 型
 		MoldDraw();
 	}
+
 	
 	
 	enemy_->EfectDraw();
