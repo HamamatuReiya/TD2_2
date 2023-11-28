@@ -12,6 +12,7 @@ void Player::Initialize(Model* model) {
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
 	collisionType_ = START;
+	stamina = 720.0f;
 	isRun = true;
 }
 
