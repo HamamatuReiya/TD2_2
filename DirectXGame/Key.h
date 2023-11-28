@@ -39,7 +39,7 @@ private:
 	//鍵用のランダム変数
 	float Keynumber = 0;
 	//デスフラグ
-	bool isKeyDead_ = false;
+	bool isHummerDead_ = false;
 	bool isKeyUpDead_ = false;
 	bool isKeyDownDead_ = false;
 
@@ -47,7 +47,7 @@ private:
 	WorldTransform worldTransform_[3];
 	Model* keyupModel_ = nullptr;
 	Model* keydownModel_ = nullptr;
-	Model* keymoldModel_ = nullptr;
+	Model* hummerModel_ = nullptr;
 	Input* input_ = nullptr;
 	float RandTime_ = 0;
 	

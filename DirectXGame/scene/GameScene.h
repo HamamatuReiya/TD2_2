@@ -93,6 +93,9 @@ private: //
 	void LuleUpdate();
 	void LuleDraw();
 
+	void MoldInitialize();
+	void MoldDraw();
+
 	//ループ用初期化
 	void RoopInitialize();
 
@@ -301,6 +304,9 @@ private:
 	// ルールスプライト
 	Sprite* LuleSprite_[2] = {nullptr,nullptr};
 
+	//型スプライト
+	Sprite* MoldSprite_[4] = {nullptr, nullptr,nullptr,nullptr};
+
 	// クリアタイムの画像
 	Sprite* ClearTimeScore1_[10] = {nullptr};
 	Sprite* ClearTimeScore2_[10] = {nullptr};
@@ -319,24 +325,28 @@ private:
 	uint32_t operationTexture_ = 0;
 	// ルール表示
 	uint32_t luleTexture_[2] = {0,0};
+	//型表示
+	uint32_t moldTexture_[4] = {0, 0, 0, 0};
 
 	bool GetButton;
 	bool iskeyup;
-	bool iskey;
+	bool isHummer;
 	bool iskeydown;
 
 	//ルール
 	bool isLule_ = true;
 	bool LuleP1Frag = true;
 	bool LuleP2Frag = false;
+
+	bool Gettingkeyup;
+	bool GettingHummer;
+	bool Gettingkeydown;
 	
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;
 	// 作業机
 	std::unique_ptr<Craft> craft_;
-
-	
 
 	/// <summary>
 	/// ゲームシーン用

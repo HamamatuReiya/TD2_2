@@ -112,7 +112,7 @@ void GameScene::Initialize() {
 	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
 
 	iskeyup = true;
-	iskey = true;
+	isHummer = true;
 	iskeydown = true;
 
 	//部屋の生成,初期化
@@ -158,7 +158,8 @@ void GameScene::Initialize() {
 	LuleInitialize();
 	//クリアタイム
 	ClearTimeInitialize();
-
+	// 型
+	MoldInitialize();
 }
 
 void GameScene::RoopInitialize() {
@@ -189,8 +190,9 @@ void GameScene::RoopInitialize() {
 	isClearTime_ = 0;
 	iskeydown = true;
 	iskeyup = true;
-	iskey = true;
-
+	isHummer = true;
+	//型
+	MoldInitialize();
 }
 
 void GameScene::ClearTimeInitialize()
@@ -312,6 +314,36 @@ void GameScene::LuleDraw()
 	}
 	if (LuleP2Frag == true) {
 		LuleSprite_[1]->Draw();
+	}
+}
+
+void GameScene::MoldInitialize() {
+	// 型のテクスチャ読み込み
+	moldTexture_[0] = TextureManager::Load("parts/Mold.png");
+	moldTexture_[1] = TextureManager::Load("parts/OnHummer.png");
+	moldTexture_[2] = TextureManager::Load("parts/OnKeyUp.png");
+	moldTexture_[3] = TextureManager::Load("parts/OnKeyDown.png");
+
+	for (int i = 0; i < 4; i++) {
+		// ルールの生成
+		MoldSprite_[i] = Sprite::Create(moldTexture_[i], {0, 0});
+	}
+	// 鍵とった
+	Gettingkeyup = false;
+	GettingHummer = false;
+	Gettingkeydown = false;
+}
+
+void GameScene::MoldDraw() {
+	MoldSprite_[0]->Draw();
+	if (Gettingkeyup==true) {
+		MoldSprite_[2]->Draw();
+	}
+	if (GettingHummer == true) {
+		MoldSprite_[1]->Draw();
+	}
+	if (Gettingkeydown == true) {
+		MoldSprite_[3]->Draw();
 	}
 }
 
@@ -437,6 +469,11 @@ void GameScene::Draw() {
 	operationSprite_->Draw();
 	//ルール
 	LuleDraw();
+	if (isLule_ == false) {
+		// 型
+		MoldDraw();
+	}
+	
 	
 
 	// スプライト描画後処理
@@ -491,6 +528,7 @@ void GameScene::CheakCollisions() {
 			GetButton = true;
 		}
 		if (input_->TriggerKey(DIK_F)&& iskeyup ==true) {
+			Gettingkeyup = true;
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
@@ -509,10 +547,11 @@ void GameScene::CheakCollisions() {
 	        (posC.z - posA.z) * (posC.z - posA.z);
 	// プレイヤーと鍵型の当たり判定
 	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
-		if (iskey == true) {
+		if (isHummer == true) {
 			GetButton = true;
 		}
-		if (input_->TriggerKey(DIK_F) && iskey == true) {
+		if (input_->TriggerKey(DIK_F) && isHummer == true) {
+			GettingHummer = true;
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す
@@ -520,7 +559,7 @@ void GameScene::CheakCollisions() {
 			ActiveTime = 0;
 			// 敵にカメラを向ける
 			EnemyCameraActive = true;
-			iskey = false;
+			isHummer = false;
 		}
 		if (ActiveTime >= 120) {
 			EnemyCameraActive = false;
@@ -535,6 +574,7 @@ void GameScene::CheakCollisions() {
 			GetButton = true;
 		}
 		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
+			Gettingkeydown = true;
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 鍵の衝突時コールバックを呼び出す

@@ -1,11 +1,11 @@
 ﻿#include "Key.h"
 #include "ImGuiManager.h"
 
-void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel) {
+void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* hummerModel) {
 	//鍵モデル
 	keyupModel_ = keyupModel;
 	keydownModel_ = keydownModel;
-	keymoldModel_ = keymoldModel;
+	hummerModel_ = hummerModel;
 	for (int i = 0; i < 3; i++) {
 		worldTransform_[i].Initialize();
 		worldTransform_[i].scale_ = {0.5f, 0.5f, 0.5f};
@@ -15,7 +15,7 @@ void Key::Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel
 	//// 乱数の初期化(シード値の設定)
 	srand((unsigned int)time(nullptr));
 	RandTime_ = 0;
-	isKeyDead_ = false;
+	isHummerDead_ = false;
 	isKeyUpDead_ = false;
 	isKeyDownDead_ = false;
 }
@@ -53,18 +53,18 @@ void Key::Update() {
 }
 
 void Key::Draw(ViewProjection& viewProjection) {
-	if (isKeyDead_ == false) {
+	if (isHummerDead_ == false) {
 		keyupModel_->Draw(worldTransform_[0], viewProjection);
 	}
 	if (isKeyUpDead_ == false) {
 		keydownModel_->Draw(worldTransform_[1], viewProjection);
 	}
 	if (isKeyDownDead_ == false) {
-		keymoldModel_->Draw(worldTransform_[2], viewProjection);
+		hummerModel_->Draw(worldTransform_[2], viewProjection);
 	}
 }
 
-void Key::OnKeyCollision() { isKeyDead_ = true; }
+void Key::OnKeyCollision() { isHummerDead_ = true; }
 void Key::OnKeyUpCollision() { isKeyUpDead_ = true; }
 void Key::OnKeyDownCollision() { isKeyDownDead_ = true; }
 
