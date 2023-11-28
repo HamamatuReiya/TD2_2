@@ -13,6 +13,7 @@ void Player::Initialize(Model* model) {
 	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
 	collisionType_ = START;
 	stamina = 720.0f;
+	life = 4;
 	isRun = true;
 }
 
@@ -131,6 +132,10 @@ void Player::Update() {
 	// 画面の座標を表示
 	ImGui::Begin("PLACE");
 	ImGui::Text("%d\n", collisionType_);
+	ImGui::End();
+
+	ImGui::Begin("LIFE");
+	ImGui::Text("%d\n", life);
 	ImGui::End();
 }
 
@@ -939,5 +944,4 @@ Vector3 Player::GetWorldPosition() {
 	return worldPos;
 }
 
-void Player::OnCollision() {}
-
+void Player::OnCollision() { life -= 1; }
