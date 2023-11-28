@@ -674,6 +674,9 @@ void GameScene::CheakCollisions() {
 	float posAD;
 	//自機と金床
 	float posAF;
+	//自機と敵の判定
+	float posAEHit;
+	//自機と敵の半径
 	//自機と南京錠
 	float posAG;
 
@@ -688,7 +691,7 @@ void GameScene::CheakCollisions() {
 	float enemyVisibilityShift = 12.0f;
 
 	//敵にぶつかる半径
-	//float enemyRadius = 3.0f;
+	float enemyRadius = 3.0f;
 	//敵に見つかる半径
 	float enemySearchRadius = 10.0f;
 
@@ -852,16 +855,18 @@ void GameScene::CheakCollisions() {
 		isCreateKey = false;
 	}
 
+
+
 	if (Key_->GetisHummerDead() == true) {
 		if (Key_->GetkeyNumber() == 1) {
 			if (enemy_->GetEncountMove1Flag() == true) {
 				enemy_->EncountMove1();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -874,11 +879,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove2Flag() == true) {
 				enemy_->EncountMove2();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -891,11 +896,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove3Flag() == true) {
 				enemy_->EncountMove3();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -911,11 +916,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove4Flag() == true) {
 				enemy_->EncountMove4();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -928,11 +933,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove5Flag() == true) {
 				enemy_->EncountMove5();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -945,11 +950,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove6Flag() == true) {
 				enemy_->EncountMove6();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -965,11 +970,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove7Flag() == true) {
 				enemy_->EncountMove7();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -982,11 +987,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove8Flag() == true) {
 				enemy_->EncountMove8();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -999,11 +1004,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove9Flag() == true) {
 				enemy_->EncountMove9();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -1015,8 +1020,11 @@ void GameScene::CheakCollisions() {
 		}
 	} 
 	 
-	
-
+	posAEHit = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
+	if (posAEHit <= (playerRadius + enemyRadius) * (playerRadius + enemyRadius)) {
+		player_->OnCollision();
+	}
 	if (EnemyCameraActive == false) {
 		// 敵の視界
 		//  AとEの距離を求める
