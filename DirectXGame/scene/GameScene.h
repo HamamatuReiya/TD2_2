@@ -89,6 +89,14 @@ private: //
 	void ClearTimeUpdate();
 	void ClearTimeInitialize();
 
+	void LuleInitialize();
+	void LuleUpdate();
+	void LuleDraw();
+
+	//ループ用初期化
+	void RoopInitialize();
+
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	//ワールドトランスフォーム
@@ -287,6 +295,12 @@ private:
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
 
+	//操作方法スプライト
+	Sprite* operationSprite_ = nullptr;
+
+	// ルールスプライト
+	Sprite* LuleSprite_[2] = {nullptr,nullptr};
+
 	// クリアタイムの画像
 	Sprite* ClearTimeScore1_[10] = {nullptr};
 	Sprite* ClearTimeScore2_[10] = {nullptr};
@@ -301,11 +315,21 @@ private:
 
 	// ボタン表示
 	uint32_t buttonTexture_ = 0;
+	//操作方法表示
+	uint32_t operationTexture_ = 0;
+	// ルール表示
+	uint32_t luleTexture_[2] = {0,0};
 
 	bool GetButton;
 	bool iskeyup;
 	bool iskey;
 	bool iskeydown;
+
+	//ルール
+	bool isLule_ = true;
+	bool LuleP1Frag = true;
+	bool LuleP2Frag = false;
+	
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;
