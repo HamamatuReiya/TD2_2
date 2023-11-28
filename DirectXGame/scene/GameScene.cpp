@@ -115,7 +115,7 @@ void GameScene::Initialize() {
 	isHummer = true;
 	iskeydown = true;
 	isCraft = false;
-	isLock = true;
+	isLock = false;
 
 	//部屋の生成,初期化
 	RoomInitialize();
@@ -170,16 +170,21 @@ void GameScene::Initialize() {
 	//スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
+	//カウント
+	CountInitialize();
+	
 	//ルール
 	LuleInitialize();
 	//クリアタイム
 	ClearTimeInitialize();
 	// 型
 	MoldInitialize();
+
 	//鍵制作
-	isCompletion = false;
 	isClear = false;
-	isLock = true;
+	isLock = false;
+	LockOpenTime_ = 0;
+	PushTime_ = 0;
 }
 
 void GameScene::RoopInitialize() {
@@ -214,12 +219,21 @@ void GameScene::RoopInitialize() {
 	//型
 	MoldInitialize();
 	// 鍵制作
-	isCompletion = false;
 	isClear = false;
 	isLock = false;
+	//カウント
+	for (int i = 0; i < 3; i++) {
+		PushCount[i] = false;
+	}
+	for (int i = 0; i < 5; i++) {
+		ClearCount[i] = false;
+	}
+	LockOpenTime_ = 0;
+	PushTime_ = 0;
 }
 
-void GameScene::ClearUpdate() {
+void GameScene::CraftingUpdate() {
+	
 	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
 		isCraft = true;
 	} else {
@@ -229,8 +243,97 @@ void GameScene::ClearUpdate() {
 
 void GameScene::ClearDraw() {
 	if (isClear==true) {
-
+		goalSprite_->Draw();
 	}
+	if (PushCount[0] == true) {
+		CountSprite[0]->Draw();
+	}
+}
+
+void GameScene::CountInitialize() {
+	// カウント
+	countTexture[0] = TextureManager::Load("Count./count1.png");
+	CountSprite[0] = Sprite::Create(countTexture[0], {0, 0});
+	// カウント
+	countTexture[1] = TextureManager::Load("Count./count2.png");
+	CountSprite[1] = Sprite::Create(countTexture[1], {0, 0});
+	// カウント
+	countTexture[2] = TextureManager::Load("Count./count3.png");
+	CountSprite[2] = Sprite::Create(countTexture[2], {0, 0});
+	// クリアカウント
+	clearcountTexture[0] = TextureManager::Load("Count./count1.png");
+	ClearCountSprite[0] = Sprite::Create(clearcountTexture[0], {0, 0});
+	// クリアカウント
+	clearcountTexture[1] = TextureManager::Load("Count./count2.png");
+	ClearCountSprite[1] = Sprite::Create(clearcountTexture[1], {0, 0});
+	// クリアカウント
+	clearcountTexture[2] = TextureManager::Load("Count./count3.png");
+	ClearCountSprite[2] = Sprite::Create(clearcountTexture[2], {0, 0});
+	// クリアカウント
+	clearcountTexture[3] = TextureManager::Load("Count./count4.png");
+	ClearCountSprite[3] = Sprite::Create(clearcountTexture[3], {0, 0});
+	// クリアカウント
+	clearcountTexture[4] = TextureManager::Load("Count./count5.png");
+	ClearCountSprite[4] = Sprite::Create(clearcountTexture[4], {0, 0});
+
+	for (int i = 0; i < 3; i++) {
+		PushCount[i] = false;
+	}
+	for (int i = 0; i < 5; i++) {
+		ClearCount[i] = false;
+	}
+}
+
+void GameScene::CountUpdate() {
+	if (PushTime_ >= 100 && PushTime_ >= 0) {
+		PushCount[2] = true;
+		PushCount[1] = true;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 200) {
+		PushCount[2] = false;
+		PushCount[1] = true;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 300) {
+		PushCount[2] = false;
+		PushCount[1] = false;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 400) {
+		PushCount[2] = false;
+		PushCount[1] = false;
+		PushCount[0] = false;
+	}
+}
+
+void GameScene::CountDraw() {
+	if (PushCount[0] == true) {
+		CountSprite[0]->Draw();
+	}
+	if (PushCount[1] == true) {
+		CountSprite[1]->Draw();
+	}
+	if (PushCount[2] == true) {
+		CountSprite[2]->Draw();
+	}
+	//クリアカウント
+	if (ClearCount[0] == true) {
+		ClearCountSprite[0]->Draw();
+	}
+	if (ClearCount[1] == true) {
+		ClearCountSprite[1]->Draw();
+	}
+	if (ClearCount[2] == true) {
+		ClearCountSprite[2]->Draw();
+	}
+	if (ClearCount[3] == true) {
+		ClearCountSprite[3]->Draw();
+	}
+	if (ClearCount[4] == true) {
+		ClearCountSprite[4]->Draw();
+	}
+				
 }
 
 void GameScene::ClearTimeInitialize()
@@ -395,7 +498,8 @@ void GameScene::Update() {
 		if (EnemyCameraActive == false) {
 			player_->Update();
 		}
-		ClearUpdate();
+		CraftingUpdate();
+		CountUpdate();
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
@@ -430,9 +534,7 @@ void GameScene::Update() {
 		// シーン切り替え
 		if (input_->TriggerKey(DIK_RETURN)) {
 			isSceneEnd = true;
-			
 		}
-
 
 		ClearTimeUpdate();
 	}
@@ -528,9 +630,10 @@ void GameScene::Draw() {
 		MoldDraw();
 		// スタミナ
 		staminaSprite->Draw();
-		if (isClear==true) {
-			goalSprite_->Draw();
-		}
+		//カウント
+		CountDraw();
+		//クリア
+		ClearDraw();
 	}
 	
 	
@@ -691,15 +794,19 @@ void GameScene::CheakCollisions() {
 		}
 		if (input_->PushKey(DIK_F) && isCraft == true) {
 			PushTime_++;
-			if (PushTime_>= 300) {
-				isCompletion = true;
-				PushTime_ = 300;
+			if (PushTime_>= 400) {
+				isLock = true;
+				for (int i = 0; i < 3; i++) {
+					PushCount[i] = true;
+				}
+				PushTime_ = 400;
+				for (int i = 0; i < 3; i++) {
+					PushCount[i] = false;
+				}
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
-		} else {
-			PushTime_ = 0;
 		}
 	}
 	// AとGの距離を求める
@@ -713,13 +820,17 @@ void GameScene::CheakCollisions() {
 		if (input_->PushKey(DIK_F) && isLock == true) {
 			LockOpenTime_++;
 			if (LockOpenTime_ >= 600) {
+				for (int i = 0; i < 5; i++) {
+					ClearCount[i] = true;
+				}
 				isClear = true;
+				for (int i = 0; i < 5; i++) {
+					ClearCount[i] = false;
+				}
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
-		} else {
-			LockOpenTime_ = 0;
 		}
 	}
 
