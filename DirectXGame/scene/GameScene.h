@@ -306,6 +306,10 @@ private:
 
 	//型スプライト
 	Sprite* MoldSprite_[4] = {nullptr, nullptr,nullptr,nullptr};
+	// スタミナスプライト
+	Sprite* staminaSprite = nullptr;
+	// 表示範囲
+	Vector2 size;
 
 	// クリアタイムの画像
 	Sprite* ClearTimeScore1_[10] = {nullptr};
@@ -327,6 +331,8 @@ private:
 	uint32_t luleTexture_[2] = {0,0};
 	//型表示
 	uint32_t moldTexture_[4] = {0, 0, 0, 0};
+	//スタミナ
+	uint32_t staminaTexture = 0;
 
 	bool GetButton;
 	bool iskeyup;

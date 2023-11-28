@@ -155,6 +155,9 @@ void GameScene::Initialize() {
 	CraftModel_.reset(Model::CreateFromOBJ("craft", true));
 	// 作業机の初期化
 	craft_->Initialize(CraftModel_.get());
+	//スタミナ
+	staminaTexture = TextureManager::Load("Stamina.png");
+	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
 	//ルール
 	LuleInitialize();
 	//クリアタイム
@@ -358,6 +361,12 @@ void GameScene::Update() {
 		if (EnemyCameraActive == false) {
 			player_->Update();
 		}
+		// ダッシュ
+		size = staminaSprite->GetSize();
+		size.x = player_->GetStamina();
+
+		staminaSprite->SetSize(size);
+
 		enemy_->SetPlayer(player_.get());
 		enemy_->Update();
 		Key_->Update();
@@ -448,7 +457,8 @@ void GameScene::Draw() {
 	exit_->Draw(viewProjection_);
 	// 作業机の描画
 	craft_->Draw(viewProjection_);
-
+	
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -476,7 +486,8 @@ void GameScene::Draw() {
 		// 型
 		MoldDraw();
 	}
-
+	// スタミナ
+	staminaSprite->Draw();
 	
 	
 	enemy_->EfectDraw();
