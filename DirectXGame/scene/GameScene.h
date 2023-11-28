@@ -312,7 +312,11 @@ private:
 	// 作業机
 	std::unique_ptr<Craft> craft_;
 
-	
+	uint32_t staminaTextur_ = 0;
+	// スタミナスプライト
+	Sprite* staminaSprite_ = nullptr;
+	//表示範囲
+	Vector2 size;
 
 	/// <summary>
 	/// ゲームシーン用

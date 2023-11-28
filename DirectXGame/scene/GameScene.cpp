@@ -150,6 +150,9 @@ void GameScene::Initialize() {
 	// 作業机の初期化
 	craft_->Initialize(CraftModel_.get());
 
+	staminaTextur_ = TextureManager::Load("Stamina.png");
+	staminaSprite_ = Sprite::Create(staminaTextur_, {600, 900});
+
 	//クリアタイムテクスチャ
 	ClearTimeInitialize();
 }
@@ -258,6 +261,12 @@ void GameScene::Update() {
 	//作業机の更新
 	craft_->Update();
 
+	//ダッシュ
+	size = staminaSprite_->GetSize();
+	size.x = player_->GetStamina();
+
+	staminaSprite_->SetSize(size);
+
 	ActiveTime++;
 	CheakCollisions();
 	
@@ -344,6 +353,7 @@ void GameScene::Draw() {
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
 	ClearTimeScore3_[isClearTime_3]->Draw();
+	staminaSprite_->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
