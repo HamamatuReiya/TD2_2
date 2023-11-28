@@ -114,6 +114,7 @@ void GameScene::Initialize() {
 	iskeyup = true;
 	isHummer = true;
 	iskeydown = true;
+	isCraft = true;
 
 	//部屋の生成,初期化
 	RoomInitialize();
@@ -305,11 +306,13 @@ void GameScene::LuleUpdate() {
 			LuleP2Frag = false;
 		}
 	}
+	if (isLule_ == false && input_->TriggerKey(DIK_M)) {
+		isLule_ = true;
+	}
 }
 
-void GameScene::LuleDraw() 
-{
-	if (LuleP1Frag==true) {
+void GameScene::LuleDraw() {
+	if (LuleP1Frag == true) {
 		LuleSprite_[0]->Draw();
 	}
 	if (LuleP2Frag == true) {
@@ -496,12 +499,14 @@ void GameScene::sceneReset() {
 
 void GameScene::CheakCollisions() {
 	// 判定対象AとBの座標
-	Vector3 posA, posB,posC,posD,posE;
+	Vector3 posA,posB,posC,posD,posE,posF;
 
 	// 2間点の距離(自キャラと鍵の当たり判定)
 	float posAB;
 	float posAC;
 	float posAD;
+	//自機と金床
+	float posAF;
 
 	//自機と敵
 	float posAE;
@@ -529,18 +534,22 @@ void GameScene::CheakCollisions() {
 	float keyUpRadius = 1.0f;
 	// 鍵の半径
 	float keyDounRadius = 1.0f;
+	//金床の半径
+	float CraftRadius = 1.0f;
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
 	posA = player_->GetWorldPosition();
-	//敵キャラのワールド座標
-	posE = enemy_->GetWorldPosition();
 	// 鍵上の座標
 	posB = Key_->GetKeyUpWorldPosition();
 	// 鍵型の座標
 	posC = Key_->GetKeyWorldPosition();
 	// 鍵下の座標
 	posD = Key_->GetKeyDownWorldPosition();
+	//敵キャラのワールド座標
+	posE = enemy_->GetWorldPosition();
+	//金床の座標
+	posF = craft_->GetCraftWorldPosition();
 	// AとBの距離を求める
 	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
 	        (posB.z - posA.z) * (posB.z - posA.z);
@@ -608,6 +617,20 @@ void GameScene::CheakCollisions() {
 		}
 		if (ActiveTime >= 120) {
 			EnemyCameraActive = false;
+		}
+	}
+	// AとFの距離を求める
+	posAF = (posF.x - posA.x) * (posF.x - posA.x) + (posF.y - posA.y) * (posF.y - posA.y) +
+	        (posF.z - posA.z) * (posF.z - posA.z);
+	// プレイヤーと金床の当たり判定
+	if (posAF <= (playerRadius + CraftRadius) * (playerRadius + CraftRadius)) {
+		if (isCraft == true) {
+			GetButton = true;
+		}
+		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
+			Gettingkeydown = true;
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
 		}
 	}
 

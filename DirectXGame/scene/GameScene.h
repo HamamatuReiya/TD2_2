@@ -332,6 +332,7 @@ private:
 	bool iskeyup;
 	bool isHummer;
 	bool iskeydown;
+	bool isCraft;
 
 	//ルール
 	bool isLule_ = true;
@@ -341,7 +342,6 @@ private:
 	bool Gettingkeyup;
 	bool GettingHummer;
 	bool Gettingkeydown;
-	
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;
