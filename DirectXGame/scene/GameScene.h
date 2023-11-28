@@ -99,6 +99,9 @@ private: //
 	//ループ用初期化
 	void RoopInitialize();
 
+	// クリア
+	void ClearUpdate();
+	void ClearDraw();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -298,6 +301,9 @@ private:
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
 
+	// ゴールスプライト
+	Sprite* goalSprite_ = nullptr;
+
 	//操作方法スプライト
 	Sprite* operationSprite_ = nullptr;
 
@@ -333,6 +339,8 @@ private:
 	uint32_t moldTexture_[4] = {0, 0, 0, 0};
 	//スタミナ
 	uint32_t staminaTexture = 0;
+	// ゴール
+	uint32_t goalTexture = 0;
 
 	bool GetButton;
 	bool iskeyup;
@@ -348,6 +356,11 @@ private:
 	bool Gettingkeyup;
 	bool GettingHummer;
 	bool Gettingkeydown;
+
+	//押し続ける
+	float PushTime_;
+	bool isCompletion;
+	
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;

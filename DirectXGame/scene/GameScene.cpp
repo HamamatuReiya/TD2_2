@@ -148,6 +148,10 @@ void GameScene::Initialize() {
 	operationTexture_ = TextureManager::Load("Operation.png");
 	// スプライトの生成
 	operationSprite_ = Sprite::Create(operationTexture_, {0, 0});
+	// ゴールのテクスチャ読み込み
+	goalTexture = TextureManager::Load("CLEAR.png");
+	// ゴールの生成
+	goalSprite_ = Sprite::Create(goalTexture, {0, 0});
 
 	// 作業机の生成
 	craft_= std::make_unique<Craft>();
@@ -164,6 +168,9 @@ void GameScene::Initialize() {
 	ClearTimeInitialize();
 	// 型
 	MoldInitialize();
+	//鍵制作
+	isCompletion = false;
+	
 }
 
 void GameScene::RoopInitialize() {
@@ -173,7 +180,7 @@ void GameScene::RoopInitialize() {
 	worldTransform_.Initialize();
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	//  自キャラの初期化
+	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 	// ルール
 	LuleInitialize();
@@ -197,7 +204,17 @@ void GameScene::RoopInitialize() {
 	isHummer = true;
 	//型
 	MoldInitialize();
+	// 鍵制作
+	isCompletion = false;
 }
+
+void GameScene::ClearUpdate() {
+	if (isCompletion==true) {
+
+	}
+}
+
+void GameScene::ClearDraw() {}
 
 void GameScene::ClearTimeInitialize()
 {
@@ -299,7 +316,7 @@ void GameScene::LuleUpdate() {
 			LuleP1Frag = false;
 			LuleP2Frag = true;
 		}
-		if (input_->TriggerKey(DIK_ESCAPE) && LuleP2Frag == true) {
+		if (input_->TriggerKey(DIK_SPACE) && LuleP2Frag == true) {
 			LuleP1Frag = false;
 			LuleP2Frag = false;
 			isLule_ = false;
@@ -356,6 +373,11 @@ void GameScene::MoldDraw() {
 
 void GameScene::Update() {
 	LuleUpdate();
+	// ゴール
+	if (isCompletion == true) {
+		
+		
+	}
 	if (isLule_==false) {
 		CameraUpdate();
 		if (EnemyCameraActive == false) {
@@ -485,9 +507,10 @@ void GameScene::Draw() {
 	if (isLule_ == false) {
 		// 型
 		MoldDraw();
+		// スタミナ
+		staminaSprite->Draw();
 	}
-	// スタミナ
-	staminaSprite->Draw();
+	
 	
 	
 	enemy_->EfectDraw();
@@ -638,10 +661,16 @@ void GameScene::CheakCollisions() {
 		if (isCraft == true) {
 			GetButton = true;
 		}
-		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
-			Gettingkeydown = true;
+		if (input_->PushKey(DIK_F) && isCraft == true) {
+			PushTime_++;
+			if (PushTime_>= 300) {
+				isCompletion = true;
+			}
+			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
+		} else {
+			PushTime_ = 0;
 		}
 	}
 
