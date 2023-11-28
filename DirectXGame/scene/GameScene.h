@@ -303,6 +303,8 @@ private:
 
 	//スプライト
 	Sprite* buttonSprite_ = nullptr;
+	// 長押しスプライト
+	Sprite* longbuttonSprite_ = nullptr;
 
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
@@ -321,9 +323,9 @@ private:
 	// スタミナスプライト
 	Sprite* staminaSprite = nullptr;
 	// カウントスプライト
-	Sprite* CountSprite[3] = {nullptr, nullptr, nullptr};
+	Sprite* CountSprite = nullptr;
 	// カウントスプライト
-	Sprite* ClearCountSprite[5] = {nullptr, nullptr, nullptr, nullptr, nullptr};
+	Sprite* ClearCountSprite = nullptr;
 
 	// 表示範囲
 	Vector2 size;
@@ -342,6 +344,8 @@ private:
 
 	// ボタン表示
 	uint32_t buttonTexture_ = 0;
+	// 長押しボタン表示
+	uint32_t LongbuttonTexture_ = 0;
 	//操作方法表示
 	uint32_t operationTexture_ = 0;
 	// ルール表示
@@ -353,9 +357,9 @@ private:
 	// ゴール
 	uint32_t goalTexture = 0;
 	//解除テクスチャ
-	uint32_t clearcountTexture[5] = {0, 0, 0, 0 ,0};
+	uint32_t clearcountTexture = 0;
 	// 解除テクスチャ
-	uint32_t countTexture[3] = {0, 0, 0};
+	uint32_t countTexture =  0;
 
 	bool GetButton;
 	bool iskeyup;
@@ -380,8 +384,12 @@ private:
 	float LockOpenTime_;
 
 	//カウント
-	bool PushCount[3] = {false,false,false};
-	bool ClearCount[5] = {false, false, false, false, false};
+	bool PushNow = false;
+	bool isCreateKey = false;
+	//
+	bool isComplete;
+	bool CompleteTime;
+	bool isCrafting; 
 	
 
 	// 3Dモデル

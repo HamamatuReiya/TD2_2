@@ -151,6 +151,10 @@ void GameScene::Initialize() {
 	buttonTexture_ = TextureManager::Load("F.png");
 	// スプライトの生成
 	buttonSprite_ = Sprite::Create(buttonTexture_, {1250, 600});
+	// 長押しボタンのテクスチャ読み込み
+	LongbuttonTexture_ = TextureManager::Load("Criating.png");
+	// 長押しスプライトの生成
+	longbuttonSprite_ = Sprite::Create(LongbuttonTexture_, {0, 0});
 
 	//操作方法のテクスチャ読み込み
 	operationTexture_ = TextureManager::Load("Operation.png");
@@ -185,6 +189,7 @@ void GameScene::Initialize() {
 	isLock = false;
 	LockOpenTime_ = 0;
 	PushTime_ = 0;
+	isCrafting = false;
 }
 
 void GameScene::RoopInitialize() {
@@ -222,22 +227,20 @@ void GameScene::RoopInitialize() {
 	isClear = false;
 	isLock = false;
 	//カウント
-	for (int i = 0; i < 3; i++) {
-		PushCount[i] = false;
-	}
-	for (int i = 0; i < 5; i++) {
-		ClearCount[i] = false;
-	}
-	LockOpenTime_ = 0;
-	PushTime_ = 0;
+	PushNow = false;
+	isCreateKey= false;
+	
+
 }
 
 void GameScene::CraftingUpdate() {
 	
 	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
 		isCraft = true;
+		isCrafting = true;
 	} else {
 		isCraft = false;
+		isCrafting = false;
 	}
 }
 
@@ -245,95 +248,45 @@ void GameScene::ClearDraw() {
 	if (isClear==true) {
 		goalSprite_->Draw();
 	}
-	if (PushCount[0] == true) {
-		CountSprite[0]->Draw();
-	}
 }
 
 void GameScene::CountInitialize() {
 	// カウント
-	countTexture[0] = TextureManager::Load("Count./count1.png");
-	CountSprite[0] = Sprite::Create(countTexture[0], {0, 0});
-	// カウント
-	countTexture[1] = TextureManager::Load("Count./count2.png");
-	CountSprite[1] = Sprite::Create(countTexture[1], {0, 0});
-	// カウント
-	countTexture[2] = TextureManager::Load("Count./count3.png");
-	CountSprite[2] = Sprite::Create(countTexture[2], {0, 0});
+	countTexture = TextureManager::Load("CraftNow.png");
+	CountSprite = Sprite::Create(countTexture, {0, 0});
 	// クリアカウント
-	clearcountTexture[0] = TextureManager::Load("Count./count1.png");
-	ClearCountSprite[0] = Sprite::Create(clearcountTexture[0], {0, 0});
-	// クリアカウント
-	clearcountTexture[1] = TextureManager::Load("Count./count2.png");
-	ClearCountSprite[1] = Sprite::Create(clearcountTexture[1], {0, 0});
-	// クリアカウント
-	clearcountTexture[2] = TextureManager::Load("Count./count3.png");
-	ClearCountSprite[2] = Sprite::Create(clearcountTexture[2], {0, 0});
-	// クリアカウント
-	clearcountTexture[3] = TextureManager::Load("Count./count4.png");
-	ClearCountSprite[3] = Sprite::Create(clearcountTexture[3], {0, 0});
-	// クリアカウント
-	clearcountTexture[4] = TextureManager::Load("Count./count5.png");
-	ClearCountSprite[4] = Sprite::Create(clearcountTexture[4], {0, 0});
+	clearcountTexture = TextureManager::Load("Opennow.png");
+	ClearCountSprite = Sprite::Create(clearcountTexture, {0, 0});
 
-	for (int i = 0; i < 3; i++) {
-		PushCount[i] = false;
-	}
-	for (int i = 0; i < 5; i++) {
-		ClearCount[i] = false;
-	}
+	PushNow = false;
+	
+	isCreateKey = false;
 }
 
 void GameScene::CountUpdate() {
-	if (PushTime_ >= 100 && PushTime_ >= 0) {
-		PushCount[2] = true;
-		PushCount[1] = true;
-		PushCount[0] = true;
+	if (PushTime_> 0&&PushTime_ <= 300){
+		PushNow= true;
 	}
-	if (PushTime_ >= 200) {
-		PushCount[2] = false;
-		PushCount[1] = true;
-		PushCount[0] = true;
+	//クリアカウント
+	if (LockOpenTime_ > 0 && LockOpenTime_ <= 500) {
+		isCreateKey = true;
 	}
-	if (PushTime_ >= 300) {
-		PushCount[2] = false;
-		PushCount[1] = false;
-		PushCount[0] = true;
-	}
-	if (PushTime_ >= 400) {
-		PushCount[2] = false;
-		PushCount[1] = false;
-		PushCount[0] = false;
-	}
+	
+	
 }
 
 void GameScene::CountDraw() {
-	if (PushCount[0] == true) {
-		CountSprite[0]->Draw();
+	if (isCraft == true) {
+		if (PushNow == true) {
+			CountSprite->Draw();
+		}
 	}
-	if (PushCount[1] == true) {
-		CountSprite[1]->Draw();
-	}
-	if (PushCount[2] == true) {
-		CountSprite[2]->Draw();
-	}
-	//クリアカウント
-	if (ClearCount[0] == true) {
-		ClearCountSprite[0]->Draw();
-	}
-	if (ClearCount[1] == true) {
-		ClearCountSprite[1]->Draw();
-	}
-	if (ClearCount[2] == true) {
-		ClearCountSprite[2]->Draw();
-	}
-	if (ClearCount[3] == true) {
-		ClearCountSprite[3]->Draw();
-	}
-	if (ClearCount[4] == true) {
-		ClearCountSprite[4]->Draw();
-	}
-				
+	if (isLock==true) {
+		// クリアカウント
+		if (isCreateKey == true) {
+			ClearCountSprite->Draw();
+		}
+	}		
 }
 
 void GameScene::ClearTimeInitialize()
@@ -794,19 +747,24 @@ void GameScene::CheakCollisions() {
 		}
 		if (input_->PushKey(DIK_F) && isCraft == true) {
 			PushTime_++;
-			if (PushTime_>= 400) {
+			if (PushTime_<= 300) {
 				isLock = true;
 				for (int i = 0; i < 3; i++) {
-					PushCount[i] = true;
+					PushNow = true;
 				}
-				PushTime_ = 400;
+			}
+			if (PushTime_ > 300) {
 				for (int i = 0; i < 3; i++) {
-					PushCount[i] = false;
+					PushNow = false;
 				}
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
+		}
+	} else {
+		for (int i = 0; i < 3; i++) {
+			PushNow = false;
 		}
 	}
 	// AとGの距離を求める
@@ -819,18 +777,24 @@ void GameScene::CheakCollisions() {
 		}
 		if (input_->PushKey(DIK_F) && isLock == true) {
 			LockOpenTime_++;
-			if (LockOpenTime_ >= 600) {
+			if (LockOpenTime_ <= 600) {
 				for (int i = 0; i < 5; i++) {
-					ClearCount[i] = true;
+					isCreateKey = true;
 				}
 				isClear = true;
+			}
+			if (LockOpenTime_ > 500) {
 				for (int i = 0; i < 5; i++) {
-					ClearCount[i] = false;
+					isCreateKey = false;
 				}
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
+		}
+	} else {
+		for (int i = 0; i < 5; i++) {
+			isCreateKey = false;
 		}
 	}
 
