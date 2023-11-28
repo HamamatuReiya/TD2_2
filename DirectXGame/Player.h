@@ -84,6 +84,8 @@ private:
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
 
+	//ライフ
+	int life = 4;
 	// スタミナ
 	float stamina;
 	// クールタイム用
