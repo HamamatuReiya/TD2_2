@@ -114,7 +114,8 @@ void GameScene::Initialize() {
 	iskeyup = true;
 	isHummer = true;
 	iskeydown = true;
-	isCraft = true;
+	isCraft = false;
+	isLock = true;
 
 	//部屋の生成,初期化
 	RoomInitialize();
@@ -177,7 +178,8 @@ void GameScene::Initialize() {
 	MoldInitialize();
 	//鍵制作
 	isCompletion = false;
-	
+	isClear = false;
+	isLock = true;
 }
 
 void GameScene::RoopInitialize() {
@@ -213,15 +215,23 @@ void GameScene::RoopInitialize() {
 	MoldInitialize();
 	// 鍵制作
 	isCompletion = false;
+	isClear = false;
+	isLock = false;
 }
 
 void GameScene::ClearUpdate() {
-	if (isCompletion==true) {
-
+	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
+		isCraft = true;
+	} else {
+		isCraft = false;
 	}
 }
 
-void GameScene::ClearDraw() {}
+void GameScene::ClearDraw() {
+	if (isClear==true) {
+
+	}
+}
 
 void GameScene::ClearTimeInitialize()
 {
@@ -380,16 +390,12 @@ void GameScene::MoldDraw() {
 
 void GameScene::Update() {
 	LuleUpdate();
-	// ゴール
-	if (isCompletion == true) {
-		
-		
-	}
 	if (isLule_==false) {
 		CameraUpdate();
 		if (EnemyCameraActive == false) {
 			player_->Update();
 		}
+		ClearUpdate();
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
@@ -426,6 +432,7 @@ void GameScene::Update() {
 			isSceneEnd = true;
 			
 		}
+
 
 		ClearTimeUpdate();
 	}
@@ -492,6 +499,7 @@ void GameScene::Draw() {
 	lock_->Draw(viewProjection_);
 	
 	
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -520,6 +528,9 @@ void GameScene::Draw() {
 		MoldDraw();
 		// スタミナ
 		staminaSprite->Draw();
+		if (isClear==true) {
+			goalSprite_->Draw();
+		}
 	}
 	
 	
@@ -544,7 +555,7 @@ void GameScene::sceneReset() {
 
 void GameScene::CheakCollisions() {
 	// 判定対象AとBの座標
-	Vector3 posA,posB,posC,posD,posE,posF;
+	Vector3 posA,posB,posC,posD,posE,posF,posG;
 
 	// 2間点の距離(自キャラと鍵の当たり判定)
 	float posAB;
@@ -552,6 +563,8 @@ void GameScene::CheakCollisions() {
 	float posAD;
 	//自機と金床
 	float posAF;
+	//自機と南京錠
+	float posAG;
 
 	//自機と敵
 	float posAE;
@@ -580,7 +593,9 @@ void GameScene::CheakCollisions() {
 	// 鍵の半径
 	float keyDounRadius = 1.0f;
 	//金床の半径
-	float CraftRadius = 1.0f;
+	float CraftRadius = 2.0f;
+	//南京錠の半径
+	float LockRadius = 1.0f;
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
@@ -595,6 +610,8 @@ void GameScene::CheakCollisions() {
 	posE = enemy_->GetWorldPosition();
 	//金床の座標
 	posF = craft_->GetCraftWorldPosition();
+	// 金床の座標
+	posG = lock_->GetLockWorldPosition();
 	// AとBの距離を求める
 	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
 	        (posB.z - posA.z) * (posB.z - posA.z);
@@ -676,12 +693,33 @@ void GameScene::CheakCollisions() {
 			PushTime_++;
 			if (PushTime_>= 300) {
 				isCompletion = true;
+				PushTime_ = 300;
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 		} else {
 			PushTime_ = 0;
+		}
+	}
+	// AとGの距離を求める
+	posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
+	        (posG.z - posA.z) * (posG.z - posA.z);
+	// プレイヤーと南京錠の当たり判定
+	if (posAG <= (playerRadius + LockRadius) * (playerRadius + LockRadius)) {
+		if (isLock == true) {
+			GetButton = true;
+		}
+		if (input_->PushKey(DIK_F) && isLock == true) {
+			LockOpenTime_++;
+			if (LockOpenTime_ >= 600) {
+				isClear = true;
+			}
+			craft_->OnCraftCollision();
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+		} else {
+			LockOpenTime_ = 0;
 		}
 	}
 

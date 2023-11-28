@@ -348,6 +348,9 @@ private:
 	bool isHummer;
 	bool iskeydown;
 	bool isCraft;
+	bool isLock;
+
+	bool isClear;
 
 	//ルール
 	bool isLule_ = true;
@@ -361,6 +364,7 @@ private:
 	//押し続ける
 	float PushTime_;
 	bool isCompletion;
+	float LockOpenTime_;
 	
 
 	// 3Dモデル
