@@ -139,6 +139,13 @@ void GameScene::Initialize() {
 	// 出口の初期化
 	exit_->Initialize(ExitModel_.get());
 
+	// 南京錠の生成
+	lock_ = std::make_unique<Lock>();
+	// 3Dモデルの生成
+	LockModel_.reset(Model::CreateFromOBJ("Lock", true));
+	// 南京錠の初期化
+	lock_->Initialize(LockModel_.get());
+
 	// ボタンのテクスチャ読み込み
 	buttonTexture_ = TextureManager::Load("F.png");
 	// スプライトの生成
@@ -386,6 +393,8 @@ void GameScene::Update() {
 		GetButton = false;
 		// 作業机の更新
 		craft_->Update();
+		//　南京錠の更新
+		lock_->Update();
 
 		ActiveTime++;
 		CheakCollisions();
@@ -457,6 +466,8 @@ void GameScene::Draw() {
 	exit_->Draw(viewProjection_);
 	// 作業机の描画
 	craft_->Draw(viewProjection_);
+	//南京錠の描画
+	lock_->Draw(viewProjection_);
 	
 	
 	// 3Dオブジェクト描画後処理
