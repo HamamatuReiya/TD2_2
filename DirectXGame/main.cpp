@@ -103,12 +103,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ゲームシーンの毎フレーム処理
 			gameScene->Update();
 
+
 			if (gameScene->GetUpdateFlag() == false) {
 				if (input->TriggerKey(DIK_RETURN)) {
 					sceneNo = SceneType::kTitle;
 				}
 			} 
-
 			if (gameScene->GetIsClear() == true) {
 				sceneNo = SceneType::kGameClear;
 

@@ -542,9 +542,9 @@ void GameScene::Update() {
 			isGetKey = true;
 		}
 
-		//if (input_->PushKey(DIK_V)) {
-		//	isClear = true;
-		//}
+		if (input_->PushKey(DIK_V)) {
+			isClear = true;
+		}
 
 		// ダッシュ
 		size = staminaSprite->GetSize();
@@ -710,8 +710,9 @@ void GameScene::Draw() {
 void GameScene::sceneReset() {
 	// シーンの切り替えフラグ
 	isSceneEnd = false;
+	isClear = false;
 	RoopInitialize();
-
+	LockOpenTime_ = 0;
 	// BGMの停止
 	audio_->StopWave(playClearBgm_);
 	if (isBgm_ == false) {
