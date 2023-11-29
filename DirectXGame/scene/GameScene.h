@@ -323,6 +323,9 @@ private:
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
 
+	// ゴールスプライト
+	Sprite* goalSprite_ = nullptr;
+
 	//操作方法スプライト
 	Sprite* operationSprite_ = nullptr;
 

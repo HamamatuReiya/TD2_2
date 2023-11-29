@@ -5,7 +5,19 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { delete buttonSprite_; }
+GameScene::~GameScene() { 
+	delete buttonSprite_;
+	delete gameOverSprite_;
+	delete longbuttonSprite_;
+	delete GoallongbuttonSprite_;
+	delete operationSprite_;
+	for (int i = 0; i < 2; i++) {
+		delete LuleSprite_[i];
+	}
+	for (int i = 0; i < 4; i++) {
+		delete MoldSprite_[i];
+	}
+}
 
 void GameScene::Initialize() {
 
