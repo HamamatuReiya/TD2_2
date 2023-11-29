@@ -1,6 +1,7 @@
 ﻿#include "Enemy.h"
 #include"ImGuiManager.h"
 #include "Player.h"
+#include "Key.h"
 
 void Enemy::Initialize(
     Model* model, Model* model2, Model* model3, Model* model4, Model* model5, Model* model6,
@@ -31,7 +32,7 @@ void Enemy::Initialize(
 	encountFlag = false;
 	kEnemySpeed_ = 0.20f;
 	rotateSpeed_ = 0.10f;
-	phaseSwitchCount = 10;
+	phaseSwitchCount = 300;
 	phase_ = phase1;
 	phase1State = search;
 	collisionType_ = ROOM05;
@@ -48,6 +49,24 @@ void Enemy::Initialize(
 	enemyVisibility_XFlag = false;
 	enemyVisibilityZFlag = false;
 	enemyVisibility_ZFlag = false;
+	encountMove1 = true;
+	encountMove2 = true;
+	encountMove3 = true;
+	encountMove4 = true;
+	encountMove5 = true;
+	encountMove6 = true;
+	encountMove7 = true;
+	encountMove8 = true;
+	encountMove9 = true;
+	setStateFlag1 = true;
+	setStateFlag2 = true;
+	setStateFlag3 = true;
+	setStateFlag4 = true;
+	setStateFlag5 = true;
+	setStateFlag6 = true;
+	setStateFlag7 = true;
+	setStateFlag8 = true;
+	setStateFlag9 = true;
 }
 
 void Enemy::Update() { 
@@ -589,8 +608,8 @@ void Enemy::Update() {
 			}
 
 			break;
-		case posReset:
-
+		case direction:
+			
 			break;
 		}
 		break;
@@ -604,7 +623,7 @@ void Enemy::Update() {
 
 			
 			break;
-		case posReset:
+		case direction:
 
 			break;
 		}
@@ -619,7 +638,7 @@ void Enemy::Update() {
 
 			
 			break;
-		case posReset:
+		case direction:
 
 			break;
 		}
@@ -771,6 +790,105 @@ Vector3 Enemy::GetWorldPosition() {
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 	return worldPos;
+}
+
+void Enemy::EncountMove1() {
+	phase1State = direction;
+	collisionType_ = ROOM04;
+	worldTransform_.translation_.x = 50.0f;
+	worldTransform_.translation_.z = 22.0f;
+	worldTransform_.rotation_.y = -1.6f;
+	move_.x = -0.05f;
+	move_.z = 0.0f;
+	encountMove1 = false;
+}
+
+void Enemy::EncountMove2() {
+	phase1State = direction;
+	collisionType_ = LOAD01;
+	worldTransform_.translation_.x = 74.0f;
+	worldTransform_.translation_.z = 4.0f;
+	worldTransform_.rotation_.y = -1.6f;
+	move_.x = -0.05f;
+	move_.z = 0.0f;
+	encountMove2 = false;
+}
+
+void Enemy::EncountMove3() {
+	phase1State = direction;
+	collisionType_ = ROOM03;
+	worldTransform_.translation_.x = 45.0f;
+	worldTransform_.translation_.z = -8.5f;
+	worldTransform_.rotation_.y = -1.6f;
+	move_.x = -0.05f;
+	move_.z = 0.0f;
+	encountMove3 = false;
+}
+
+void Enemy::EncountMove4() {
+	phase1State = direction;
+	collisionType_ = ROOM07;
+	worldTransform_.translation_.x = 24.0f;
+	worldTransform_.translation_.z = 56.0f;
+	worldTransform_.rotation_.y = 1.6f;
+	move_.x = 0.05f;
+	move_.z = 0.0f;
+	encountMove4 = false;
+}
+
+void Enemy::EncountMove5() {
+	phase1State = direction;
+	collisionType_ = LOAD01;
+	worldTransform_.translation_.x = 84.0f;
+	worldTransform_.translation_.z = 22.0f;
+	worldTransform_.rotation_.y = -3.2f;
+	move_.x = 0.0f;
+	move_.z = -0.05f;
+	encountMove5 = false;
+}
+
+void Enemy::EncountMove6() {
+	phase1State = direction;
+	collisionType_ = ROOM01;
+	worldTransform_.translation_.x = 24.0f;
+	worldTransform_.translation_.z = -8.5f;
+	worldTransform_.rotation_.y = -1.6f;
+	move_.x = -0.05f;
+	move_.z = 0.0f;
+	encountMove6 = false;
+}
+
+void Enemy::EncountMove7() {
+	phase1State = direction;
+	collisionType_ = ROOM09;
+	worldTransform_.translation_.x = 28.0f;
+	worldTransform_.translation_.z = 76.0f;
+	worldTransform_.rotation_.y = -1.6f;
+	move_.x = -0.05f;
+	move_.z = 0.0f;
+	encountMove7 = false;
+}
+
+void Enemy::EncountMove8() {
+	phase1State = direction;
+	collisionType_ = ROOM12;
+	worldTransform_.translation_.x = 80.0f;
+	worldTransform_.translation_.z = 75.0f;
+	worldTransform_.rotation_.y = -1.6f;
+	move_.x = -0.05f;
+	move_.z = 0.0f;
+	encountMove8 = false;
+}
+
+void Enemy::EncountMove9() {
+	phase1State = direction;
+	collisionType_ = ROOM08;
+	worldTransform_.translation_.x = -4.0f;
+	worldTransform_.translation_.z = 76.0f;
+	worldTransform_.rotation_.y = 1.6f;
+	move_.x = 0.05f;
+	move_.z = 0.0f;
+	encountMove9 = false;
 }
 
 void Enemy::PhaseCollision() { phase1State = Chase;

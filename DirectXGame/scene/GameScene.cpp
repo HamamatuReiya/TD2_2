@@ -114,7 +114,8 @@ void GameScene::Initialize() {
 	iskeyup = true;
 	isHummer = true;
 	iskeydown = true;
-	isCraft = true;
+	isCraft = false;
+	isLock = false;
 
 	//部屋の生成,初期化
 	RoomInitialize();
@@ -155,6 +156,10 @@ void GameScene::Initialize() {
 	operationTexture_ = TextureManager::Load("Operation.png");
 	// スプライトの生成
 	operationSprite_ = Sprite::Create(operationTexture_, {0, 0});
+	// ゴールのテクスチャ読み込み
+	goalTexture = TextureManager::Load("CLEAR.png");
+	// ゴールの生成
+	goalSprite_ = Sprite::Create(goalTexture, {0, 0});
 
 	// 作業机の生成
 	craft_= std::make_unique<Craft>();
@@ -165,7 +170,8 @@ void GameScene::Initialize() {
 	//スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
-
+	//カウント
+	CountInitialize();
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
@@ -179,6 +185,12 @@ void GameScene::Initialize() {
 	ClearTimeInitialize();
 	// 型
 	MoldInitialize();
+
+	//鍵制作
+	isClear = false;
+	isLock = false;
+	LockOpenTime_ = 0;
+	PushTime_ = 0;
 }
 
 void GameScene::RoopInitialize() {
@@ -188,7 +200,7 @@ void GameScene::RoopInitialize() {
 	worldTransform_.Initialize();
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	//  自キャラの初期化
+	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 	// ルール
 	LuleInitialize();
@@ -212,6 +224,122 @@ void GameScene::RoopInitialize() {
 	isHummer = true;
 	//型
 	MoldInitialize();
+	// 鍵制作
+	isClear = false;
+	isLock = false;
+	//カウント
+	for (int i = 0; i < 3; i++) {
+		PushCount[i] = false;
+	}
+	for (int i = 0; i < 5; i++) {
+		ClearCount[i] = false;
+	}
+	LockOpenTime_ = 0;
+	PushTime_ = 0;
+}
+
+void GameScene::CraftingUpdate() {
+	
+	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
+		isCraft = true;
+	} else {
+		isCraft = false;
+	}
+}
+
+void GameScene::ClearDraw() {
+	if (isClear==true) {
+		goalSprite_->Draw();
+	}
+	if (PushCount[0] == true) {
+		CountSprite[0]->Draw();
+	}
+}
+
+void GameScene::CountInitialize() {
+	// カウント
+	countTexture[0] = TextureManager::Load("Count./count1.png");
+	CountSprite[0] = Sprite::Create(countTexture[0], {0, 0});
+	// カウント
+	countTexture[1] = TextureManager::Load("Count./count2.png");
+	CountSprite[1] = Sprite::Create(countTexture[1], {0, 0});
+	// カウント
+	countTexture[2] = TextureManager::Load("Count./count3.png");
+	CountSprite[2] = Sprite::Create(countTexture[2], {0, 0});
+	// クリアカウント
+	clearcountTexture[0] = TextureManager::Load("Count./count1.png");
+	ClearCountSprite[0] = Sprite::Create(clearcountTexture[0], {0, 0});
+	// クリアカウント
+	clearcountTexture[1] = TextureManager::Load("Count./count2.png");
+	ClearCountSprite[1] = Sprite::Create(clearcountTexture[1], {0, 0});
+	// クリアカウント
+	clearcountTexture[2] = TextureManager::Load("Count./count3.png");
+	ClearCountSprite[2] = Sprite::Create(clearcountTexture[2], {0, 0});
+	// クリアカウント
+	clearcountTexture[3] = TextureManager::Load("Count./count4.png");
+	ClearCountSprite[3] = Sprite::Create(clearcountTexture[3], {0, 0});
+	// クリアカウント
+	clearcountTexture[4] = TextureManager::Load("Count./count5.png");
+	ClearCountSprite[4] = Sprite::Create(clearcountTexture[4], {0, 0});
+
+	for (int i = 0; i < 3; i++) {
+		PushCount[i] = false;
+	}
+	for (int i = 0; i < 5; i++) {
+		ClearCount[i] = false;
+	}
+}
+
+void GameScene::CountUpdate() {
+	if (PushTime_ >= 100 && PushTime_ >= 0) {
+		PushCount[2] = true;
+		PushCount[1] = true;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 200) {
+		PushCount[2] = false;
+		PushCount[1] = true;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 300) {
+		PushCount[2] = false;
+		PushCount[1] = false;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 400) {
+		PushCount[2] = false;
+		PushCount[1] = false;
+		PushCount[0] = false;
+	}
+}
+
+void GameScene::CountDraw() {
+	if (PushCount[0] == true) {
+		CountSprite[0]->Draw();
+	}
+	if (PushCount[1] == true) {
+		CountSprite[1]->Draw();
+	}
+	if (PushCount[2] == true) {
+		CountSprite[2]->Draw();
+	}
+	//クリアカウント
+	if (ClearCount[0] == true) {
+		ClearCountSprite[0]->Draw();
+	}
+	if (ClearCount[1] == true) {
+		ClearCountSprite[1]->Draw();
+	}
+	if (ClearCount[2] == true) {
+		ClearCountSprite[2]->Draw();
+	}
+	if (ClearCount[3] == true) {
+		ClearCountSprite[3]->Draw();
+	}
+	if (ClearCount[4] == true) {
+		ClearCountSprite[4]->Draw();
+	}
+				
 }
 
 void GameScene::ClearTimeInitialize()
@@ -314,7 +442,7 @@ void GameScene::LuleUpdate() {
 			LuleP1Frag = false;
 			LuleP2Frag = true;
 		}
-		if (input_->TriggerKey(DIK_ESCAPE) && LuleP2Frag == true) {
+		if (input_->TriggerKey(DIK_SPACE) && LuleP2Frag == true) {
 			LuleP1Frag = false;
 			LuleP2Frag = false;
 			isLule_ = false;
@@ -377,6 +505,8 @@ void GameScene::Update() {
 		if (EnemyCameraActive == false) {
 			player_->Update();
 		}
+		CraftingUpdate();
+		CountUpdate();
 
 		if (enemy_->Getphase1State() == Chase) {
 			audio_->StopWave(bgmHandle_);
@@ -427,7 +557,6 @@ void GameScene::Update() {
 		// シーン切り替え
 		if (input_->TriggerKey(DIK_RETURN)) {
 			isSceneEnd = true;
-			
 		}
 
 		ClearTimeUpdate();
@@ -495,6 +624,7 @@ void GameScene::Draw() {
 	lock_->Draw(viewProjection_);
 	
 	
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -506,9 +636,12 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	if (GetButton == true) {
-		buttonSprite_->Draw();
+	if (enemy_->Getphase1State() != Chase) {
+		if (GetButton == true) {
+			buttonSprite_->Draw();
+		}
 	}
+
 	//クリアタイム
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
@@ -521,9 +654,14 @@ void GameScene::Draw() {
 	if (isLule_ == false) {
 		// 型
 		MoldDraw();
+		// スタミナ
+		staminaSprite->Draw();
+		//カウント
+		CountDraw();
+		//クリア
+		ClearDraw();
 	}
-	// スタミナ
-	staminaSprite->Draw();
+	
 	
 	
 	enemy_->EfectDraw();
@@ -546,7 +684,7 @@ void GameScene::sceneReset() {
 
 void GameScene::CheakCollisions() {
 	// 判定対象AとBの座標
-	Vector3 posA,posB,posC,posD,posE,posF;
+	Vector3 posA,posB,posC,posD,posE,posF,posG;
 
 	// 2間点の距離(自キャラと鍵の当たり判定)
 	float posAB;
@@ -554,6 +692,8 @@ void GameScene::CheakCollisions() {
 	float posAD;
 	//自機と金床
 	float posAF;
+	//自機と南京錠
+	float posAG;
 
 	//自機と敵
 	float posAE;
@@ -582,7 +722,9 @@ void GameScene::CheakCollisions() {
 	// 鍵の半径
 	float keyDounRadius = 1.0f;
 	//金床の半径
-	float CraftRadius = 1.0f;
+	float CraftRadius = 2.0f;
+	//南京錠の半径
+	float LockRadius = 1.0f;
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
@@ -597,73 +739,78 @@ void GameScene::CheakCollisions() {
 	posE = enemy_->GetWorldPosition();
 	//金床の座標
 	posF = craft_->GetCraftWorldPosition();
+	// 金床の座標
+	posG = lock_->GetLockWorldPosition();
 	// AとBの距離を求める
-	posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
-	        (posB.z - posA.z) * (posB.z - posA.z);
-	// プレイヤーと上鍵の当たり判定
-	if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
-		if (iskeyup == true) {
-			GetButton = true;
+
+	if (enemy_->Getphase1State() != Chase) {
+		posAB = (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+		        (posB.z - posA.z) * (posB.z - posA.z);
+		// プレイヤーと上鍵の当たり判定
+		if (posAB <= (playerRadius + keyUpRadius) * (playerRadius + keyUpRadius)) {
+			if (iskeyup == true) {
+				GetButton = true;
+			}
+			if (input_->TriggerKey(DIK_F) && iskeyup == true) {
+				Gettingkeyup = true;
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
+				// 鍵の衝突時コールバックを呼び出す
+				Key_->OnKeyUpCollision();
+				ActiveTime = 0;
+				// 敵にカメラを向ける
+				EnemyCameraActive = true;
+				iskeyup = false;
+			}
+			if (ActiveTime >= 120) {
+				EnemyCameraActive = false;
+			}
 		}
-		if (input_->TriggerKey(DIK_F)&& iskeyup ==true) {
-			Gettingkeyup = true;
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-			// 鍵の衝突時コールバックを呼び出す
-			Key_->OnKeyUpCollision();
-			ActiveTime = 0;
-			// 敵にカメラを向ける
-			EnemyCameraActive = true;
-			iskeyup = false;
+		// AとCの距離を求める
+		posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
+		        (posC.z - posA.z) * (posC.z - posA.z);
+		// プレイヤーと鍵型の当たり判定
+		if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
+			if (isHummer == true) {
+				GetButton = true;
+			}
+			if (input_->TriggerKey(DIK_F) && isHummer == true) {
+				GettingHummer = true;
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
+				// 鍵の衝突時コールバックを呼び出す
+				Key_->OnKeyCollision();
+				ActiveTime = 0;
+				// 敵にカメラを向ける
+				EnemyCameraActive = true;
+				isHummer = false;
+			}
+			if (ActiveTime >= 120) {
+				EnemyCameraActive = false;
+			}
 		}
-		if (ActiveTime >= 120) {
-			EnemyCameraActive = false;
-		}
-	}
-	// AとCの距離を求める
-	posAC = (posC.x - posA.x) * (posC.x - posA.x) + (posC.y - posA.y) * (posC.y - posA.y) +
-	        (posC.z - posA.z) * (posC.z - posA.z);
-	// プレイヤーと鍵型の当たり判定
-	if (posAC <= (playerRadius + keyRadius) * (playerRadius + keyRadius)) {
-		if (isHummer == true) {
-			GetButton = true;
-		}
-		if (input_->TriggerKey(DIK_F) && isHummer == true) {
-			GettingHummer = true;
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-			// 鍵の衝突時コールバックを呼び出す
-			Key_->OnKeyCollision();
-			ActiveTime = 0;
-			// 敵にカメラを向ける
-			EnemyCameraActive = true;
-			isHummer = false;
-		}
-		if (ActiveTime >= 120) {
-			EnemyCameraActive = false;
-		}
-	}
-	// AとDの距離を求める
-	posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
-	        (posD.z - posA.z) * (posD.z - posA.z);
-	// プレイヤーと下鍵の当たり判定
-	if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
-		if (iskeydown == true) {
-			GetButton = true;
-		}
-		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
-			Gettingkeydown = true;
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-			// 鍵の衝突時コールバックを呼び出す
-			Key_->OnKeyDownCollision();
-			ActiveTime = 0;
-			// 敵にカメラを向ける
-			EnemyCameraActive = true;
-			iskeydown = false;
-		}
-		if (ActiveTime >= 120) {
-			EnemyCameraActive = false;
+		// AとDの距離を求める
+		posAD = (posD.x - posA.x) * (posD.x - posA.x) + (posD.y - posA.y) * (posD.y - posA.y) +
+		        (posD.z - posA.z) * (posD.z - posA.z);
+		// プレイヤーと下鍵の当たり判定
+		if (posAD <= (playerRadius + keyDounRadius) * (playerRadius + keyDounRadius)) {
+			if (iskeydown == true) {
+				GetButton = true;
+			}
+			if (input_->TriggerKey(DIK_F) && iskeydown == true) {
+				Gettingkeydown = true;
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
+				// 鍵の衝突時コールバックを呼び出す
+				Key_->OnKeyDownCollision();
+				ActiveTime = 0;
+				// 敵にカメラを向ける
+				EnemyCameraActive = true;
+				iskeydown = false;
+			}
+			if (ActiveTime >= 120) {
+				EnemyCameraActive = false;
+			}
 		}
 	}
 	// AとFの距離を求める
@@ -674,58 +821,261 @@ void GameScene::CheakCollisions() {
 		if (isCraft == true) {
 			GetButton = true;
 		}
-		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
-			Gettingkeydown = true;
+		if (input_->PushKey(DIK_F) && isCraft == true) {
+			PushTime_++;
+			if (PushTime_>= 400) {
+				isLock = true;
+				for (int i = 0; i < 3; i++) {
+					PushCount[i] = true;
+				}
+				PushTime_ = 400;
+				for (int i = 0; i < 3; i++) {
+					PushCount[i] = false;
+				}
+			}
+			craft_->OnCraftCollision();
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+		}
+	}
+	// AとGの距離を求める
+	posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
+	        (posG.z - posA.z) * (posG.z - posA.z);
+	// プレイヤーと南京錠の当たり判定
+	if (posAG <= (playerRadius + LockRadius) * (playerRadius + LockRadius)) {
+		if (isLock == true) {
+			GetButton = true;
+		}
+		if (input_->PushKey(DIK_F) && isLock == true) {
+			LockOpenTime_++;
+			if (LockOpenTime_ >= 600) {
+				for (int i = 0; i < 5; i++) {
+					ClearCount[i] = true;
+				}
+				isClear = true;
+				for (int i = 0; i < 5; i++) {
+					ClearCount[i] = false;
+				}
+			}
+			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 		}
 	}
 
-	//敵の視界
-	// AとEの距離を求める
-	//敵と自機の半径
-	posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
-	if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
-		enemy_->PhaseCollision();
-	}
-	//左
-	posAE_X =((posE.x - enemyVisibilityShift) - posA.x) * ((posE.x - enemyVisibilityShift) - posA.x) +
-	         (posE.y - posA.y) * (posE.y - posA.y) +
-	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
-	if (posAE_X <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibility_X() == true) {
-			enemy_->PhaseCollision();
+	if (Key_->GetisHummerDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+			if (enemy_->GetEncountMove1Flag() == true) {
+				enemy_->EncountMove1();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag1() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag1(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 2) {
+			if (enemy_->GetEncountMove2Flag() == true) {
+				enemy_->EncountMove2();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag2() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag2(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 3) {
+			if (enemy_->GetEncountMove3Flag() == true) {
+				enemy_->EncountMove3();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag3() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag3(false);
+				}
+			}
+		}
+	} 
+	if (Key_->GetisKeyUpDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+			if (enemy_->GetEncountMove4Flag() == true) {
+				enemy_->EncountMove4();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag4() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag4(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 2) {
+			if (enemy_->GetEncountMove5Flag() == true) {
+				enemy_->EncountMove5();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag5() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag5(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 3) {
+			if (enemy_->GetEncountMove6Flag() == true) {
+				enemy_->EncountMove6();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag6() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag6(false);
+				}
+			}
 		}
 	}
-	// 右
-	posAEX =
-	    ((posE.x + enemyVisibilityShift) - posA.x) * ((posE.x + enemyVisibilityShift) - posA.x) +
-	    (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
-	if (posAEX <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibilityX() == true) {
-			enemy_->PhaseCollision();
+	if (Key_->GetisDownDead() == true) {
+		if (Key_->GetkeyNumber() == 1) {
+			if (enemy_->GetEncountMove7Flag() == true) {
+				enemy_->EncountMove7();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag7() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag7(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 2) {
+			if (enemy_->GetEncountMove8Flag() == true) {
+				enemy_->EncountMove8();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag8() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag8(false);
+				}
+			}
+		} else if (Key_->GetkeyNumber() == 3) {
+			if (enemy_->GetEncountMove9Flag() == true) {
+				enemy_->EncountMove9();
+				if (enemy_->GetEnemySpeed() == 0.2f) {
+					enemy_->SetEnemySpeed(0.23f);
+				} else if (enemy_->GetEnemySpeed() == 0.23f) {
+					enemy_->SetEnemySpeed(0.26f);
+				} else if (enemy_->GetEnemySpeed() == 0.26f) {
+					enemy_->SetEnemySpeed(0.29f);
+				}
+			}
+			if (EnemyCameraActive == false) {
+				if (enemy_->GetSetStateFlag9() == true) {
+					enemy_->SetState(Chase);
+					enemy_->SetStateFlag9(false);
+				}
+			}
 		}
-	}
-	// 下
-	posAE_Z =
-	    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	    ((posE.z - enemyVisibilityShift) - posA.z) * ((posE.z - enemyVisibilityShift) - posA.z);
-	if (posAE_Z <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibility_Z() == true) {
-			enemy_->PhaseCollision();
-		}
-	}
-	// 上
-	posAEZ =
-	    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	    ((posE.z + enemyVisibilityShift) - posA.z) * ((posE.z + enemyVisibilityShift) - posA.z);
-	if (posAEZ <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-		if (enemy_->GetEnemyVisibilityZ() == true) {
-			enemy_->PhaseCollision();
-		}
-	}
+	} 
+	 
+	
 
+	if (EnemyCameraActive == false) {
+		// 敵の視界
+		//  AとEの距離を求める
+		// 敵と自機の半径
+		posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+		        ((posE.z) - posA.z) * ((posE.z) - posA.z);
+		if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
+			enemy_->PhaseCollision();
+		}
+		// 左
+		posAE_X = ((posE.x - enemyVisibilityShift) - posA.x) *
+		              ((posE.x - enemyVisibilityShift) - posA.x) +
+		          (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
+		if (posAE_X <=
+		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibility_X() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+		// 右
+		posAEX = ((posE.x + enemyVisibilityShift) - posA.x) *
+		             ((posE.x + enemyVisibilityShift) - posA.x) +
+		         (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
+		if (posAEX <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibilityX() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+		// 下
+		posAE_Z =
+		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+		    ((posE.z - enemyVisibilityShift) - posA.z) * ((posE.z - enemyVisibilityShift) - posA.z);
+		if (posAE_Z <=
+		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibility_Z() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+		// 上
+		posAEZ =
+		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+		    ((posE.z + enemyVisibilityShift) - posA.z) * ((posE.z + enemyVisibilityShift) - posA.z);
+		if (posAEZ <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+			if (enemy_->GetEnemyVisibilityZ() == true) {
+				enemy_->PhaseCollision();
+			}
+		}
+	}
 #pragma endregion
 }
 

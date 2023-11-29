@@ -19,6 +19,11 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	// ワールド座標を取得
+	Vector3 GetLockWorldPosition();
+
+	WorldTransform& GetWorldTransform() { return worldTransform_; };
+
 private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
