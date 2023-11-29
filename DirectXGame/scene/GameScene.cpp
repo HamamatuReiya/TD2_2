@@ -202,6 +202,8 @@ void GameScene::Initialize() {
 
 	clearHandle_ = audio_->LoadWave("BGM/Arbors.mp3");
 
+	kagiakeruSE = audio_->LoadWave("kagiakeru.mp3");
+	kagiakeruSEFlame = 0;
 	kanadokoSE_ = audio_->LoadWave("kanadokoSound.mp3");
 	kanadokoSEFlame = 0;
 
@@ -250,11 +252,11 @@ void GameScene::RoopInitialize() {
 	// 初期化
 	enemy_->GameRoopInitialize();
 	// 地面の初期化
-	ground_->Initialize(groundModel_.get());
+	//ground_->Initialize(groundModel_.get());
 	// 鍵の初期化
-	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
+	Key_->RoopInitialize();
 	// 出口の初期化
-	exit_->Initialize(ExitModel_.get());
+	//exit_->Initialize(ExitModel_.get());
 	// クリアタイム
 	ClearTimeInitialize();
 	isClearTime_ = 0;
@@ -277,6 +279,7 @@ void GameScene::RoopInitialize() {
 	isBgm_ = false;
 	isFoundBgm_ = false;
 	isClearBgm_ = false;
+	kagiakeruSEFlame = 0;
 }
 
 void GameScene::CraftingUpdate() {
@@ -531,9 +534,9 @@ void GameScene::Update() {
 		CameraUpdate();
 		if (updateFlag == true) {
 			if (EnemyCameraActive == false) {
-				if (PushNow == false && isCreateKey==false) {
+				//if (PushNow == false && isCreateKey==false) {
 					player_->Update();
-				}
+				//}
 			}
 		}
 		CraftingUpdate();
@@ -870,65 +873,72 @@ void GameScene::CheakCollisions() {
 			}
 		}
 	}
-	// AとFの距離を求める
-	posAF = (posF.x - posA.x) * (posF.x - posA.x) + (posF.y - posA.y) * (posF.y - posA.y) +
-	        (posF.z - posA.z) * (posF.z - posA.z);
-	if (isComplete==false) {
-	// プレイヤーと金床の当たり判定
-		if (posAF <= (playerRadius + CraftRadius) * (playerRadius + CraftRadius)) {
-			if (isCraft == true) {
-				GetLongbutton = true;
-			}
-			if (input_->PushKey(DIK_F) && isCraft == true) {
-				kanadokoSEFlame++;
-				if (kanadokoSEFlame >= 30) {
-					audio_->PlayWave(kanadokoSE_);
-					kanadokoSEFlame = 0;
+
+	
+		// AとFの距離を求める
+		posAF = (posF.x - posA.x) * (posF.x - posA.x) + (posF.y - posA.y) * (posF.y - posA.y) +
+		        (posF.z - posA.z) * (posF.z - posA.z);
+		if (isComplete == false) {
+			// プレイヤーと金床の当たり判定
+			if (posAF <= (playerRadius + CraftRadius) * (playerRadius + CraftRadius)) {
+				if (isCraft == true) {
+					GetLongbutton = true;
 				}
-				PushTime_++;
-				if (PushTime_ <= 300) {
-					isLock = true;
-					PushNow = true;
-				}
-				if (PushTime_ > 300) {
+				if (input_->PushKey(DIK_F) && isCraft == true) {
+					kanadokoSEFlame++;
+					if (kanadokoSEFlame >= 30) {
+						audio_->PlayWave(kanadokoSE_);
+						kanadokoSEFlame = 0;
+					}
+					PushTime_++;
+					if (PushTime_ <= 300) {
+						isLock = true;
+						PushNow = true;
+					}
+					if (PushTime_ > 300) {
+						PushNow = false;
+						isComplete = true;
+					}
+					craft_->OnCraftCollision();
+					// 自キャラの衝突時コールバックを呼び出す
+					// player_->OnCollision();
+				} else {
 					PushNow = false;
-					isComplete = true;
+					PushTime_ = 0;
+				}
+			}
+		}
+		// AとGの距離を求める
+		posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
+		        (posG.z - posA.z) * (posG.z - posA.z);
+		// プレイヤーと南京錠の当たり判定
+		if (posAG <= (playerRadius + LockRadius) * (playerRadius + LockRadius)) {
+			if (isLock == true) {
+				GetunLockbutton = true;
+			}
+			if (input_->PushKey(DIK_F) && isLock == true) {
+				kagiakeruSEFlame++;
+				if (kagiakeruSEFlame >= 30) {
+					audio_->PlayWave(kagiakeruSE);
+					kagiakeruSEFlame = 0;
+				}
+				LockOpenTime_++;
+				if (LockOpenTime_ <= 600) {
+					isCreateKey = true;
+				}
+				if (LockOpenTime_ > 600) {
+					isCreateKey = false;
+					isClear = true;
 				}
 				craft_->OnCraftCollision();
 				// 自キャラの衝突時コールバックを呼び出す
-				//player_->OnCollision();
+				// player_->OnCollision();
 			} else {
-				PushNow = false;
-				PushTime_ = 0;
-			}
-		} 
-	} 
-	// AとGの距離を求める
-	posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
-	        (posG.z - posA.z) * (posG.z - posA.z);
-	// プレイヤーと南京錠の当たり判定
-	if (posAG <= (playerRadius + LockRadius) * (playerRadius + LockRadius)) {
-		if (isLock == true) {
-			GetunLockbutton = true;
-		}
-		if (input_->PushKey(DIK_F) && isLock == true) {
-			LockOpenTime_++;
-			if (LockOpenTime_ <= 600) {
-				isCreateKey = true;
-			}
-			if (LockOpenTime_ > 600) {
 				isCreateKey = false;
-				isClear = true;
+				LockOpenTime_ = 0;
 			}
-			craft_->OnCraftCollision();
-			// 自キャラの衝突時コールバックを呼び出す
-			//player_->OnCollision();
-		} else {
-			isCreateKey = false;
-			LockOpenTime_ = 0;
 		}
-	} 
-
+	
 
 
 	if (Key_->GetisHummerDead() == true) {

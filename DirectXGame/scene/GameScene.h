@@ -448,6 +448,9 @@ private:
 	uint32_t playClearBgm_;
 	bool isClearBgm_;
 
+	uint32_t kagiakeruSE;
+	int kagiakeruSEFlame;
+
 	//
 	bool isGetKey;
 
