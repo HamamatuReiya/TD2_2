@@ -1,9 +1,9 @@
 ﻿#include "Model.h"
+#include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <Input.h>
 #include"ViewProjection.h"
 #include "Sprite.h"
-
 
 class Player {
 public:
@@ -11,6 +11,10 @@ public:
 	/// 初期化
 	/// </summary>
 	void Initialize(Model* model);
+
+	void GameRoopInitialize();
+
+	void CollisionInitialize();
 
 	/// <summary>
 	/// 自キャラ
@@ -23,31 +27,36 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	void DrawLife();
+
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
+
+	int GetLife() { return life; }
 
 	// コールバック関数
 	void OnCollision();
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
 	
+	int GetCollisionCoolTime() { return collisionCoolTime; }
 
 	void SetViewProjection(const ViewProjection* viewProjection)
 	{
 		viewProjection_ = viewProjection;
 	}
 
-	//鍵に触れたかどうか
+	// 鍵に触れたかどうか
 	bool isKeytouch() const { return isKeytouch_; }
 
 	enum CollisionType {
-		START, // スタート地点の部屋(0)
-		LOAD00,// スタート地点から右の道(1)
-		ROOM00,// 右の部屋(2)
-		ROOM01,// 右の部屋の隣(3)
-		ROOM02,// 右の部屋の隣(4)
-		ROOM03,// 右の部屋の隣(5)
-		ROOM04,// (6)
+		START,  // スタート地点の部屋(0)
+		LOAD00, // スタート地点から右の道(1)
+		ROOM00, // 右の部屋(2)
+		ROOM01, // 右の部屋の隣(3)
+		ROOM02, // 右の部屋の隣(4)
+		ROOM03, // 右の部屋の隣(5)
+		ROOM04, // (6)
 		ROOM05,
 		ROOM06,
 		ROOM07,
@@ -70,7 +79,6 @@ public:
 		LOAD06,
 	};
 
-
 	void SetType(int collisionType);
 
 	int GetType();
@@ -80,16 +88,29 @@ public:
 private:
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
-	const ViewProjection*viewProjection_=nullptr;
+	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
 
+	int collisionCoolTime;
+
+	Sprite* lifeSprite1_ = nullptr;
+	Sprite* lifeSprite2_ = nullptr;
+	Sprite* lifeSprite3_ = nullptr;
+	Sprite* lifeSprite4_ = nullptr;
+	uint32_t lifeTexture1_ = 0;
+	uint32_t lifeTexture2_ = 0;
+	uint32_t lifeTexture3_ = 0;
+	uint32_t lifeTexture4_ = 0;
+
+	//ライフ
+	int life = 4;
 	// スタミナ
 	float stamina;
 	// クールタイム用
 	bool isRun;
-	
-	//部屋関数
+
+	// 部屋関数
 	void StartRoomCollision();
 	void Room00Collision();
 	void Room01Collision();
@@ -107,7 +128,7 @@ private:
 	void Room13Collision();
 	void Room14Collision();
 	void Room15Collision();
-	//道関数
+	// 道関数
 	void Load00Collision();
 	void Load01Collision();
 	void Load02Collision();
@@ -120,6 +141,6 @@ private:
 	float kRotateSpeed;
 	// 鍵に触れたかどうかフラグ
 	bool isKeytouch_ = false;
-	
+
 	CollisionType collisionType_;
 };

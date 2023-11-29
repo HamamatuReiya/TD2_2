@@ -24,9 +24,12 @@ void GameScene::Initialize() {
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
 	//// 軸方向表示の表示を有効にする
-	//AxisIndicator::GetInstance()->SetVisible(true);
+	// AxisIndicator::GetInstance()->SetVisible(true);
 	//// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	//AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+	// AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+
+	gameOverTexture_ = TextureManager::Load("GameOver.png");
+	gameOverSprite_ = Sprite::Create(gameOverTexture_, {0, 0});
 
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
@@ -73,7 +76,7 @@ void GameScene::Initialize() {
 	    enemyModel_.get(), enemyModel2_.get(), enemyModel3_.get(), enemyModel4_.get(),
 	    enemyModel5_.get(), enemyModel6_.get(), enemyModel7_.get(), enemyModel8_.get(),
 	    enemyModel9_.get(), enemyModel10_.get(), enemyModel11_.get(), enemyModel12_.get(),
-	    enemyModel13_.get(), enemyModel14_.get(), enemyModel15_.get() );
+	    enemyModel13_.get(), enemyModel14_.get(), enemyModel15_.get());
 
 	// 追従カメラの生成
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -117,18 +120,18 @@ void GameScene::Initialize() {
 	isCraft = false;
 	isLock = false;
 
-	//部屋の生成,初期化
+	// 部屋の生成,初期化
 	RoomInitialize();
 
-	//道の生成,初期化
+	// 道の生成,初期化
 	LoadInitialize();
 
-	//机の生成、初期化
+	// 机の生成、初期化
 	TableInitialize();
 
 	// 天井の生成
 	ceiling_ = std::make_unique<Ceiling>();
-	//3Dモデルの生成
+	// 3Dモデルの生成
 	CeilingModel_.reset(Model::CreateFromOBJ("Ceiling", true));
 	// 天井の初期化
 	ceiling_->Initialize(CeilingModel_.get());
@@ -160,7 +163,7 @@ void GameScene::Initialize() {
 	// ゴール用長押しスプライトの生成
 	GoallongbuttonSprite_ = Sprite::Create(GoalLongbuttonTexture_, {1250, 600});
 
-	//操作方法のテクスチャ読み込み
+	// 操作方法のテクスチャ読み込み
 	operationTexture_ = TextureManager::Load("Operation.png");
 	// スプライトの生成
 	operationSprite_ = Sprite::Create(operationTexture_, {0, 0});
@@ -170,12 +173,12 @@ void GameScene::Initialize() {
 	goalSprite_ = Sprite::Create(goalTexture, {0, 0});
 
 	// 作業机の生成
-	craft_= std::make_unique<Craft>();
+	craft_ = std::make_unique<Craft>();
 	// 3Dモデルの生成
 	CraftModel_.reset(Model::CreateFromOBJ("craft", true));
 	// 作業机の初期化
 	craft_->Initialize(CraftModel_.get());
-	//スタミナ
+	// スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
 	// スタミナバー
@@ -187,6 +190,9 @@ void GameScene::Initialize() {
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
 	playBgm_ = audio_->PlayWave(bgmHandle_);
 
+	kanadokoSE_ = audio_->LoadWave("kanadokoSound.mp3");
+	kanadokoSEFlame = 0;
+
 	isBgm_ = false;
 
 	isFoundBgm_ = false;
@@ -195,7 +201,7 @@ void GameScene::Initialize() {
 	
 	//ルール
 	LuleInitialize();
-	//クリアタイム
+	// クリアタイム
 	ClearTimeInitialize();
 	// 型
 	MoldInitialize();
@@ -212,6 +218,10 @@ void GameScene::Initialize() {
 	isComplete = false;
 	GetLongbutton = false;
 	GetunLockbutton = false;
+
+	updateFlag = true;
+
+	siraberuHandle_ = audio_->LoadWave("siraberu.mp3");
 }
 
 void GameScene::RoopInitialize() {
@@ -222,15 +232,11 @@ void GameScene::RoopInitialize() {
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 	// 自キャラの初期化
-	player_->Initialize(playerModel_.get());
+	player_->GameRoopInitialize();
 	// ルール
 	LuleInitialize();
 	// 初期化
-	enemy_->Initialize(
-	    enemyModel_.get(), enemyModel2_.get(), enemyModel3_.get(), enemyModel4_.get(),
-	    enemyModel5_.get(), enemyModel6_.get(), enemyModel7_.get(), enemyModel8_.get(),
-	    enemyModel9_.get(), enemyModel10_.get(), enemyModel11_.get(), enemyModel12_.get(),
-	    enemyModel13_.get(), enemyModel14_.get(), enemyModel15_.get());
+	enemy_->GameRoopInitialize();
 	// 地面の初期化
 	ground_->Initialize(groundModel_.get());
 	// 鍵の初期化
@@ -243,7 +249,7 @@ void GameScene::RoopInitialize() {
 	iskeydown = true;
 	iskeyup = true;
 	isHummer = true;
-	//型
+	// 型
 	MoldInitialize();
 	// 鍵制作
 	isClear = false;
@@ -252,7 +258,8 @@ void GameScene::RoopInitialize() {
 	PushNow = false;
 	isCreateKey= false;
 	isComplete = false;
-	
+	updateFlag = true;
+	kanadokoSEFlame = 0;
 }
 
 void GameScene::CraftingUpdate() {
@@ -407,7 +414,7 @@ void GameScene::LuleInitialize() {
 	// ルールのテクスチャ読み込み
 	luleTexture_[0] = TextureManager::Load("Lule1p.png");
 	luleTexture_[1] = TextureManager::Load("Lule2p.png");
-	
+
 	for (int i = 0; i < 2; i++) {
 		// ルールの生成
 		LuleSprite_[i] = Sprite::Create(luleTexture_[i], {0, 0});
@@ -420,7 +427,7 @@ void GameScene::LuleInitialize() {
 void GameScene::LuleUpdate() {
 	if (isLule_ == true) {
 		LuleP1Frag = true;
-		if (input_->TriggerKey(DIK_RIGHT)&& LuleP1Frag == true) {
+		if (input_->TriggerKey(DIK_RIGHT) && LuleP1Frag == true) {
 			LuleP1Frag = false;
 			LuleP2Frag = true;
 		}
@@ -467,7 +474,7 @@ void GameScene::MoldInitialize() {
 
 void GameScene::MoldDraw() {
 	MoldSprite_[0]->Draw();
-	if (Gettingkeyup==true) {
+	if (Gettingkeyup == true) {
 		MoldSprite_[2]->Draw();
 	}
 	if (GettingHummer == true) {
@@ -478,14 +485,15 @@ void GameScene::MoldDraw() {
 	}
 }
 
-
 void GameScene::Update() {
 
 	LuleUpdate();
-	if (isLule_==false) {
+	if (isLule_ == false) {
 		CameraUpdate();
-		if (EnemyCameraActive == false) {
-			player_->Update();
+		if (updateFlag == true) {
+			if (EnemyCameraActive == false) {
+				player_->Update();
+			}
 		}
 		CraftingUpdate();
 
@@ -512,7 +520,9 @@ void GameScene::Update() {
 		staminaSprite->SetSize(size);
 
 		enemy_->SetPlayer(player_.get());
-		enemy_->Update();
+		if (updateFlag == true) {
+			enemy_->Update();
+		}
 		Key_->Update();
 		// 部屋の更新
 		RoomUpdate();
@@ -532,7 +542,7 @@ void GameScene::Update() {
 		GetunLockbutton = false;
 		// 作業机の更新
 		craft_->Update();
-		//　南京錠の更新
+		// 　南京錠の更新
 		lock_->Update();
 
 		ActiveTime++;
@@ -547,15 +557,13 @@ void GameScene::Update() {
 	}
 }
 
-
-void GameScene::ClearTimeUpdate()
-{
+void GameScene::ClearTimeUpdate() {
 	TimeFrame++;
-	if (TimeFrame>60) {
-		isClearTime_+=1;
-		TimeFrame=0;
+	if (TimeFrame > 60) {
+		isClearTime_ += 1;
+		TimeFrame = 0;
 	}
-	
+
 	// クリアタイム
 	isClearTime_1 = (isClearTime_ / 1) % 10;   // 1の桁
 	isClearTime_2 = (isClearTime_ / 10) % 10;  // 10の桁
@@ -592,11 +600,11 @@ void GameScene::Draw() {
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
-	//部屋の描画
+	// 部屋の描画
 	RoomDraw();
-	//道の描画
+	// 道の描画
 	LoadDraw();
-	//机の描画
+	// 机の描画
 	TableDraw();
 	// 天井の描画
 	ceiling_->Draw(viewProjection_);
@@ -604,7 +612,7 @@ void GameScene::Draw() {
 	exit_->Draw(viewProjection_);
 	// 作業机の描画
 	craft_->Draw(viewProjection_);
-	//南京錠の描画
+	// 南京錠の描画
 	lock_->Draw(viewProjection_);
 	
 	
@@ -635,14 +643,16 @@ void GameScene::Draw() {
 		}
 	}
 
-	//クリアタイム
+	player_->DrawLife();
+
+	// クリアタイム
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
 	ClearTimeScore3_[isClearTime_3]->Draw();
 
-	//操作方法表示
+	// 操作方法表示
 	operationSprite_->Draw();
-	//ルール
+	// ルール
 	LuleDraw();
 	if (isLule_ == false) {
 		// 型
@@ -657,9 +667,11 @@ void GameScene::Draw() {
 		ClearDraw();
 	}
 	
-	
-	
 	enemy_->EfectDraw();
+
+	if (updateFlag == false) {
+		gameOverSprite_->Draw();
+	}
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -685,8 +697,11 @@ void GameScene::CheakCollisions() {
 	float posAB;
 	float posAC;
 	float posAD;
-	//自機と金床
+	// 自機と金床
 	float posAF;
+	//自機と敵の判定
+	float posAEHit;
+	//自機と敵の半径
 	//自機と南京錠
 	float posAG;
 
@@ -698,10 +713,10 @@ void GameScene::CheakCollisions() {
 	float posAEZ;
 	float posAE_Z;
 
-	float enemyVisibilityShift = 12.0f;
+	float enemyVisibilityShift = 15.0f;
 
 	//敵にぶつかる半径
-	//float enemyRadius = 3.0f;
+	float enemyRadius = 3.0f;
 	//敵に見つかる半径
 	float enemySearchRadius = 10.0f;
 
@@ -730,9 +745,9 @@ void GameScene::CheakCollisions() {
 	posC = Key_->GetKeyWorldPosition();
 	// 鍵下の座標
 	posD = Key_->GetKeyDownWorldPosition();
-	//敵キャラのワールド座標
+	// 敵キャラのワールド座標
 	posE = enemy_->GetWorldPosition();
-	//金床の座標
+	// 金床の座標
 	posF = craft_->GetCraftWorldPosition();
 	// 金床の座標
 	posG = lock_->GetLockWorldPosition();
@@ -748,8 +763,9 @@ void GameScene::CheakCollisions() {
 			}
 			if (input_->TriggerKey(DIK_F) && iskeyup == true) {
 				Gettingkeyup = true;
+				audio_->PlayWave(siraberuHandle_);
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 				// 鍵の衝突時コールバックを呼び出す
 				Key_->OnKeyUpCollision();
 				ActiveTime = 0;
@@ -771,8 +787,9 @@ void GameScene::CheakCollisions() {
 			}
 			if (input_->TriggerKey(DIK_F) && isHummer == true) {
 				GettingHummer = true;
+				audio_->PlayWave(siraberuHandle_);
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 				// 鍵の衝突時コールバックを呼び出す
 				Key_->OnKeyCollision();
 				ActiveTime = 0;
@@ -794,8 +811,9 @@ void GameScene::CheakCollisions() {
 			}
 			if (input_->TriggerKey(DIK_F) && iskeydown == true) {
 				Gettingkeydown = true;
+				audio_->PlayWave(siraberuHandle_);
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 				// 鍵の衝突時コールバックを呼び出す
 				Key_->OnKeyDownCollision();
 				ActiveTime = 0;
@@ -818,6 +836,11 @@ void GameScene::CheakCollisions() {
 				GetLongbutton = true;
 			}
 			if (input_->PushKey(DIK_F) && isCraft == true) {
+				kanadokoSEFlame++;
+				if (kanadokoSEFlame >= 30) {
+					audio_->PlayWave(kanadokoSE_);
+					kanadokoSEFlame = 0;
+				}
 				PushTime_++;
 				if (PushTime_ <= 300) {
 					isLock = true;
@@ -829,7 +852,7 @@ void GameScene::CheakCollisions() {
 				}
 				craft_->OnCraftCollision();
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 			}
 		} else {
 			PushNow = false;
@@ -855,22 +878,24 @@ void GameScene::CheakCollisions() {
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
+			//player_->OnCollision();
 		}
 	} else {
 		isCreateKey = false;
 	}
+
+
 
 	if (Key_->GetisHummerDead() == true) {
 		if (Key_->GetkeyNumber() == 1) {
 			if (enemy_->GetEncountMove1Flag() == true) {
 				enemy_->EncountMove1();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -883,11 +908,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove2Flag() == true) {
 				enemy_->EncountMove2();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -900,11 +925,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove3Flag() == true) {
 				enemy_->EncountMove3();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -914,17 +939,17 @@ void GameScene::CheakCollisions() {
 				}
 			}
 		}
-	} 
+	}
 	if (Key_->GetisKeyUpDead() == true) {
 		if (Key_->GetkeyNumber() == 1) {
 			if (enemy_->GetEncountMove4Flag() == true) {
 				enemy_->EncountMove4();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -937,11 +962,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove5Flag() == true) {
 				enemy_->EncountMove5();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -954,11 +979,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove6Flag() == true) {
 				enemy_->EncountMove6();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -974,11 +999,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove7Flag() == true) {
 				enemy_->EncountMove7();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -991,11 +1016,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove8Flag() == true) {
 				enemy_->EncountMove8();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -1008,11 +1033,11 @@ void GameScene::CheakCollisions() {
 			if (enemy_->GetEncountMove9Flag() == true) {
 				enemy_->EncountMove9();
 				if (enemy_->GetEnemySpeed() == 0.2f) {
-					enemy_->SetEnemySpeed(0.23f);
-				} else if (enemy_->GetEnemySpeed() == 0.23f) {
-					enemy_->SetEnemySpeed(0.26f);
-				} else if (enemy_->GetEnemySpeed() == 0.26f) {
-					enemy_->SetEnemySpeed(0.29f);
+					enemy_->SetEnemySpeed(0.22f);
+				} else if (enemy_->GetEnemySpeed() == 0.22f) {
+					enemy_->SetEnemySpeed(0.24f);
+				} else if (enemy_->GetEnemySpeed() == 0.24f) {
+					enemy_->SetEnemySpeed(0.27f);
 				}
 			}
 			if (EnemyCameraActive == false) {
@@ -1025,55 +1050,77 @@ void GameScene::CheakCollisions() {
 	} 
 	 
 	
-
 	if (EnemyCameraActive == false) {
-		// 敵の視界
-		//  AとEの距離を求める
-		// 敵と自機の半径
-		posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-		        ((posE.z) - posA.z) * ((posE.z) - posA.z);
-		if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
-			enemy_->PhaseCollision();
-		}
-		// 左
-		posAE_X = ((posE.x - enemyVisibilityShift) - posA.x) *
-		              ((posE.x - enemyVisibilityShift) - posA.x) +
-		          (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
-		if (posAE_X <=
-		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibility_X() == true) {
+		if (player_->GetCollisionCoolTime() >= 30) {
+
+			// 敵の視界
+			//  AとEの距離を求める
+			// 敵と自機の半径
+			posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+			        ((posE.z) - posA.z) * ((posE.z) - posA.z);
+			if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
 				enemy_->PhaseCollision();
 			}
-		}
-		// 右
-		posAEX = ((posE.x + enemyVisibilityShift) - posA.x) *
-		             ((posE.x + enemyVisibilityShift) - posA.x) +
-		         (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
-		if (posAEX <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibilityX() == true) {
-				enemy_->PhaseCollision();
+			// 左
+			posAE_X = ((posE.x - enemyVisibilityShift) - posA.x) *
+			              ((posE.x - enemyVisibilityShift) - posA.x) +
+			          (posE.y - posA.y) * (posE.y - posA.y) +
+			          ((posE.z) - posA.z) * ((posE.z) - posA.z);
+			if (posAE_X <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibility_X() == true) {
+					enemy_->PhaseCollision();
+				}
 			}
-		}
-		// 下
-		posAE_Z =
-		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-		    ((posE.z - enemyVisibilityShift) - posA.z) * ((posE.z - enemyVisibilityShift) - posA.z);
-		if (posAE_Z <=
-		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibility_Z() == true) {
-				enemy_->PhaseCollision();
+			// 右
+			posAEX = ((posE.x + enemyVisibilityShift) - posA.x) *
+			             ((posE.x + enemyVisibilityShift) - posA.x) +
+			         (posE.y - posA.y) * (posE.y - posA.y) +
+			         ((posE.z) - posA.z) * ((posE.z) - posA.z);
+			if (posAEX <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibilityX() == true) {
+					enemy_->PhaseCollision();
+				}
 			}
-		}
-		// 上
-		posAEZ =
-		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-		    ((posE.z + enemyVisibilityShift) - posA.z) * ((posE.z + enemyVisibilityShift) - posA.z);
-		if (posAEZ <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibilityZ() == true) {
-				enemy_->PhaseCollision();
+			// 下
+			posAE_Z = ((posE.x) - posA.x) * ((posE.x) - posA.x) +
+			          (posE.y - posA.y) * (posE.y - posA.y) +
+			          ((posE.z - enemyVisibilityShift) - posA.z) *
+			              ((posE.z - enemyVisibilityShift) - posA.z);
+			if (posAE_Z <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibility_Z() == true) {
+					enemy_->PhaseCollision();
+				}
+			}
+			// 上
+			posAEZ = ((posE.x) - posA.x) * ((posE.x) - posA.x) +
+			         (posE.y - posA.y) * (posE.y - posA.y) +
+			         ((posE.z + enemyVisibilityShift) - posA.z) *
+			             ((posE.z + enemyVisibilityShift) - posA.z);
+			if (posAEZ <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibilityZ() == true) {
+					enemy_->PhaseCollision();
+				}
 			}
 		}
 	}
+	//敵と自機の当たり判定
+	posAEHit = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+	           ((posE.z) - posA.z) * ((posE.z) - posA.z);
+	if (posAEHit <= (playerRadius + enemyRadius) * (playerRadius + enemyRadius)) {
+		if (player_->GetLife() >= 1) {
+			player_->OnCollision();
+			enemy_->CollisionInitialize();
+			player_->CollisionInitialize();
+		} else {
+			updateFlag = false;
+		}
+
+	}
+
 #pragma endregion
 }
 
@@ -1097,7 +1144,7 @@ void GameScene::CameraUpdate() {
 			enemyfollowCamera_->Update();
 			viewProjection_.matProjection = enemyfollowCamera_->GetViewProjection().matProjection;
 			viewProjection_.matView = enemyfollowCamera_->GetViewProjection().matView;
-		} 
+		}
 		if (EnemyCameraActive == false) {
 			// 追従カメラの更新
 			followCamera_->Update();
@@ -1107,7 +1154,6 @@ void GameScene::CameraUpdate() {
 
 		viewProjection_.TransferMatrix();
 	}
-
 }
 
 void GameScene::RoomInitialize() {
@@ -1209,7 +1255,6 @@ void GameScene::RoomDraw() {
 	Room_06_->Draw(viewProjection_);
 }
 
-
 void GameScene::LoadInitialize() {
 	// 道0の生成
 	Load_0_ = std::make_unique<Load>();
@@ -1241,7 +1286,6 @@ void GameScene::LoadInitialize() {
 	// 3Dモデルの生成
 	LoadModel5_.reset(Model::CreateFromOBJ("Load5", true));
 
-
 	// 道0の初期化
 	Load_0_->Initialize(
 	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
@@ -1271,7 +1315,6 @@ void GameScene::LoadInitialize() {
 	Load_5_->Initialize(
 	    LoadModel0_.get(), LoadModel1_.get(), LoadModel2_.get(), LoadModel3_.get(),
 	    LoadModel4_.get(), LoadModel5_.get());
-
 }
 
 void GameScene::LoadUpdate() {
@@ -1291,7 +1334,6 @@ void GameScene::LoadDraw() {
 	Load_4_->Draw(viewProjection_);
 	Load_5_->Draw(viewProjection_);
 }
-
 
 void GameScene::TableInitialize() {
 	// 机0の生成
@@ -1394,7 +1436,7 @@ void GameScene::TableInitialize() {
 	    TableModel8_.get());
 }
 
-void GameScene::TableUpdate() { 
+void GameScene::TableUpdate() {
 	Table_0_->Update();
 	Table_1_->Update();
 	Table_2_->Update();

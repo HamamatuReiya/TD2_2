@@ -23,6 +23,8 @@ public:
 	    Model* model6, Model* model7, Model* model8, Model* model9, Model* model10, Model* model11,
 	    Model* model12, Model* model13, Model* model14, Model* model15);
 
+	void GameRoopInitialize();
+
 	void Update();
 
 	void Draw(ViewProjection& viewProjection);
@@ -44,6 +46,8 @@ public:
 	void SetEnemySpeed(float kEnemySpeed) {kEnemySpeed_ = kEnemySpeed; }
 
 	float GetEnemySpeed() { return kEnemySpeed_; }
+
+	void CollisionInitialize();
 
 	void EncountMove1();
 	void EncountMove2();

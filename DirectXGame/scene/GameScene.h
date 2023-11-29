@@ -57,6 +57,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	bool GetUpdateFlag() { return updateFlag; }
 
 	// シーンのリセット
 	void sceneReset();
@@ -121,6 +122,11 @@ private:
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	std::unique_ptr<Model> model_ = nullptr;
+
+	Sprite* gameOverSprite_ = nullptr;
+	uint32_t gameOverTexture_ = 0;
+
+	bool updateFlag = true;
 
 	// 3Dモデル
 	std::unique_ptr<Model> playerModel_ = nullptr;
@@ -373,6 +379,8 @@ private:
 	// 作成完了テクスチャ
 	uint32_t completeTexture = 0;
 
+	uint32_t siraberuHandle_;
+
 	bool GetButton;
 	bool iskeyup;
 	bool isHummer;
@@ -407,6 +415,7 @@ private:
 	bool GetLongbutton;
 	bool GetunLockbutton;
 	
+	int kanadokoSEFlame;
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;
@@ -422,7 +431,7 @@ private:
 	uint32_t bgmHandle_;
 	uint32_t playBgm_;
 	bool isBgm_;
-
+	uint32_t kanadokoSE_ = 0;
 	uint32_t foundBgmHandle_;
 	uint32_t playFoundBgm_;
 	bool isFoundBgm_; 
