@@ -212,6 +212,7 @@ void GameScene::Initialize() {
 	LockOpenTime_ = 0;
 	PushTime_ = 0;
 	isCrafting = false;
+	isGetKey = false;
 	// カウント
 	PushNow = false;
 	isCreateKey = false;
@@ -472,11 +473,13 @@ void GameScene::MoldInitialize() {
 }
 
 void GameScene::MoldDraw() {
-	MoldSprite_[0]->Draw();
+	if (isGetKey == false) {
+		MoldSprite_[0]->Draw();
+	}
 	if (Gettingkeyup == true) {
 		MoldSprite_[2]->Draw();
 	}
-	if (GettingHummer == true) {
+	if (GettingHummer == true && isGetKey == false) {
 		MoldSprite_[1]->Draw();
 	}
 	if (Gettingkeydown == true) {
@@ -512,6 +515,10 @@ void GameScene::Update() {
 			}
 		}
 		GoalUpdate();
+
+		if (isComplete == true && CompleteTime < 60) {
+			isGetKey = true;
+		}
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
