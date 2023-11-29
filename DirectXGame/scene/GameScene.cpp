@@ -167,10 +167,7 @@ void GameScene::Initialize() {
 	operationTexture_ = TextureManager::Load("Operation.png");
 	// スプライトの生成
 	operationSprite_ = Sprite::Create(operationTexture_, {0, 0});
-	// ゴールのテクスチャ読み込み
-	goalTexture = TextureManager::Load("CLEAR.png");
-	// ゴールの生成
-	goalSprite_ = Sprite::Create(goalTexture, {0, 0});
+	
 
 	// 作業机の生成
 	craft_ = std::make_unique<Craft>();
@@ -273,11 +270,11 @@ void GameScene::CraftingUpdate() {
 	}
 }
 
-void GameScene::ClearDraw() {
-	if (isClear==true) {
-		goalSprite_->Draw();
-	}
-}
+//void GameScene::ClearDraw() {
+//	if (isClear == true) {
+//		goalSprite_->Draw();
+//	}
+//}
 
 void GameScene::GoalInitialize() {
 	// カウント
@@ -305,6 +302,9 @@ void GameScene::GoalUpdate() {
 	}
 	if (UnLockTime < 60) {
 		GetunLockbutton = false;
+	}
+	if (isClear == true) {
+		isSceneEnd = true;
 	}
 }
 
@@ -494,7 +494,9 @@ void GameScene::Update() {
 		CameraUpdate();
 		if (updateFlag == true) {
 			if (EnemyCameraActive == false) {
-				player_->Update();
+				if (PushNow == false && isCreateKey==false) {
+					player_->Update();
+				}
 			}
 		}
 		CraftingUpdate();
@@ -554,10 +556,7 @@ void GameScene::Update() {
 		ActiveTime++;
 		CheakCollisions();
 
-		// シーン切り替え
-		if (input_->TriggerKey(DIK_RETURN)) {
-			isSceneEnd = true;
-		}
+		
 
 		/*ClearTimeUpdate();*/
 	}
@@ -669,8 +668,6 @@ void GameScene::Draw() {
 		staminaberSprite->Draw();
 		//カウント
 		GoalDraw();
-		//クリア
-		ClearDraw();
 	}
 	
 	enemy_->EfectDraw();
@@ -859,11 +856,11 @@ void GameScene::CheakCollisions() {
 				craft_->OnCraftCollision();
 				// 自キャラの衝突時コールバックを呼び出す
 				//player_->OnCollision();
+			} else {
+				PushNow = false;
+				PushTime_ = 0;
 			}
-		} else {
-			PushNow = false;
-			PushTime_ = 0;
-		}
+		} 
 	} 
 	// AとGの距離を求める
 	posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
@@ -885,11 +882,11 @@ void GameScene::CheakCollisions() {
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			//player_->OnCollision();
+		} else {
+			isCreateKey = false;
+			LockOpenTime_ = 0;
 		}
-	} else {
-		isCreateKey = false;
-		LockOpenTime_ = 0;
-	}
+	} 
 
 
 
