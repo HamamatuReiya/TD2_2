@@ -155,6 +155,10 @@ void GameScene::Initialize() {
 	LongbuttonTexture_ = TextureManager::Load("Criating.png");
 	// 長押しスプライトの生成
 	longbuttonSprite_ = Sprite::Create(LongbuttonTexture_, {1250, 600});
+	// ゴール用長押しボタンのテクスチャ読み込み
+	GoalLongbuttonTexture_ = TextureManager::Load("UnLockButton.png");
+	// ゴール用長押しスプライトの生成
+	GoallongbuttonSprite_ = Sprite::Create(GoalLongbuttonTexture_, {1250, 600});
 
 	//操作方法のテクスチャ読み込み
 	operationTexture_ = TextureManager::Load("Operation.png");
@@ -307,6 +311,7 @@ void GameScene::GoalDraw() {
 		// クリアカウント
 		if (isCreateKey == true) {
 			OpennowSprite->Draw();
+			GoallongbuttonSprite_->Draw();
 		}
 	}
 	// 作成完了

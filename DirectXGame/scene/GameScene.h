@@ -305,6 +305,8 @@ private:
 	Sprite* buttonSprite_ = nullptr;
 	// 長押しスプライト
 	Sprite* longbuttonSprite_ = nullptr;
+	// 長押しスプライト
+	Sprite* GoallongbuttonSprite_ = nullptr;
 
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
@@ -350,6 +352,8 @@ private:
 	uint32_t buttonTexture_ = 0;
 	// 長押しボタン表示
 	uint32_t LongbuttonTexture_ = 0;
+	// ゴール用長押しボタン表示
+	uint32_t GoalLongbuttonTexture_ = 0;
 	//操作方法表示
 	uint32_t operationTexture_ = 0;
 	// ルール表示
