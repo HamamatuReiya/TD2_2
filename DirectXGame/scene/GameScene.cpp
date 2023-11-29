@@ -174,11 +174,14 @@ void GameScene::Initialize() {
 	//スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
+	
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
+	playBgm_ = audio_->PlayWave(bgmHandle_);
 
 	isBgm_ = false;
+
 	isFoundBgm_ = false;
 
 	GoalInitialize();
@@ -479,17 +482,17 @@ void GameScene::Update() {
 		CraftingUpdate();
 
 		if (enemy_->Getphase1State() == Chase) {
-			audio_->StopWave(bgmHandle_);
+			audio_->StopWave(playBgm_);
 			isBgm_ = false;
 			if (isFoundBgm_ == false) {
-				audio_->PlayWave(foundBgmHandle_, false);
+				playFoundBgm_ = audio_->PlayWave(foundBgmHandle_, false);
 				isFoundBgm_ = true;
 			}
 		} else if (enemy_->Getphase1State() == search) {
-			audio_->StopWave(foundBgmHandle_);
+			audio_->StopWave(playFoundBgm_);
 			isFoundBgm_ = false;
 			if (isBgm_ == false) {
-				audio_->PlayWave(bgmHandle_, true);
+				playBgm_ = audio_->PlayWave(bgmHandle_);
 				isBgm_ = true;
 			}
 		}

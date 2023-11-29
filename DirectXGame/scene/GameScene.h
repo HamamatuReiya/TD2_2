@@ -411,12 +411,12 @@ private:
 	std::unique_ptr<Lock> lock_;
 
 	//サウンド
-	uint32_t bgmHandle_ = 0;
-	uint32_t bgmLoop_ = 0;
+	uint32_t bgmHandle_;
+	uint32_t playBgm_;
 	bool isBgm_;
 
-	uint32_t foundBgmHandle_ = 0;
-	uint32_t foundLoop_ = 0;
+	uint32_t foundBgmHandle_;
+	uint32_t playFoundBgm_;
 	bool isFoundBgm_; 
 
 	/// <summary>
