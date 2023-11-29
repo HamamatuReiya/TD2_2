@@ -49,10 +49,10 @@ void Key::Update() {
 		worldTransform_[i].UpdateMatrix();
 	}
 	// 画面の座標を表示
-	ImGui::Begin("Item");
+	/*ImGui::Begin("Item");
 	ImGui::Text("%f",Keynumber);
 	ImGui::Text("%d\n%d\n%d\n", isHummerDead_, isKeyUpDead_, isKeyDownDead_);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Key::Draw(ViewProjection& viewProjection) {
