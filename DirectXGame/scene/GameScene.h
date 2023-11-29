@@ -412,7 +412,6 @@ private:
 	bool isComplete;
 	float CompleteTime;
 	float UnLockTime;
-	bool isCrafting; 
 	//ボタン
 	bool GetLongbutton;
 	bool GetunLockbutton;
