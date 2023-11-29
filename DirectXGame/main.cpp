@@ -119,6 +119,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case SceneType::kGameClear:
 			if (input->TriggerKey(DIK_RETURN)) {
 				sceneNo = SceneType::kTitle;
+				gameScene->sceneReset();
 			}
 		}
 		// 軸表示の更新
