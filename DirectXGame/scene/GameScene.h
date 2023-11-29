@@ -71,6 +71,8 @@ public: // メンバ関数
 	
 	void ClearBGM();
 
+	void ClearDraw();//クリア処理
+
 private: //
 
 	/// <summary>
@@ -107,7 +109,7 @@ private: //
 
 	// クリア
 	void CraftingUpdate();
-	void ClearDraw();
+	
 
 	//カウント
 	void GoalInitialize();
@@ -321,9 +323,6 @@ private:
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
 
-	// ゴールスプライト
-	Sprite* goalSprite_ = nullptr;
-
 	//操作方法スプライト
 	Sprite* operationSprite_ = nullptr;
 
@@ -374,8 +373,7 @@ private:
 	uint32_t staminaTexture = 0;
 	// スタミナ
 	uint32_t staminaberTexture = 0;
-	// ゴール
-	uint32_t goalTexture = 0;
+	
 	//解除テクスチャ
 	uint32_t opennowTexture = 0;
 	// テクスチャ

@@ -7,6 +7,7 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 #include "TitleScene.h"
+#include "GameClear.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -19,6 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
+	GameClear* gameClearScene = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -68,6 +70,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	titleScene = new TitleScene();
 	titleScene->Initialize();
 
+	// クリアシーンの初期化
+	gameClearScene = new GameClear();
+	gameClearScene->Initialize();
+
 	SceneType sceneNo = SceneType::kTitle;
 
 	// メインループ
@@ -105,6 +111,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			if (gameScene->GetIsClear() == true) {
 				sceneNo = SceneType::kGameClear;
+
 			}
 
 			if (gameScene->IsSceneEnd()) {
@@ -117,9 +124,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			break;
 		case SceneType::kGameClear:
-			if (input->TriggerKey(DIK_RETURN)) {
-				sceneNo = SceneType::kTitle;
-				gameScene->sceneReset();
+			gameClearScene->Update();
+
+			if (gameClearScene->IsSceneEnd()) {
+				// 次のシーンの値を代入してシーン切り替え
+				sceneNo = gameClearScene->NextScene();
+
+				// タイトルシーンの初期化、フラグリセット等
+				gameClearScene->sceneReset();
 			}
 			gameScene->ClearBGM();
 		}
@@ -137,7 +149,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case SceneType::kGamePlay:
 			gameScene->Draw();
 			break;
+		case SceneType::kGameClear:
+			gameClearScene->Draw();
+			break;
 		}
+
 
 		// 軸表示の描画
 		axisIndicator->Draw();
