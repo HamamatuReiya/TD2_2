@@ -411,6 +411,7 @@ private:
 	bool GetLongbutton;
 	bool GetunLockbutton;
 	
+	int kanadokoSEFlame;
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;
