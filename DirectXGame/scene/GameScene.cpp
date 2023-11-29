@@ -190,6 +190,8 @@ void GameScene::Initialize() {
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
 	playBgm_ = audio_->PlayWave(bgmHandle_);
 
+	kagiakeruSE = audio_->LoadWave("kagiakeru.mp3");
+	kagiakeruSEFlame = 0;
 	kanadokoSE_ = audio_->LoadWave("kanadokoSound.mp3");
 	kanadokoSEFlame = 0;
 
@@ -239,11 +241,11 @@ void GameScene::RoopInitialize() {
 	// 初期化
 	enemy_->GameRoopInitialize();
 	// 地面の初期化
-	ground_->Initialize(groundModel_.get());
+	//ground_->Initialize(groundModel_.get());
 	// 鍵の初期化
-	Key_->Initialize(KeyModel_.get(), KeyUpModel_.get(), KeyDownModel_.get());
+	Key_->RoopInitialize();
 	// 出口の初期化
-	exit_->Initialize(ExitModel_.get());
+	//exit_->Initialize(ExitModel_.get());
 	// クリアタイム
 	ClearTimeInitialize();
 	isClearTime_ = 0;
@@ -261,6 +263,7 @@ void GameScene::RoopInitialize() {
 	isComplete = false;
 	updateFlag = true;
 	kanadokoSEFlame = 0;
+	kagiakeruSEFlame = 0;
 }
 
 void GameScene::CraftingUpdate() {
@@ -874,6 +877,11 @@ void GameScene::CheakCollisions() {
 			GetunLockbutton = true;
 		}
 		if (input_->PushKey(DIK_F) && isLock == true) {
+			kagiakeruSEFlame++;
+			if (kagiakeruSEFlame >= 30) {
+				audio_->PlayWave(kagiakeruSE);
+				kagiakeruSEFlame = 0;
+			}
 			LockOpenTime_++;
 			if (LockOpenTime_ <= 600) {
 				isCreateKey = true;

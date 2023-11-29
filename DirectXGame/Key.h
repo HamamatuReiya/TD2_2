@@ -14,6 +14,8 @@ public:
 	/// </summary>
 	void Initialize(Model* keyupModel, Model* keydownModel, Model* keymoldModel);
 
+	void RoopInitialize();
+
 	/// <summary>
 	/// 更新
 	/// </summary>

@@ -438,6 +438,9 @@ private:
 	uint32_t playFoundBgm_;
 	bool isFoundBgm_; 
 
+	uint32_t kagiakeruSE;
+	int kagiakeruSEFlame;
+
 	//
 	bool isGetKey;
 
