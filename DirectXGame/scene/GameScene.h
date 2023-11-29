@@ -67,6 +67,8 @@ public: // メンバ関数
 	bool IsSceneEnd() { return isSceneEnd; }
 	SceneType NextScene() { return SceneType::kTitle; }
 
+	bool GetIsClear() { return isClear; }
+
 private: //
 
 	/// <summary>

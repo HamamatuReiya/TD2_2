@@ -103,6 +103,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 
+			if (gameScene->GetIsClear() == true) {
+				sceneNo = SceneType::kGameClear;
+			}
+
 			if (gameScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーン切り替え
 				sceneNo = gameScene->NextScene();
@@ -112,6 +116,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				
 			}
 			break;
+		case SceneType::kGameClear:
+			if (input->TriggerKey(DIK_RETURN)) {
+				sceneNo = SceneType::kTitle;
+			}
 		}
 		// 軸表示の更新
 		axisIndicator->Update();
