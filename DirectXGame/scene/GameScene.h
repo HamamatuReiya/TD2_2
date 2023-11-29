@@ -105,9 +105,9 @@ private: //
 	void ClearDraw();
 
 	//カウント
-	void CountInitialize();
-	void CountUpdate();
-	void CountDraw();
+	void GoalInitialize();
+	void GoalUpdate();
+	void GoalDraw();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -303,6 +303,8 @@ private:
 
 	//スプライト
 	Sprite* buttonSprite_ = nullptr;
+	// 長押しスプライト
+	Sprite* longbuttonSprite_ = nullptr;
 
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
@@ -321,9 +323,11 @@ private:
 	// スタミナスプライト
 	Sprite* staminaSprite = nullptr;
 	// カウントスプライト
-	Sprite* CountSprite[3] = {nullptr, nullptr, nullptr};
+	Sprite* CraftNowSprite = nullptr;
 	// カウントスプライト
-	Sprite* ClearCountSprite[5] = {nullptr, nullptr, nullptr, nullptr, nullptr};
+	Sprite* OpennowSprite = nullptr;
+	// 作成完了スプライト
+	Sprite* CompleteSprite = nullptr;
 
 	// 表示範囲
 	Vector2 size;
@@ -342,6 +346,8 @@ private:
 
 	// ボタン表示
 	uint32_t buttonTexture_ = 0;
+	// 長押しボタン表示
+	uint32_t LongbuttonTexture_ = 0;
 	//操作方法表示
 	uint32_t operationTexture_ = 0;
 	// ルール表示
@@ -353,9 +359,11 @@ private:
 	// ゴール
 	uint32_t goalTexture = 0;
 	//解除テクスチャ
-	uint32_t clearcountTexture[5] = {0, 0, 0, 0 ,0};
-	// 解除テクスチャ
-	uint32_t countTexture[3] = {0, 0, 0};
+	uint32_t opennowTexture = 0;
+	// テクスチャ
+	uint32_t craftNowTexture =  0;
+	// 作成完了テクスチャ
+	uint32_t completeTexture = 0;
 
 	bool GetButton;
 	bool iskeyup;
@@ -380,8 +388,14 @@ private:
 	float LockOpenTime_;
 
 	//カウント
-	bool PushCount[3] = {false,false,false};
-	bool ClearCount[5] = {false, false, false, false, false};
+	bool PushNow = false;
+	bool isCreateKey = false;
+	//
+	bool isComplete;
+	float CompleteTime;
+	bool isCrafting; 
+	bool GetLongbutton;
+	bool GetunLockbutton;
 	
 
 	// 3Dモデル
