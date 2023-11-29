@@ -174,8 +174,6 @@ void GameScene::Initialize() {
 	//スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
-	//カウント
-	CountInitialize();
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
@@ -476,7 +474,6 @@ void GameScene::Update() {
 			player_->Update();
 		}
 		CraftingUpdate();
-		CountUpdate();
 
 		if (enemy_->Getphase1State() == Chase) {
 			audio_->StopWave(bgmHandle_);
