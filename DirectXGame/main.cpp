@@ -121,6 +121,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				sceneNo = SceneType::kTitle;
 				gameScene->sceneReset();
 			}
+			gameScene->ClearBGM();
 		}
 		// 軸表示の更新
 		axisIndicator->Update();

@@ -68,6 +68,8 @@ public: // メンバ関数
 	SceneType NextScene() { return SceneType::kTitle; }
 
 	bool GetIsClear() { return isClear; }
+	
+	void ClearBGM();
 
 private: //
 
@@ -433,10 +435,16 @@ private:
 	uint32_t bgmHandle_;
 	uint32_t playBgm_;
 	bool isBgm_;
+
 	uint32_t kanadokoSE_ = 0;
+
 	uint32_t foundBgmHandle_;
 	uint32_t playFoundBgm_;
 	bool isFoundBgm_; 
+
+	uint32_t clearHandle_;
+	uint32_t playClearBgm_;
+	bool isClearBgm_;
 
 	//
 	bool isGetKey;
