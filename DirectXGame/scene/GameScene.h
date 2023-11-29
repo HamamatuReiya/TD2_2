@@ -322,6 +322,8 @@ private:
 	Sprite* MoldSprite_[4] = {nullptr, nullptr,nullptr,nullptr};
 	// スタミナスプライト
 	Sprite* staminaSprite = nullptr;
+	// スタミナバースプライト
+	Sprite* staminaberSprite = nullptr;
 	// カウントスプライト
 	Sprite* CraftNowSprite = nullptr;
 	// カウントスプライト
@@ -356,6 +358,8 @@ private:
 	uint32_t moldTexture_[4] = {0, 0, 0, 0};
 	//スタミナ
 	uint32_t staminaTexture = 0;
+	// スタミナ
+	uint32_t staminaberTexture = 0;
 	// ゴール
 	uint32_t goalTexture = 0;
 	//解除テクスチャ

@@ -174,6 +174,9 @@ void GameScene::Initialize() {
 	//スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
+	// スタミナバー
+	staminaberTexture = TextureManager::Load("Sutaminaber.png");
+	staminaberSprite = Sprite::Create(staminaberTexture, {600, 900});
 	
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
@@ -638,6 +641,8 @@ void GameScene::Draw() {
 		MoldDraw();
 		// スタミナ
 		staminaSprite->Draw();
+		// スタミナバー
+		staminaberSprite->Draw();
 		//カウント
 		GoalDraw();
 		//クリア
