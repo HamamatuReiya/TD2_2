@@ -292,6 +292,9 @@ void GameScene::GoalUpdate() {
 	if (CompleteTime < 60) {
 		GetLongbutton = false;
 	}
+	if (UnLockTime < 60) {
+		GetunLockbutton = false;
+	}
 }
 
 void GameScene::GoalDraw() {
@@ -580,7 +583,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw(viewProjection_);
+	/*player_->Draw(viewProjection_);*/
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
@@ -813,15 +816,11 @@ void GameScene::CheakCollisions() {
 				PushTime_++;
 				if (PushTime_ <= 300) {
 					isLock = true;
-					for (int i = 0; i < 3; i++) {
-						PushNow = true;
-					}
+					PushNow = true;
 				}
 				if (PushTime_ > 300) {
-					for (int i = 0; i < 3; i++) {
-						PushNow = false;
-						isComplete = true;
-					}
+					PushNow = false;
+					isComplete = true;
 				}
 				craft_->OnCraftCollision();
 				// 自キャラの衝突時コールバックを呼び出す
@@ -838,16 +837,16 @@ void GameScene::CheakCollisions() {
 	// プレイヤーと南京錠の当たり判定
 	if (posAG <= (playerRadius + LockRadius) * (playerRadius + LockRadius)) {
 		if (isLock == true) {
-			GetButton = true;
+			GetunLockbutton = true;
 		}
 		if (input_->PushKey(DIK_F) && isLock == true) {
 			LockOpenTime_++;
 			if (LockOpenTime_ <= 600) {
 				isCreateKey = true;
-				isClear = true;
 			}
-			if (LockOpenTime_ > 500) {
-					isCreateKey = false;
+			if (LockOpenTime_ > 600) {
+				isCreateKey = false;
+				isClear = true;
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
