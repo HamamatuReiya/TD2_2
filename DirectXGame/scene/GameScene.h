@@ -65,7 +65,7 @@ public: // メンバ関数
 	bool isSceneEnd = false;
 
 	bool IsSceneEnd() { return isSceneEnd; }
-	SceneType NextScene() { return SceneType::kTitle; }
+	SceneType NextScene() { return SceneType::kGameClear; }
 
 	bool GetIsClear() { return isClear; }
 	
