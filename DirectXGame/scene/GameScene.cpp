@@ -286,6 +286,9 @@ void GameScene::GoalUpdate() {
 	if (CompleteTime < 60) {
 		GetLongbutton = false;
 	}
+	if (UnLockTime < 60) {
+		GetunLockbutton = false;
+	}
 }
 
 void GameScene::GoalDraw() {
@@ -574,7 +577,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw(viewProjection_);
+	/*player_->Draw(viewProjection_);*/
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
