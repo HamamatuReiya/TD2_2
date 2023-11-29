@@ -154,7 +154,7 @@ void GameScene::Initialize() {
 	// 長押しボタンのテクスチャ読み込み
 	LongbuttonTexture_ = TextureManager::Load("Criating.png");
 	// 長押しスプライトの生成
-	longbuttonSprite_ = Sprite::Create(LongbuttonTexture_, {0, 0});
+	longbuttonSprite_ = Sprite::Create(LongbuttonTexture_, {1250, 600});
 
 	//操作方法のテクスチャ読み込み
 	operationTexture_ = TextureManager::Load("Operation.png");
@@ -175,7 +175,7 @@ void GameScene::Initialize() {
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
 	//カウント
-	CountInitialize();
+	GoalInitialize();
 	
 	//ルール
 	LuleInitialize();
@@ -190,6 +190,12 @@ void GameScene::Initialize() {
 	LockOpenTime_ = 0;
 	PushTime_ = 0;
 	isCrafting = false;
+	// カウント
+	PushNow = false;
+	isCreateKey = false;
+	isComplete = false;
+	GetLongbutton = false;
+	GetunLockbutton = false;
 }
 
 void GameScene::RoopInitialize() {
@@ -229,8 +235,8 @@ void GameScene::RoopInitialize() {
 	//カウント
 	PushNow = false;
 	isCreateKey= false;
+	isComplete = false;
 	
-
 }
 
 void GameScene::CraftingUpdate() {
@@ -250,20 +256,20 @@ void GameScene::ClearDraw() {
 	}
 }
 
-void GameScene::CountInitialize() {
+void GameScene::GoalInitialize() {
 	// カウント
-	countTexture = TextureManager::Load("CraftNow.png");
-	CountSprite = Sprite::Create(countTexture, {0, 0});
+	craftNowTexture = TextureManager::Load("CraftNow.png");
+	CraftNowSprite = Sprite::Create(craftNowTexture, {0, 0});
 	// クリアカウント
-	clearcountTexture = TextureManager::Load("Opennow.png");
-	ClearCountSprite = Sprite::Create(clearcountTexture, {0, 0});
-
-	PushNow = false;
+	opennowTexture = TextureManager::Load("Opennow.png");
+	OpennowSprite = Sprite::Create(opennowTexture, {0, 0});
+	//作成完了
+	completeTexture = TextureManager::Load("Kansei.png");
+	CompleteSprite = Sprite::Create(completeTexture, {0, 0});
 	
-	isCreateKey = false;
 }
 
-void GameScene::CountUpdate() {
+void GameScene::GoalUpdate() {
 	if (PushTime_> 0&&PushTime_ <= 300){
 		PushNow= true;
 	}
@@ -271,22 +277,31 @@ void GameScene::CountUpdate() {
 	if (LockOpenTime_ > 0 && LockOpenTime_ <= 500) {
 		isCreateKey = true;
 	}
-	
-	
+	if (CompleteTime < 60) {
+		GetLongbutton = false;
+	}
 }
 
-void GameScene::CountDraw() {
+void GameScene::GoalDraw() {
 	if (isCraft == true) {
 		if (PushNow == true) {
-			CountSprite->Draw();
+			CraftNowSprite->Draw();
 		}
 	}
 	if (isLock==true) {
 		// クリアカウント
 		if (isCreateKey == true) {
-			ClearCountSprite->Draw();
+			OpennowSprite->Draw();
 		}
-	}		
+	}
+	// 作成完了
+	if (isComplete == true) {
+		CompleteTime++;
+		if (CompleteTime < 60) {
+			CompleteSprite->Draw();
+		}
+	}
+	
 }
 
 void GameScene::ClearTimeInitialize()
@@ -452,7 +467,7 @@ void GameScene::Update() {
 			player_->Update();
 		}
 		CraftingUpdate();
-		CountUpdate();
+		GoalUpdate();
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
@@ -476,6 +491,8 @@ void GameScene::Update() {
 		exit_->Update();
 
 		GetButton = false;
+		GetLongbutton = false;
+		GetunLockbutton = false;
 		// 作業机の更新
 		craft_->Update();
 		//　南京錠の更新
@@ -569,6 +586,12 @@ void GameScene::Draw() {
 	if (GetButton == true) {
 		buttonSprite_->Draw();
 	}
+	if (GetLongbutton == true && PushTime_ <= 300) {
+		longbuttonSprite_->Draw();
+	}
+	if (GetunLockbutton==true) {
+
+	}
 	//クリアタイム
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
@@ -584,7 +607,7 @@ void GameScene::Draw() {
 		// スタミナ
 		staminaSprite->Draw();
 		//カウント
-		CountDraw();
+		GoalDraw();
 		//クリア
 		ClearDraw();
 	}
@@ -740,33 +763,35 @@ void GameScene::CheakCollisions() {
 	// AとFの距離を求める
 	posAF = (posF.x - posA.x) * (posF.x - posA.x) + (posF.y - posA.y) * (posF.y - posA.y) +
 	        (posF.z - posA.z) * (posF.z - posA.z);
+	if (isComplete==false) {
 	// プレイヤーと金床の当たり判定
-	if (posAF <= (playerRadius + CraftRadius) * (playerRadius + CraftRadius)) {
-		if (isCraft == true) {
-			GetButton = true;
-		}
-		if (input_->PushKey(DIK_F) && isCraft == true) {
-			PushTime_++;
-			if (PushTime_<= 300) {
-				isLock = true;
-				for (int i = 0; i < 3; i++) {
-					PushNow = true;
-				}
+		if (posAF <= (playerRadius + CraftRadius) * (playerRadius + CraftRadius)) {
+			if (isCraft == true) {
+				GetLongbutton = true;
 			}
-			if (PushTime_ > 300) {
-				for (int i = 0; i < 3; i++) {
-					PushNow = false;
+			if (input_->PushKey(DIK_F) && isCraft == true) {
+				PushTime_++;
+				if (PushTime_ <= 300) {
+					isLock = true;
+					for (int i = 0; i < 3; i++) {
+						PushNow = true;
+					}
 				}
+				if (PushTime_ > 300) {
+					for (int i = 0; i < 3; i++) {
+						PushNow = false;
+						isComplete = true;
+					}
+				}
+				craft_->OnCraftCollision();
+				// 自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision();
 			}
-			craft_->OnCraftCollision();
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-		}
-	} else {
-		for (int i = 0; i < 3; i++) {
+		} else {
 			PushNow = false;
+			PushTime_ = 0;
 		}
-	}
+	} 
 	// AとGの距離を求める
 	posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
 	        (posG.z - posA.z) * (posG.z - posA.z);
@@ -778,24 +803,18 @@ void GameScene::CheakCollisions() {
 		if (input_->PushKey(DIK_F) && isLock == true) {
 			LockOpenTime_++;
 			if (LockOpenTime_ <= 600) {
-				for (int i = 0; i < 5; i++) {
-					isCreateKey = true;
-				}
+				isCreateKey = true;
 				isClear = true;
 			}
 			if (LockOpenTime_ > 500) {
-				for (int i = 0; i < 5; i++) {
 					isCreateKey = false;
-				}
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 		}
 	} else {
-		for (int i = 0; i < 5; i++) {
-			isCreateKey = false;
-		}
+		isCreateKey = false;
 	}
 
 	//敵の視界

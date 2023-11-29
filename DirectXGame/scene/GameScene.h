@@ -105,9 +105,9 @@ private: //
 	void ClearDraw();
 
 	//カウント
-	void CountInitialize();
-	void CountUpdate();
-	void CountDraw();
+	void GoalInitialize();
+	void GoalUpdate();
+	void GoalDraw();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -323,9 +323,11 @@ private:
 	// スタミナスプライト
 	Sprite* staminaSprite = nullptr;
 	// カウントスプライト
-	Sprite* CountSprite = nullptr;
+	Sprite* CraftNowSprite = nullptr;
 	// カウントスプライト
-	Sprite* ClearCountSprite = nullptr;
+	Sprite* OpennowSprite = nullptr;
+	// 作成完了スプライト
+	Sprite* CompleteSprite = nullptr;
 
 	// 表示範囲
 	Vector2 size;
@@ -357,9 +359,11 @@ private:
 	// ゴール
 	uint32_t goalTexture = 0;
 	//解除テクスチャ
-	uint32_t clearcountTexture = 0;
-	// 解除テクスチャ
-	uint32_t countTexture =  0;
+	uint32_t opennowTexture = 0;
+	// テクスチャ
+	uint32_t craftNowTexture =  0;
+	// 作成完了テクスチャ
+	uint32_t completeTexture = 0;
 
 	bool GetButton;
 	bool iskeyup;
@@ -388,8 +392,10 @@ private:
 	bool isCreateKey = false;
 	//
 	bool isComplete;
-	bool CompleteTime;
+	float CompleteTime;
 	bool isCrafting; 
+	bool GetLongbutton;
+	bool GetunLockbutton;
 	
 
 	// 3Dモデル
