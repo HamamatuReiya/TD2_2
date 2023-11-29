@@ -185,11 +185,7 @@ void GameScene::RoopInitialize() {
 	// ルール
 	LuleInitialize();
 	// 初期化
-	enemy_->Initialize(
-	    enemyModel_.get(), enemyModel2_.get(), enemyModel3_.get(), enemyModel4_.get(),
-	    enemyModel5_.get(), enemyModel6_.get(), enemyModel7_.get(), enemyModel8_.get(),
-	    enemyModel9_.get(), enemyModel10_.get(), enemyModel11_.get(), enemyModel12_.get(),
-	    enemyModel13_.get(), enemyModel14_.get(), enemyModel15_.get());
+	enemy_->GameRoopInitialize();
 	// 地面の初期化
 	ground_->Initialize(groundModel_.get());
 	// 鍵の初期化
