@@ -57,6 +57,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	bool GetUpdateFlag() { return updateFlag; }
 
 	// シーンのリセット
 	void sceneReset();
@@ -121,6 +122,11 @@ private:
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	std::unique_ptr<Model> model_ = nullptr;
+
+	Sprite* gameOverSprite_ = nullptr;
+	uint32_t gameOverTexture_ = 0;
+
+	bool updateFlag = true;
 
 	// 3Dモデル
 	std::unique_ptr<Model> playerModel_ = nullptr;
@@ -413,7 +419,10 @@ private:
 	//サウンド
 	uint32_t bgmHandle_ = 0;
 	uint32_t bgmLoop_ = 0;
+	uint32_t kanadokoSE_ = 0;
 	bool isBgm_;
+
+	int kanadokoSEFlame;
 
 	uint32_t foundBgmHandle_ = 0;
 	uint32_t foundLoop_ = 0;

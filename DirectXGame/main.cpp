@@ -97,6 +97,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ゲームシーンの毎フレーム処理
 			gameScene->Update();
 
+			if (gameScene->GetUpdateFlag() == false) {
+				if (input->TriggerKey(DIK_RETURN)) {
+					sceneNo = SceneType::kTitle;
+				}
+			}
+
 			if (gameScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーン切り替え
 				sceneNo = gameScene->NextScene();

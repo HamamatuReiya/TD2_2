@@ -28,6 +28,9 @@ void GameScene::Initialize() {
 	//// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
 	// AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
+	gameOverTexture_ = TextureManager::Load("GameOver.png");
+	gameOverSprite_ = Sprite::Create(gameOverTexture_, {0, 0});
+
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 3Dモデルの生成
@@ -174,11 +177,12 @@ void GameScene::Initialize() {
 	// スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
-	//カウント
-	CountInitialize();
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
+
+	kanadokoSE_ = audio_->LoadWave("kanadokoSound.mp3");
+	kanadokoSEFlame = 0;
 
 	isBgm_ = false;
 	isFoundBgm_ = false;
@@ -204,6 +208,8 @@ void GameScene::Initialize() {
 	isComplete = false;
 	GetLongbutton = false;
 	GetunLockbutton = false;
+
+	updateFlag = true;
 
 	siraberuHandle_ = audio_->LoadWave("siraberu.mp3");
 }
@@ -242,7 +248,8 @@ void GameScene::RoopInitialize() {
 	PushNow = false;
 	isCreateKey= false;
 	isComplete = false;
-	
+	updateFlag = true;
+	kanadokoSEFlame = 0;
 }
 
 void GameScene::CraftingUpdate() {
@@ -469,11 +476,12 @@ void GameScene::Update() {
 	LuleUpdate();
 	if (isLule_ == false) {
 		CameraUpdate();
-		if (EnemyCameraActive == false) {
-			player_->Update();
+		if (updateFlag == true) {
+			if (EnemyCameraActive == false) {
+				player_->Update();
+			}
 		}
 		CraftingUpdate();
-		CountUpdate();
 
 		if (enemy_->Getphase1State() == Chase) {
 			audio_->StopWave(bgmHandle_);
@@ -498,7 +506,9 @@ void GameScene::Update() {
 		staminaSprite->SetSize(size);
 
 		enemy_->SetPlayer(player_.get());
-		enemy_->Update();
+		if (updateFlag == true) {
+			enemy_->Update();
+		}
 		Key_->Update();
 		// 部屋の更新
 		RoomUpdate();
@@ -641,9 +651,11 @@ void GameScene::Draw() {
 		ClearDraw();
 	}
 	
-	
-	
 	enemy_->EfectDraw();
+
+	if (updateFlag == false) {
+		gameOverSprite_->Draw();
+	}
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -808,6 +820,11 @@ void GameScene::CheakCollisions() {
 				GetLongbutton = true;
 			}
 			if (input_->PushKey(DIK_F) && isCraft == true) {
+				kanadokoSEFlame++;
+				if (kanadokoSEFlame >= 30) {
+					audio_->PlayWave(kanadokoSE_);
+					kanadokoSEFlame = 0;
+				}
 				PushTime_++;
 				if (PushTime_ <= 300) {
 					isLock = true;
@@ -823,7 +840,7 @@ void GameScene::CheakCollisions() {
 				}
 				craft_->OnCraftCollision();
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 			}
 		} else {
 			PushNow = false;
@@ -1086,6 +1103,8 @@ void GameScene::CheakCollisions() {
 			player_->OnCollision();
 			enemy_->CollisionInitialize();
 			player_->CollisionInitialize();
+		} else {
+			updateFlag = false;
 		}
 
 	}

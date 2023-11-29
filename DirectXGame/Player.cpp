@@ -33,7 +33,7 @@ void Player::GameRoopInitialize() {
 	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
 	collisionType_ = START;
 	stamina = 720.0f;
-	life = 4;
+	life = 3;
 	isRun = true;
 	collisionCoolTime = 0;
 }
