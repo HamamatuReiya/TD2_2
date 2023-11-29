@@ -438,6 +438,9 @@ private:
 	uint32_t playFoundBgm_;
 	bool isFoundBgm_; 
 
+	//
+	bool isGetKey;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
