@@ -71,6 +71,8 @@ public: // メンバ関数
 	
 	void ClearBGM();
 
+	void resetBGM();
+
 	void ClearDraw();//クリア処理
 
 private: //

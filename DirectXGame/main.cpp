@@ -120,6 +120,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				// タイトルシーンの初期化、フラグリセット等
 				gameClearScene->sceneReset();
+
+				gameScene->resetBGM();
 			}
 			gameScene->ClearBGM();
 		}
