@@ -47,6 +47,8 @@ public:
 
 	float GetEnemySpeed() { return kEnemySpeed_; }
 
+	void CollisionInitialize();
+
 	void EncountMove1();
 	void EncountMove2();
 	void EncountMove3();

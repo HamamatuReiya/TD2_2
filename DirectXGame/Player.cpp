@@ -15,9 +15,39 @@ void Player::Initialize(Model* model) {
 	stamina = 720.0f;
 	life = 4;
 	isRun = true;
+	collisionCoolTime = 0;
+	lifeTexture_ = TextureManager::Load("Heart.png");
+	lifeSprite1_ = Sprite::Create(lifeTexture_, {0, 0});
+}
+
+void Player::GameRoopInitialize() {
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
+	collisionType_ = START;
+	stamina = 720.0f;
+	life = 4;
+	isRun = true;
+	collisionCoolTime = 0;
+}
+
+void Player::CollisionInitialize() {
+	worldTransform_.Initialize();
+	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
+	collisionType_ = START;
+	stamina = 720.0f;
+	isRun = true;
+	collisionCoolTime = 0;
 }
 
 void Player::Update() {
+	collisionCoolTime++;
+	if (collisionCoolTime>=30) {
+		collisionCoolTime = 30;
+	}
 	Vector3 move_ = {0, 0, 0};
 	Vector3 rotate = {0, 0, 0};
 	// 移動処理
@@ -34,7 +64,7 @@ void Player::Update() {
 	// Dash
 	if (input_->PushKey(DIK_LSHIFT) && input_->PushKey(DIK_W)) {
 		if (isRun == true) {
-			stamina -= 2;
+			stamina -= 3;
 			move_ = {0.0f, 0.0f, 0.32f};
 		} else {
 			stamina += 2;
@@ -139,6 +169,8 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
+
+void Player::DrawLife() { lifeSprite1_->Draw(); }
 
 void Player::SetType(int collisionType) {
 	collisionType_ = static_cast<CollisionType>(collisionType);

@@ -115,6 +115,34 @@ void Enemy::GameRoopInitialize() {
 	setStateFlag9 = true;
 }
 
+void Enemy::CollisionInitialize() {
+	worldTransform_.Initialize();
+	move_ = {0.0f, 0.0f, 0.0f};
+	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
+	worldTransform_.rotation_ = {0.0f, 1.6f, 0.0f};
+	worldTransform_.translation_ = {63.0f, 0.7f, 48.0f};
+	encountFlag = false;
+	kEnemySpeed_ = 0.20f;
+	rotateSpeed_ = 0.10f;
+	phaseSwitchCount = 300;
+	phase_ = phase1;
+	phase1State = search;
+	collisionType_ = ROOM05;
+	phase2State = search;
+	phase3State = search;
+	phase1Move = move1;
+	state1Flag1 = false;
+	state1Flag2 = false;
+	state1Flag3 = false;
+	state1Flag4 = false;
+	state1Flag5 = false;
+	state1Flag6 = false;
+	enemyVisibilityXFlag = false;
+	enemyVisibility_XFlag = false;
+	enemyVisibilityZFlag = false;
+	enemyVisibility_ZFlag = false;
+}
+
 void Enemy::Update() { 
 	switch (phase_) {
 	case Enemy::phase1:

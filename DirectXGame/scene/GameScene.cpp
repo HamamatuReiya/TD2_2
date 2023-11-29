@@ -185,6 +185,8 @@ void GameScene::Initialize() {
 	isLock = false;
 	LockOpenTime_ = 0;
 	PushTime_ = 0;
+
+	siraberuHandle_ = audio_->LoadWave("siraberu.mp3");
 }
 
 void GameScene::RoopInitialize() {
@@ -195,7 +197,7 @@ void GameScene::RoopInitialize() {
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 	// 自キャラの初期化
-	player_->Initialize(playerModel_.get());
+	player_->GameRoopInitialize();
 	// ルール
 	LuleInitialize();
 	// 初期化
@@ -612,6 +614,8 @@ void GameScene::Draw() {
 		}
 	}
 
+	player_->DrawLife();
+
 	// クリアタイム
 	ClearTimeScore1_[isClearTime_1]->Draw();
 	ClearTimeScore2_[isClearTime_2]->Draw();
@@ -676,7 +680,7 @@ void GameScene::CheakCollisions() {
 	float posAEZ;
 	float posAE_Z;
 
-	float enemyVisibilityShift = 12.0f;
+	float enemyVisibilityShift = 15.0f;
 
 	//敵にぶつかる半径
 	float enemyRadius = 3.0f;
@@ -726,8 +730,9 @@ void GameScene::CheakCollisions() {
 			}
 			if (input_->TriggerKey(DIK_F) && iskeyup == true) {
 				Gettingkeyup = true;
+				audio_->PlayWave(siraberuHandle_);
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 				// 鍵の衝突時コールバックを呼び出す
 				Key_->OnKeyUpCollision();
 				ActiveTime = 0;
@@ -749,8 +754,9 @@ void GameScene::CheakCollisions() {
 			}
 			if (input_->TriggerKey(DIK_F) && isHummer == true) {
 				GettingHummer = true;
+				audio_->PlayWave(siraberuHandle_);
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 				// 鍵の衝突時コールバックを呼び出す
 				Key_->OnKeyCollision();
 				ActiveTime = 0;
@@ -772,8 +778,9 @@ void GameScene::CheakCollisions() {
 			}
 			if (input_->TriggerKey(DIK_F) && iskeydown == true) {
 				Gettingkeydown = true;
+				audio_->PlayWave(siraberuHandle_);
 				// 自キャラの衝突時コールバックを呼び出す
-				player_->OnCollision();
+				//player_->OnCollision();
 				// 鍵の衝突時コールバックを呼び出す
 				Key_->OnKeyDownCollision();
 				ActiveTime = 0;
@@ -808,7 +815,7 @@ void GameScene::CheakCollisions() {
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
+			//player_->OnCollision();
 		}
 	}
 	// AとGの距離を求める
@@ -832,7 +839,7 @@ void GameScene::CheakCollisions() {
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
+			//player_->OnCollision();
 		}
 	}
 
@@ -1001,59 +1008,73 @@ void GameScene::CheakCollisions() {
 		}
 	} 
 	 
-	posAEHit = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
-	if (posAEHit <= (playerRadius + enemyRadius) * (playerRadius + enemyRadius)) {
-		player_->OnCollision();
-	}
+	
 	if (EnemyCameraActive == false) {
-		// 敵の視界
-		//  AとEの距離を求める
-		// 敵と自機の半径
-		posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-		        ((posE.z) - posA.z) * ((posE.z) - posA.z);
-		if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
-			enemy_->PhaseCollision();
-		}
-		// 左
-		posAE_X = ((posE.x - enemyVisibilityShift) - posA.x) *
-		              ((posE.x - enemyVisibilityShift) - posA.x) +
-		          (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
-		if (posAE_X <=
-		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibility_X() == true) {
+		if (player_->GetCollisionCoolTime() >= 30) {
+
+			// 敵の視界
+			//  AとEの距離を求める
+			// 敵と自機の半径
+			posAE = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+			        ((posE.z) - posA.z) * ((posE.z) - posA.z);
+			if (posAE <= (playerRadius + enemySearchRadius) * (playerRadius + enemySearchRadius)) {
 				enemy_->PhaseCollision();
 			}
-		}
-		// 右
-		posAEX = ((posE.x + enemyVisibilityShift) - posA.x) *
-		             ((posE.x + enemyVisibilityShift) - posA.x) +
-		         (posE.y - posA.y) * (posE.y - posA.y) + ((posE.z) - posA.z) * ((posE.z) - posA.z);
-		if (posAEX <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibilityX() == true) {
-				enemy_->PhaseCollision();
+			// 左
+			posAE_X = ((posE.x - enemyVisibilityShift) - posA.x) *
+			              ((posE.x - enemyVisibilityShift) - posA.x) +
+			          (posE.y - posA.y) * (posE.y - posA.y) +
+			          ((posE.z) - posA.z) * ((posE.z) - posA.z);
+			if (posAE_X <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibility_X() == true) {
+					enemy_->PhaseCollision();
+				}
 			}
-		}
-		// 下
-		posAE_Z =
-		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-		    ((posE.z - enemyVisibilityShift) - posA.z) * ((posE.z - enemyVisibilityShift) - posA.z);
-		if (posAE_Z <=
-		    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibility_Z() == true) {
-				enemy_->PhaseCollision();
+			// 右
+			posAEX = ((posE.x + enemyVisibilityShift) - posA.x) *
+			             ((posE.x + enemyVisibilityShift) - posA.x) +
+			         (posE.y - posA.y) * (posE.y - posA.y) +
+			         ((posE.z) - posA.z) * ((posE.z) - posA.z);
+			if (posAEX <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibilityX() == true) {
+					enemy_->PhaseCollision();
+				}
 			}
-		}
-		// 上
-		posAEZ =
-		    ((posE.x) - posA.x) * ((posE.x) - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-		    ((posE.z + enemyVisibilityShift) - posA.z) * ((posE.z + enemyVisibilityShift) - posA.z);
-		if (posAEZ <= (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
-			if (enemy_->GetEnemyVisibilityZ() == true) {
-				enemy_->PhaseCollision();
+			// 下
+			posAE_Z = ((posE.x) - posA.x) * ((posE.x) - posA.x) +
+			          (posE.y - posA.y) * (posE.y - posA.y) +
+			          ((posE.z - enemyVisibilityShift) - posA.z) *
+			              ((posE.z - enemyVisibilityShift) - posA.z);
+			if (posAE_Z <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibility_Z() == true) {
+					enemy_->PhaseCollision();
+				}
+			}
+			// 上
+			posAEZ = ((posE.x) - posA.x) * ((posE.x) - posA.x) +
+			         (posE.y - posA.y) * (posE.y - posA.y) +
+			         ((posE.z + enemyVisibilityShift) - posA.z) *
+			             ((posE.z + enemyVisibilityShift) - posA.z);
+			if (posAEZ <=
+			    (playerRadius + enemySearchRadiusXZ) * (playerRadius + enemySearchRadiusXZ)) {
+				if (enemy_->GetEnemyVisibilityZ() == true) {
+					enemy_->PhaseCollision();
+				}
 			}
 		}
 	}
+	//敵と自機の当たり判定
+	posAEHit = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
+	           ((posE.z) - posA.z) * ((posE.z) - posA.z);
+	if (posAEHit <= (playerRadius + enemyRadius) * (playerRadius + enemyRadius)) {
+		//player_->OnCollision();
+		enemy_->CollisionInitialize();
+		player_->CollisionInitialize();
+	}
+
 #pragma endregion
 }
 

@@ -357,6 +357,8 @@ private:
 	// 解除テクスチャ
 	uint32_t countTexture[3] = {0, 0, 0};
 
+	uint32_t siraberuHandle_;
+
 	bool GetButton;
 	bool iskeyup;
 	bool isHummer;

@@ -12,6 +12,10 @@ public:
 	/// </summary>
 	void Initialize(Model* model);
 
+	void GameRoopInitialize();
+
+	void CollisionInitialize();
+
 	/// <summary>
 	/// 自キャラ
 	/// 更新
@@ -23,6 +27,8 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	void DrawLife();
+
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
@@ -31,6 +37,7 @@ public:
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
 	
+	int GetCollisionCoolTime() { return collisionCoolTime; }
 
 	void SetViewProjection(const ViewProjection* viewProjection)
 	{
@@ -82,6 +89,13 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
+
+	int collisionCoolTime;
+
+	Sprite* lifeSprite1_ = nullptr;
+	Sprite* lifeSprite2_ = nullptr;
+	Sprite* lifeSprite3_ = nullptr;
+	uint32_t lifeTexture_ = 0;
 
 	//ライフ
 	int life = 4;
