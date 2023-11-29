@@ -8,6 +8,12 @@
 
 class Player;
 
+enum State {
+	search,
+	Chase,
+	posReset,
+};
+
 class Enemy {
 public:
 	void Initialize(
@@ -28,6 +34,8 @@ public:
 	Vector3 GetWorldPosition();
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
+
+	State Getphase1State() { return phase1State; };
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -53,11 +61,6 @@ private:
 	};
 	Phase phase_;
 
-	enum State {
-		search,
-		Chase,
-		posReset,
-	};
 	State phase1State;
 	State phase2State;
 	State phase3State;

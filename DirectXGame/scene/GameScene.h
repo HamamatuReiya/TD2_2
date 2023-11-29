@@ -360,6 +360,15 @@ private:
 	// 南京錠
 	std::unique_ptr<Lock> lock_;
 
+	//サウンド
+	uint32_t bgmHandle_ = 0;
+	uint32_t bgmLoop_ = 0;
+	bool isBgm_;
+
+	uint32_t foundBgmHandle_ = 0;
+	uint32_t foundLoop_ = 0;
+	bool isFoundBgm_; 
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
