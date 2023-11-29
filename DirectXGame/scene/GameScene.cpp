@@ -177,14 +177,20 @@ void GameScene::Initialize() {
 	// スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
+	// スタミナバー
+	staminaberTexture = TextureManager::Load("Sutaminaber.png");
+	staminaberSprite = Sprite::Create(staminaberTexture, {600, 900});
+	
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
+	playBgm_ = audio_->PlayWave(bgmHandle_);
 
 	kanadokoSE_ = audio_->LoadWave("kanadokoSound.mp3");
 	kanadokoSEFlame = 0;
 
 	isBgm_ = false;
+
 	isFoundBgm_ = false;
 
 	GoalInitialize();
@@ -292,6 +298,9 @@ void GameScene::GoalUpdate() {
 	}
 	if (CompleteTime < 60) {
 		GetLongbutton = false;
+	}
+	if (UnLockTime < 60) {
+		GetunLockbutton = false;
 	}
 }
 
@@ -484,17 +493,17 @@ void GameScene::Update() {
 		CraftingUpdate();
 
 		if (enemy_->Getphase1State() == Chase) {
-			audio_->StopWave(bgmHandle_);
+			audio_->StopWave(playBgm_);
 			isBgm_ = false;
 			if (isFoundBgm_ == false) {
-				audio_->PlayWave(foundBgmHandle_, false);
+				playFoundBgm_ = audio_->PlayWave(foundBgmHandle_, false);
 				isFoundBgm_ = true;
 			}
 		} else if (enemy_->Getphase1State() == search) {
-			audio_->StopWave(foundBgmHandle_);
+			audio_->StopWave(playFoundBgm_);
 			isFoundBgm_ = false;
 			if (isBgm_ == false) {
-				audio_->PlayWave(bgmHandle_, true);
+				playBgm_ = audio_->PlayWave(bgmHandle_);
 				isBgm_ = true;
 			}
 		}
@@ -582,7 +591,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw(viewProjection_);
+	/*player_->Draw(viewProjection_);*/
 	ground_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Key_->Draw(viewProjection_);
@@ -645,6 +654,8 @@ void GameScene::Draw() {
 		MoldDraw();
 		// スタミナ
 		staminaSprite->Draw();
+		// スタミナバー
+		staminaberSprite->Draw();
 		//カウント
 		GoalDraw();
 		//クリア
@@ -828,15 +839,11 @@ void GameScene::CheakCollisions() {
 				PushTime_++;
 				if (PushTime_ <= 300) {
 					isLock = true;
-					for (int i = 0; i < 3; i++) {
-						PushNow = true;
-					}
+					PushNow = true;
 				}
 				if (PushTime_ > 300) {
-					for (int i = 0; i < 3; i++) {
-						PushNow = false;
-						isComplete = true;
-					}
+					PushNow = false;
+					isComplete = true;
 				}
 				craft_->OnCraftCollision();
 				// 自キャラの衝突時コールバックを呼び出す
@@ -853,16 +860,16 @@ void GameScene::CheakCollisions() {
 	// プレイヤーと南京錠の当たり判定
 	if (posAG <= (playerRadius + LockRadius) * (playerRadius + LockRadius)) {
 		if (isLock == true) {
-			GetButton = true;
+			GetunLockbutton = true;
 		}
 		if (input_->PushKey(DIK_F) && isLock == true) {
 			LockOpenTime_++;
 			if (LockOpenTime_ <= 600) {
 				isCreateKey = true;
-				isClear = true;
 			}
-			if (LockOpenTime_ > 500) {
-					isCreateKey = false;
+			if (LockOpenTime_ > 600) {
+				isCreateKey = false;
+				isClear = true;
 			}
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す

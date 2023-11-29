@@ -328,6 +328,8 @@ private:
 	Sprite* MoldSprite_[4] = {nullptr, nullptr,nullptr,nullptr};
 	// スタミナスプライト
 	Sprite* staminaSprite = nullptr;
+	// スタミナバースプライト
+	Sprite* staminaberSprite = nullptr;
 	// カウントスプライト
 	Sprite* CraftNowSprite = nullptr;
 	// カウントスプライト
@@ -362,6 +364,8 @@ private:
 	uint32_t moldTexture_[4] = {0, 0, 0, 0};
 	//スタミナ
 	uint32_t staminaTexture = 0;
+	// スタミナ
+	uint32_t staminaberTexture = 0;
 	// ゴール
 	uint32_t goalTexture = 0;
 	//解除テクスチャ
@@ -401,7 +405,9 @@ private:
 	//
 	bool isComplete;
 	float CompleteTime;
+	float UnLockTime;
 	bool isCrafting; 
+	//ボタン
 	bool GetLongbutton;
 	bool GetunLockbutton;
 	
@@ -417,15 +423,12 @@ private:
 	std::unique_ptr<Lock> lock_;
 
 	//サウンド
-	uint32_t bgmHandle_ = 0;
-	uint32_t bgmLoop_ = 0;
-	uint32_t kanadokoSE_ = 0;
+	uint32_t bgmHandle_;
+	uint32_t playBgm_;
 	bool isBgm_;
-
-	int kanadokoSEFlame;
-
-	uint32_t foundBgmHandle_ = 0;
-	uint32_t foundLoop_ = 0;
+	uint32_t kanadokoSE_ = 0;
+	uint32_t foundBgmHandle_;
+	uint32_t playFoundBgm_;
 	bool isFoundBgm_; 
 
 	/// <summary>
