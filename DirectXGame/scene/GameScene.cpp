@@ -184,15 +184,18 @@ void GameScene::Initialize() {
 	
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
-	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
 	playBgm_ = audio_->PlayWave(bgmHandle_);
+
+	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
+
+	clearHandle_ = audio_->LoadWave("BGM/Arbors.mp3");
 
 	kanadokoSE_ = audio_->LoadWave("kanadokoSound.mp3");
 	kanadokoSEFlame = 0;
 
 	isBgm_ = false;
-
 	isFoundBgm_ = false;
+	isClearBgm_ = false;
 
 	GoalInitialize();
 	
@@ -252,12 +255,17 @@ void GameScene::RoopInitialize() {
 	// 鍵制作
 	isClear = false;
 	isLock = false;
+	isGetKey = false;
 	//カウント
 	PushNow = false;
 	isCreateKey= false;
 	isComplete = false;
 	updateFlag = true;
 	kanadokoSEFlame = 0;
+	//BGM
+	isBgm_ = false;
+	isFoundBgm_ = false;
+	isClearBgm_ = false;
 }
 
 void GameScene::CraftingUpdate() {
@@ -329,6 +337,17 @@ void GameScene::GoalDraw() {
 		}
 	}
 	
+}
+
+void GameScene::ClearBGM() {
+	if (isClear == true) {
+		audio_->StopWave(playBgm_);
+		audio_->StopWave(playFoundBgm_);
+		if (isClearBgm_ == false) {
+			playClearBgm_ = audio_->PlayWave(clearHandle_, true);
+			isClearBgm_ = true;
+		}
+	}
 }
 
 void GameScene::ClearTimeInitialize()
@@ -512,15 +531,21 @@ void GameScene::Update() {
 			audio_->StopWave(playFoundBgm_);
 			isFoundBgm_ = false;
 			if (isBgm_ == false) {
-				playBgm_ = audio_->PlayWave(bgmHandle_);
+				playBgm_ = audio_->PlayWave(bgmHandle_,true);
 				isBgm_ = true;
 			}
 		}
+
 		GoalUpdate();
 
 		if (isComplete == true && CompleteTime < 60) {
 			isGetKey = true;
 		}
+
+		//if (input_->PushKey(DIK_V)) {
+		//	isClear = true;
+		//}
+
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
@@ -687,9 +712,12 @@ void GameScene::sceneReset() {
 	isSceneEnd = false;
 	RoopInitialize();
 
-	//// BGMの停止
-	// audio_->StopWave(bgmHandle_);
-	// bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
+	// BGMの停止
+	audio_->StopWave(playClearBgm_);
+	if (isBgm_ == false) {
+		playBgm_ = audio_->PlayWave(bgmHandle_, true);
+		isBgm_ = true;
+	}
 }
 
 void GameScene::CheakCollisions() {
