@@ -196,7 +196,7 @@ void GameScene::Initialize() {
 	
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
-	playBgm_ = audio_->PlayWave(bgmHandle_);
+	playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.5f);
 
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
 
@@ -354,7 +354,7 @@ void GameScene::ClearBGM() {
 		audio_->StopWave(playBgm_);
 		audio_->StopWave(playFoundBgm_);
 		if (isClearBgm_ == false) {
-			playClearBgm_ = audio_->PlayWave(clearHandle_, true);
+			playClearBgm_ = audio_->PlayWave(clearHandle_, true, 0.5f);
 			isClearBgm_ = true;
 		}
 	}
@@ -534,14 +534,14 @@ void GameScene::Update() {
 			audio_->StopWave(playBgm_);
 			isBgm_ = false;
 			if (isFoundBgm_ == false) {
-				playFoundBgm_ = audio_->PlayWave(foundBgmHandle_, false);
+				playFoundBgm_ = audio_->PlayWave(foundBgmHandle_, false,0.5f);
 				isFoundBgm_ = true;
 			}
 		} else if (enemy_->Getphase1State() == search) {
 			audio_->StopWave(playFoundBgm_);
 			isFoundBgm_ = false;
 			if (isBgm_ == false) {
-				playBgm_ = audio_->PlayWave(bgmHandle_,true);
+				playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.5f);
 				isBgm_ = true;
 			}
 		}
@@ -726,7 +726,7 @@ void GameScene::sceneReset() {
 	// BGMの停止
 	audio_->StopWave(playClearBgm_);
 	if (isBgm_ == false) {
-		playBgm_ = audio_->PlayWave(bgmHandle_, true);
+		playBgm_ = audio_->PlayWave(bgmHandle_, true,0.5f);
 		isBgm_ = true;
 	}
 }
