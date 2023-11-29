@@ -13,11 +13,17 @@ void Player::Initialize(Model* model) {
 	worldTransform_.translation_ = {-6.0f, 3.0f, 40.0f};
 	collisionType_ = START;
 	stamina = 720.0f;
-	life = 4;
+	life = 3;
 	isRun = true;
 	collisionCoolTime = 0;
-	lifeTexture_ = TextureManager::Load("Heart.png");
-	lifeSprite1_ = Sprite::Create(lifeTexture_, {0, 0});
+	lifeTexture1_ = TextureManager::Load("LIFE3.png");
+	lifeSprite1_ = Sprite::Create(lifeTexture1_, {-40, 0});
+	lifeTexture2_ = TextureManager::Load("LIFE2.png");
+	lifeSprite2_ = Sprite::Create(lifeTexture2_, {-40, 0});
+	lifeTexture3_ = TextureManager::Load("LIFE1.png");
+	lifeSprite3_ = Sprite::Create(lifeTexture3_, {-40, 0});
+	lifeTexture4_ = TextureManager::Load("LIFE0.png");
+	lifeSprite4_ = Sprite::Create(lifeTexture4_, {-40, 0});
 }
 
 void Player::GameRoopInitialize() {
@@ -170,7 +176,17 @@ void Player::Update() {
 
 void Player::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
 
-void Player::DrawLife() { lifeSprite1_->Draw(); }
+void Player::DrawLife() {
+	if (life == 3) {
+		lifeSprite1_->Draw();
+	} else if (life == 2) {
+		lifeSprite2_->Draw();
+	} else if (life == 1) {
+		lifeSprite3_->Draw();
+	} else if (life == 0) {
+		lifeSprite4_->Draw();
+	}
+}
 
 void Player::SetType(int collisionType) {
 	collisionType_ = static_cast<CollisionType>(collisionType);

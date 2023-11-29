@@ -32,6 +32,8 @@ public:
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
+	int GetLife() { return life; }
+
 	// コールバック関数
 	void OnCollision();
 
@@ -95,7 +97,11 @@ private:
 	Sprite* lifeSprite1_ = nullptr;
 	Sprite* lifeSprite2_ = nullptr;
 	Sprite* lifeSprite3_ = nullptr;
-	uint32_t lifeTexture_ = 0;
+	Sprite* lifeSprite4_ = nullptr;
+	uint32_t lifeTexture1_ = 0;
+	uint32_t lifeTexture2_ = 0;
+	uint32_t lifeTexture3_ = 0;
+	uint32_t lifeTexture4_ = 0;
 
 	//ライフ
 	int life = 4;

@@ -1093,9 +1093,12 @@ void GameScene::CheakCollisions() {
 	posAEHit = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
 	           ((posE.z) - posA.z) * ((posE.z) - posA.z);
 	if (posAEHit <= (playerRadius + enemyRadius) * (playerRadius + enemyRadius)) {
-		//player_->OnCollision();
-		enemy_->CollisionInitialize();
-		player_->CollisionInitialize();
+		if (player_->GetLife() >= 1) {
+			player_->OnCollision();
+			enemy_->CollisionInitialize();
+			player_->CollisionInitialize();
+		}
+
 	}
 
 #pragma endregion
