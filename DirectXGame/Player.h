@@ -2,6 +2,7 @@
 #include "WorldTransform.h"
 #include <Input.h>
 #include"ViewProjection.h"
+#include "Sprite.h"
 
 
 class Player {
@@ -29,6 +30,7 @@ public:
 	void OnCollision();
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
+	
 
 	void SetViewProjection(const ViewProjection* viewProjection)
 	{

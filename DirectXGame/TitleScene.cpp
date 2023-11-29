@@ -17,20 +17,16 @@ void TitleScene::Initialize() {
 	// スプライト生成
 	spriteTitle_ =
 	    Sprite::Create(textureTitle, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
-	//// スプライト生成
-	//spriteLule_ = Sprite::Create(Luletexture, {0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f});
-
+	
 	// BGM
 	/*bgmDataHandle_ = audio_->LoadWave("BGM/BGM.mp3");
 	bgmHandle_ = audio_->PlayWave(bgmDataHandle_, false, 0.15f);*/
 }
 
 void TitleScene::Update() {
-	/*if (input_->TriggerKey(DIK_SPACE)) {
-		isLule = true;
-	}*/
-	if (input_->TriggerKey(DIK_RETURN) /*&& isLule == true*/) {
-		/*isLule = false;*/
+	
+	if (input_->TriggerKey(DIK_RETURN) ) {
+		
 		isSceneEnd = true;
 	}
 }
@@ -74,10 +70,7 @@ void TitleScene::Draw() {
 	/// </summary>
 
 	spriteTitle_->Draw();
-	/*if (isLule == true) {
-		spriteLule_->Draw();
-	}*/
-
+	
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

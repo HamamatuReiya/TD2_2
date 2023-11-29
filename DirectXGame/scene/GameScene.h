@@ -100,6 +100,14 @@ private: //
 	//ループ用初期化
 	void RoopInitialize();
 
+	// クリア
+	void CraftingUpdate();
+	void ClearDraw();
+
+	//カウント
+	void CountInitialize();
+	void CountUpdate();
+	void CountDraw();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -299,6 +307,9 @@ private:
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
 
+	// ゴールスプライト
+	Sprite* goalSprite_ = nullptr;
+
 	//操作方法スプライト
 	Sprite* operationSprite_ = nullptr;
 
@@ -309,6 +320,11 @@ private:
 	Sprite* MoldSprite_[4] = {nullptr, nullptr,nullptr,nullptr};
 	// スタミナスプライト
 	Sprite* staminaSprite = nullptr;
+	// カウントスプライト
+	Sprite* CountSprite[3] = {nullptr, nullptr, nullptr};
+	// カウントスプライト
+	Sprite* ClearCountSprite[5] = {nullptr, nullptr, nullptr, nullptr, nullptr};
+
 	// 表示範囲
 	Vector2 size;
 
@@ -334,12 +350,21 @@ private:
 	uint32_t moldTexture_[4] = {0, 0, 0, 0};
 	//スタミナ
 	uint32_t staminaTexture = 0;
+	// ゴール
+	uint32_t goalTexture = 0;
+	//解除テクスチャ
+	uint32_t clearcountTexture[5] = {0, 0, 0, 0 ,0};
+	// 解除テクスチャ
+	uint32_t countTexture[3] = {0, 0, 0};
 
 	bool GetButton;
 	bool iskeyup;
 	bool isHummer;
 	bool iskeydown;
 	bool isCraft;
+	bool isLock;
+
+	bool isClear;
 
 	//ルール
 	bool isLule_ = true;
@@ -349,6 +374,15 @@ private:
 	bool Gettingkeyup;
 	bool GettingHummer;
 	bool Gettingkeydown;
+
+	//押し続ける
+	float PushTime_;
+	float LockOpenTime_;
+
+	//カウント
+	bool PushCount[3] = {false,false,false};
+	bool ClearCount[5] = {false, false, false, false, false};
+	
 
 	// 3Dモデル
 	std::unique_ptr<Model> CraftModel_ = nullptr;
