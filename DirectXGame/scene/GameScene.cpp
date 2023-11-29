@@ -167,10 +167,7 @@ void GameScene::Initialize() {
 	operationTexture_ = TextureManager::Load("Operation.png");
 	// スプライトの生成
 	operationSprite_ = Sprite::Create(operationTexture_, {0, 0});
-	// ゴールのテクスチャ読み込み
-	goalTexture = TextureManager::Load("CLEAR.png");
-	// ゴールの生成
-	goalSprite_ = Sprite::Create(goalTexture, {0, 0});
+	
 
 	// 作業机の生成
 	craft_ = std::make_unique<Craft>();
@@ -187,8 +184,11 @@ void GameScene::Initialize() {
 	
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
-	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
 	playBgm_ = audio_->PlayWave(bgmHandle_);
+
+	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
+
+	clearHandle_ = audio_->LoadWave("BGM/Arbors.mp3");
 
 	kagiakeruSE = audio_->LoadWave("kagiakeru.mp3");
 	kagiakeruSEFlame = 0;
@@ -196,8 +196,8 @@ void GameScene::Initialize() {
 	kanadokoSEFlame = 0;
 
 	isBgm_ = false;
-
 	isFoundBgm_ = false;
+	isClearBgm_ = false;
 
 	GoalInitialize();
 	
@@ -257,12 +257,17 @@ void GameScene::RoopInitialize() {
 	// 鍵制作
 	isClear = false;
 	isLock = false;
+	isGetKey = false;
 	//カウント
 	PushNow = false;
 	isCreateKey= false;
 	isComplete = false;
 	updateFlag = true;
 	kanadokoSEFlame = 0;
+	//BGM
+	isBgm_ = false;
+	isFoundBgm_ = false;
+	isClearBgm_ = false;
 	kagiakeruSEFlame = 0;
 }
 
@@ -276,11 +281,11 @@ void GameScene::CraftingUpdate() {
 	}
 }
 
-void GameScene::ClearDraw() {
-	if (isClear==true) {
-		goalSprite_->Draw();
-	}
-}
+//void GameScene::ClearDraw() {
+//	if (isClear == true) {
+//		goalSprite_->Draw();
+//	}
+//}
 
 void GameScene::GoalInitialize() {
 	// カウント
@@ -309,6 +314,9 @@ void GameScene::GoalUpdate() {
 	if (UnLockTime < 60) {
 		GetunLockbutton = false;
 	}
+	if (isClear == true) {
+		isSceneEnd = true;
+	}
 }
 
 void GameScene::GoalDraw() {
@@ -332,6 +340,17 @@ void GameScene::GoalDraw() {
 		}
 	}
 	
+}
+
+void GameScene::ClearBGM() {
+	if (isClear == true) {
+		audio_->StopWave(playBgm_);
+		audio_->StopWave(playFoundBgm_);
+		if (isClearBgm_ == false) {
+			playClearBgm_ = audio_->PlayWave(clearHandle_, true);
+			isClearBgm_ = true;
+		}
+	}
 }
 
 void GameScene::ClearTimeInitialize()
@@ -497,7 +516,9 @@ void GameScene::Update() {
 		CameraUpdate();
 		if (updateFlag == true) {
 			if (EnemyCameraActive == false) {
-				player_->Update();
+				if (PushNow == false && isCreateKey==false) {
+					player_->Update();
+				}
 			}
 		}
 		CraftingUpdate();
@@ -513,15 +534,21 @@ void GameScene::Update() {
 			audio_->StopWave(playFoundBgm_);
 			isFoundBgm_ = false;
 			if (isBgm_ == false) {
-				playBgm_ = audio_->PlayWave(bgmHandle_);
+				playBgm_ = audio_->PlayWave(bgmHandle_,true);
 				isBgm_ = true;
 			}
 		}
+
 		GoalUpdate();
 
 		if (isComplete == true && CompleteTime < 60) {
 			isGetKey = true;
 		}
+
+		//if (input_->PushKey(DIK_V)) {
+		//	isClear = true;
+		//}
+
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
@@ -557,10 +584,7 @@ void GameScene::Update() {
 		ActiveTime++;
 		CheakCollisions();
 
-		// シーン切り替え
-		if (input_->TriggerKey(DIK_RETURN)) {
-			isSceneEnd = true;
-		}
+		
 
 		/*ClearTimeUpdate();*/
 	}
@@ -672,8 +696,6 @@ void GameScene::Draw() {
 		staminaberSprite->Draw();
 		//カウント
 		GoalDraw();
-		//クリア
-		ClearDraw();
 	}
 	
 	enemy_->EfectDraw();
@@ -693,9 +715,12 @@ void GameScene::sceneReset() {
 	isSceneEnd = false;
 	RoopInitialize();
 
-	//// BGMの停止
-	// audio_->StopWave(bgmHandle_);
-	// bgmHandle_ = audio_->PlayWave(bgmDataHandle_, true, 0.15f);
+	// BGMの停止
+	audio_->StopWave(playClearBgm_);
+	if (isBgm_ == false) {
+		playBgm_ = audio_->PlayWave(bgmHandle_, true);
+		isBgm_ = true;
+	}
 }
 
 void GameScene::CheakCollisions() {
@@ -862,11 +887,11 @@ void GameScene::CheakCollisions() {
 				craft_->OnCraftCollision();
 				// 自キャラの衝突時コールバックを呼び出す
 				//player_->OnCollision();
+			} else {
+				PushNow = false;
+				PushTime_ = 0;
 			}
-		} else {
-			PushNow = false;
-			PushTime_ = 0;
-		}
+		} 
 	} 
 	// AとGの距離を求める
 	posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
@@ -893,11 +918,11 @@ void GameScene::CheakCollisions() {
 			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			//player_->OnCollision();
+		} else {
+			isCreateKey = false;
+			LockOpenTime_ = 0;
 		}
-	} else {
-		isCreateKey = false;
-		LockOpenTime_ = 0;
-	}
+	} 
 
 
 
