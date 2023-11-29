@@ -28,7 +28,7 @@ void FollowCamera::Update()
 
 #pragma region プレイヤーのカメラ回転
 	//回転
-	RotateSpeed_RL = 0.06f;
+	RotateSpeed_RL = 0.08f;
 	RotateSpeed_UD = 0.015f;
 	
 

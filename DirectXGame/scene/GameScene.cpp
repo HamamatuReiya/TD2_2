@@ -263,7 +263,6 @@ void GameScene::RoopInitialize() {
 }
 
 void GameScene::CraftingUpdate() {
-	
 	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
 		isCraft = true;
 		isCrafting = true;
@@ -635,7 +634,7 @@ void GameScene::Draw() {
 		longbuttonSprite_->Draw();
 	}
 	if (GetunLockbutton==true) {
-
+		GoallongbuttonSprite_->Draw();
 	}
 	if (enemy_->Getphase1State() != Chase) {
 		if (GetButton == true) {
@@ -882,6 +881,7 @@ void GameScene::CheakCollisions() {
 		}
 	} else {
 		isCreateKey = false;
+		LockOpenTime_ = 0;
 	}
 
 
