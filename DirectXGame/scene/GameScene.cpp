@@ -353,13 +353,21 @@ void GameScene::GoalDraw() {
 }
 
 void GameScene::ClearBGM() {
-	if (isClear == true) {
+	
+	if (isClearBgm_ == false) {
 		audio_->StopWave(playBgm_);
 		audio_->StopWave(playFoundBgm_);
-		if (isClearBgm_ == false) {
-			playClearBgm_ = audio_->PlayWave(clearHandle_, true, 0.5f);
-			isClearBgm_ = true;
-		}
+		playClearBgm_ = audio_->PlayWave(clearHandle_, true, 0.5f);
+		isClearBgm_ = true;
+	}
+}
+
+void GameScene::resetBGM() {
+	// BGMの停止
+	audio_->StopWave(playClearBgm_);
+	if (isBgm_ == false) {
+		playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.5f);
+		isBgm_ = true;
 	}
 }
 
@@ -555,9 +563,9 @@ void GameScene::Update() {
 			isGetKey = true;
 		}
 
-		if (input_->PushKey(DIK_V)) {
-			isClear = true;
-		}
+		//if (input_->PushKey(DIK_V)) {
+		//	isClear = true;
+		//}
 
 		// ダッシュ
 		size = staminaSprite->GetSize();
@@ -726,12 +734,6 @@ void GameScene::sceneReset() {
 	isClear = false;
 	RoopInitialize();
 	LockOpenTime_ = 0;
-	// BGMの停止
-	audio_->StopWave(playClearBgm_);
-	if (isBgm_ == false) {
-		playBgm_ = audio_->PlayWave(bgmHandle_, true,0.5f);
-		isBgm_ = true;
-	}
 }
 
 void GameScene::CheakCollisions() {
