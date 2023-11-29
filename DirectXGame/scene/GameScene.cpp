@@ -11,7 +11,6 @@ GameScene::~GameScene() {
 	delete longbuttonSprite_;
 	delete GoallongbuttonSprite_;
 	delete operationSprite_;
-	delete goalSprite_;
 	for (int i = 0; i < 2; i++) {
 		delete LuleSprite_[i];
 	}
