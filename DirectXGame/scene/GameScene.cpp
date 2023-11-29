@@ -172,7 +172,13 @@ void GameScene::Initialize() {
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
 	//カウント
 	CountInitialize();
-	
+	//サウンド読み込み
+	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
+	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
+
+	isBgm_ = false;
+	isFoundBgm_ = false;
+
 	//ルール
 	LuleInitialize();
 	// クリアタイム
@@ -489,6 +495,7 @@ void GameScene::MoldDraw() {
 }
 
 void GameScene::Update() {
+
 	LuleUpdate();
 	if (isLule_ == false) {
 		CameraUpdate();
@@ -497,6 +504,22 @@ void GameScene::Update() {
 		}
 		CraftingUpdate();
 		CountUpdate();
+
+		if (enemy_->Getphase1State() == Chase) {
+			audio_->StopWave(bgmHandle_);
+			isBgm_ = false;
+			if (isFoundBgm_ == false) {
+				audio_->PlayWave(foundBgmHandle_, false);
+				isFoundBgm_ = true;
+			}
+		} else if (enemy_->Getphase1State() == search) {
+			audio_->StopWave(foundBgmHandle_);
+			isFoundBgm_ = false;
+			if (isBgm_ == false) {
+				audio_->PlayWave(bgmHandle_, true);
+				isBgm_ = true;
+			}
+		}
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
