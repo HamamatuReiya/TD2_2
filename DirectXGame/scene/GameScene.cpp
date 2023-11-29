@@ -540,9 +540,9 @@ void GameScene::Update() {
 			isGetKey = true;
 		}
 
-		if (input_->PushKey(DIK_V)) {
-			isClear = true;
-		}
+		//if (input_->PushKey(DIK_V)) {
+		//	isClear = true;
+		//}
 
 		// ダッシュ
 		size = staminaSprite->GetSize();
