@@ -211,7 +211,6 @@ void GameScene::Initialize() {
 	isLock = false;
 	LockOpenTime_ = 0;
 	PushTime_ = 0;
-	isCrafting = false;
 	isGetKey = false;
 	// カウント
 	PushNow = false;
@@ -271,10 +270,9 @@ void GameScene::RoopInitialize() {
 void GameScene::CraftingUpdate() {
 	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
 		isCraft = true;
-		isCrafting = true;
 	} else {
 		isCraft = false;
-		isCrafting = false;
+		
 	}
 }
 
