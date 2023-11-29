@@ -153,15 +153,15 @@ void GameScene::Initialize() {
 	// ボタンのテクスチャ読み込み
 	buttonTexture_ = TextureManager::Load("F.png");
 	// スプライトの生成
-	buttonSprite_ = Sprite::Create(buttonTexture_, {1250, 600});
+	buttonSprite_ = Sprite::Create(buttonTexture_, {1100, 600});
 	// 長押しボタンのテクスチャ読み込み
 	LongbuttonTexture_ = TextureManager::Load("Criating.png");
 	// 長押しスプライトの生成
-	longbuttonSprite_ = Sprite::Create(LongbuttonTexture_, {1250, 600});
+	longbuttonSprite_ = Sprite::Create(LongbuttonTexture_, {1100, 600});
 	// ゴール用長押しボタンのテクスチャ読み込み
 	GoalLongbuttonTexture_ = TextureManager::Load("UnLockButton.png");
 	// ゴール用長押しスプライトの生成
-	GoallongbuttonSprite_ = Sprite::Create(GoalLongbuttonTexture_, {1250, 600});
+	GoallongbuttonSprite_ = Sprite::Create(GoalLongbuttonTexture_, {1100, 600});
 
 	// 操作方法のテクスチャ読み込み
 	operationTexture_ = TextureManager::Load("Operation.png");
@@ -552,7 +552,7 @@ void GameScene::Update() {
 			isSceneEnd = true;
 		}
 
-		ClearTimeUpdate();
+		/*ClearTimeUpdate();*/
 	}
 }
 
@@ -644,10 +644,10 @@ void GameScene::Draw() {
 
 	player_->DrawLife();
 
-	// クリアタイム
-	ClearTimeScore1_[isClearTime_1]->Draw();
-	ClearTimeScore2_[isClearTime_2]->Draw();
-	ClearTimeScore3_[isClearTime_3]->Draw();
+	//// クリアタイム
+	//ClearTimeScore1_[isClearTime_1]->Draw();
+	//ClearTimeScore2_[isClearTime_2]->Draw();
+	//ClearTimeScore3_[isClearTime_3]->Draw();
 
 	// 操作方法表示
 	operationSprite_->Draw();
