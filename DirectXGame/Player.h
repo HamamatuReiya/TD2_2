@@ -2,6 +2,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <Input.h>
+#include"ViewProjection.h"
+#include "Sprite.h"
 
 class Player {
 public:
@@ -28,8 +30,10 @@ public:
 	void OnCollision();
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; };
+	
 
-	void SetViewProjection(const ViewProjection* viewProjection) {
+	void SetViewProjection(const ViewProjection* viewProjection)
+	{
 		viewProjection_ = viewProjection;
 	}
 
@@ -79,7 +83,7 @@ private:
 	Model* model_ = nullptr;
 	Input* input_ = nullptr;
 
-	// ライフ
+	//ライフ
 	int life = 4;
 	// スタミナ
 	float stamina;

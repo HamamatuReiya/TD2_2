@@ -114,7 +114,8 @@ void GameScene::Initialize() {
 	iskeyup = true;
 	isHummer = true;
 	iskeydown = true;
-	isCraft = true;
+	isCraft = false;
+	isLock = false;
 
 	// 部屋の生成,初期化
 	RoomInitialize();
@@ -155,6 +156,10 @@ void GameScene::Initialize() {
 	operationTexture_ = TextureManager::Load("Operation.png");
 	// スプライトの生成
 	operationSprite_ = Sprite::Create(operationTexture_, {0, 0});
+	// ゴールのテクスチャ読み込み
+	goalTexture = TextureManager::Load("CLEAR.png");
+	// ゴールの生成
+	goalSprite_ = Sprite::Create(goalTexture, {0, 0});
 
 	// 作業机の生成
 	craft_ = std::make_unique<Craft>();
@@ -165,12 +170,21 @@ void GameScene::Initialize() {
 	// スタミナ
 	staminaTexture = TextureManager::Load("Stamina.png");
 	staminaSprite = Sprite::Create(staminaTexture, {600, 900});
-	// ルール
+	//カウント
+	CountInitialize();
+	
+	//ルール
 	LuleInitialize();
 	// クリアタイム
 	ClearTimeInitialize();
 	// 型
 	MoldInitialize();
+
+	//鍵制作
+	isClear = false;
+	isLock = false;
+	LockOpenTime_ = 0;
+	PushTime_ = 0;
 }
 
 void GameScene::RoopInitialize() {
@@ -180,7 +194,7 @@ void GameScene::RoopInitialize() {
 	worldTransform_.Initialize();
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	//  自キャラの初期化
+	// 自キャラの初期化
 	player_->Initialize(playerModel_.get());
 	// ルール
 	LuleInitialize();
@@ -200,9 +214,126 @@ void GameScene::RoopInitialize() {
 	isHummer = true;
 	// 型
 	MoldInitialize();
+	// 鍵制作
+	isClear = false;
+	isLock = false;
+	//カウント
+	for (int i = 0; i < 3; i++) {
+		PushCount[i] = false;
+	}
+	for (int i = 0; i < 5; i++) {
+		ClearCount[i] = false;
+	}
+	LockOpenTime_ = 0;
+	PushTime_ = 0;
 }
 
-void GameScene::ClearTimeInitialize() {
+void GameScene::CraftingUpdate() {
+	
+	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
+		isCraft = true;
+	} else {
+		isCraft = false;
+	}
+}
+
+void GameScene::ClearDraw() {
+	if (isClear==true) {
+		goalSprite_->Draw();
+	}
+	if (PushCount[0] == true) {
+		CountSprite[0]->Draw();
+	}
+}
+
+void GameScene::CountInitialize() {
+	// カウント
+	countTexture[0] = TextureManager::Load("Count./count1.png");
+	CountSprite[0] = Sprite::Create(countTexture[0], {0, 0});
+	// カウント
+	countTexture[1] = TextureManager::Load("Count./count2.png");
+	CountSprite[1] = Sprite::Create(countTexture[1], {0, 0});
+	// カウント
+	countTexture[2] = TextureManager::Load("Count./count3.png");
+	CountSprite[2] = Sprite::Create(countTexture[2], {0, 0});
+	// クリアカウント
+	clearcountTexture[0] = TextureManager::Load("Count./count1.png");
+	ClearCountSprite[0] = Sprite::Create(clearcountTexture[0], {0, 0});
+	// クリアカウント
+	clearcountTexture[1] = TextureManager::Load("Count./count2.png");
+	ClearCountSprite[1] = Sprite::Create(clearcountTexture[1], {0, 0});
+	// クリアカウント
+	clearcountTexture[2] = TextureManager::Load("Count./count3.png");
+	ClearCountSprite[2] = Sprite::Create(clearcountTexture[2], {0, 0});
+	// クリアカウント
+	clearcountTexture[3] = TextureManager::Load("Count./count4.png");
+	ClearCountSprite[3] = Sprite::Create(clearcountTexture[3], {0, 0});
+	// クリアカウント
+	clearcountTexture[4] = TextureManager::Load("Count./count5.png");
+	ClearCountSprite[4] = Sprite::Create(clearcountTexture[4], {0, 0});
+
+	for (int i = 0; i < 3; i++) {
+		PushCount[i] = false;
+	}
+	for (int i = 0; i < 5; i++) {
+		ClearCount[i] = false;
+	}
+}
+
+void GameScene::CountUpdate() {
+	if (PushTime_ >= 100 && PushTime_ >= 0) {
+		PushCount[2] = true;
+		PushCount[1] = true;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 200) {
+		PushCount[2] = false;
+		PushCount[1] = true;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 300) {
+		PushCount[2] = false;
+		PushCount[1] = false;
+		PushCount[0] = true;
+	}
+	if (PushTime_ >= 400) {
+		PushCount[2] = false;
+		PushCount[1] = false;
+		PushCount[0] = false;
+	}
+}
+
+void GameScene::CountDraw() {
+	if (PushCount[0] == true) {
+		CountSprite[0]->Draw();
+	}
+	if (PushCount[1] == true) {
+		CountSprite[1]->Draw();
+	}
+	if (PushCount[2] == true) {
+		CountSprite[2]->Draw();
+	}
+	//クリアカウント
+	if (ClearCount[0] == true) {
+		ClearCountSprite[0]->Draw();
+	}
+	if (ClearCount[1] == true) {
+		ClearCountSprite[1]->Draw();
+	}
+	if (ClearCount[2] == true) {
+		ClearCountSprite[2]->Draw();
+	}
+	if (ClearCount[3] == true) {
+		ClearCountSprite[3]->Draw();
+	}
+	if (ClearCount[4] == true) {
+		ClearCountSprite[4]->Draw();
+	}
+				
+}
+
+void GameScene::ClearTimeInitialize()
+{
 	// クリアタイムの画像
 	// テクスチャ(0～9)
 	uint32_t textureScore0 = TextureManager::Load("number/0.png");
@@ -301,7 +432,7 @@ void GameScene::LuleUpdate() {
 			LuleP1Frag = false;
 			LuleP2Frag = true;
 		}
-		if (input_->TriggerKey(DIK_ESCAPE) && LuleP2Frag == true) {
+		if (input_->TriggerKey(DIK_SPACE) && LuleP2Frag == true) {
 			LuleP1Frag = false;
 			LuleP2Frag = false;
 			isLule_ = false;
@@ -362,6 +493,8 @@ void GameScene::Update() {
 		if (EnemyCameraActive == false) {
 			player_->Update();
 		}
+		CraftingUpdate();
+		CountUpdate();
 		// ダッシュ
 		size = staminaSprite->GetSize();
 		size.x = player_->GetStamina();
@@ -459,7 +592,9 @@ void GameScene::Draw() {
 	craft_->Draw(viewProjection_);
 	// 南京錠の描画
 	lock_->Draw(viewProjection_);
-
+	
+	
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -489,10 +624,16 @@ void GameScene::Draw() {
 	if (isLule_ == false) {
 		// 型
 		MoldDraw();
+		// スタミナ
+		staminaSprite->Draw();
+		//カウント
+		CountDraw();
+		//クリア
+		ClearDraw();
 	}
-	// スタミナ
-	staminaSprite->Draw();
-
+	
+	
+	
 	enemy_->EfectDraw();
 
 	// スプライト描画後処理
@@ -513,7 +654,7 @@ void GameScene::sceneReset() {
 
 void GameScene::CheakCollisions() {
 	// 判定対象AとBの座標
-	Vector3 posA, posB, posC, posD, posE, posF;
+	Vector3 posA,posB,posC,posD,posE,posF,posG;
 
 	// 2間点の距離(自キャラと鍵の当たり判定)
 	float posAB;
@@ -521,9 +662,13 @@ void GameScene::CheakCollisions() {
 	float posAD;
 	// 自機と金床
 	float posAF;
-	// 自機と敵の判定
+	//自機と敵の判定
 	float posAEHit;
-	// 自機と敵の半径
+	//自機と敵の半径
+	//自機と南京錠
+	float posAG;
+
+	//自機と敵
 	float posAE;
 	// 自機と敵
 	float posAEX;
@@ -533,9 +678,9 @@ void GameScene::CheakCollisions() {
 
 	float enemyVisibilityShift = 12.0f;
 
-	// 敵にぶつかる半径
+	//敵にぶつかる半径
 	float enemyRadius = 3.0f;
-	// 敵に見つかる半径
+	//敵に見つかる半径
 	float enemySearchRadius = 10.0f;
 
 	// 敵に見つかる半径
@@ -549,8 +694,10 @@ void GameScene::CheakCollisions() {
 	float keyUpRadius = 1.0f;
 	// 鍵の半径
 	float keyDounRadius = 1.0f;
-	// 金床の半径
-	float CraftRadius = 1.0f;
+	//金床の半径
+	float CraftRadius = 2.0f;
+	//南京錠の半径
+	float LockRadius = 1.0f;
 
 #pragma region 自キャラと鍵の当たり判定
 	// 自キャラのワールド座標
@@ -565,6 +712,8 @@ void GameScene::CheakCollisions() {
 	posE = enemy_->GetWorldPosition();
 	// 金床の座標
 	posF = craft_->GetCraftWorldPosition();
+	// 金床の座標
+	posG = lock_->GetLockWorldPosition();
 	// AとBの距離を求める
 
 	if (enemy_->Getphase1State() != Chase) {
@@ -645,12 +794,49 @@ void GameScene::CheakCollisions() {
 		if (isCraft == true) {
 			GetButton = true;
 		}
-		if (input_->TriggerKey(DIK_F) && iskeydown == true) {
-			Gettingkeydown = true;
+		if (input_->PushKey(DIK_F) && isCraft == true) {
+			PushTime_++;
+			if (PushTime_>= 400) {
+				isLock = true;
+				for (int i = 0; i < 3; i++) {
+					PushCount[i] = true;
+				}
+				PushTime_ = 400;
+				for (int i = 0; i < 3; i++) {
+					PushCount[i] = false;
+				}
+			}
+			craft_->OnCraftCollision();
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 		}
 	}
+	// AとGの距離を求める
+	posAG = (posG.x - posA.x) * (posG.x - posA.x) + (posG.y - posA.y) * (posG.y - posA.y) +
+	        (posG.z - posA.z) * (posG.z - posA.z);
+	// プレイヤーと南京錠の当たり判定
+	if (posAG <= (playerRadius + LockRadius) * (playerRadius + LockRadius)) {
+		if (isLock == true) {
+			GetButton = true;
+		}
+		if (input_->PushKey(DIK_F) && isLock == true) {
+			LockOpenTime_++;
+			if (LockOpenTime_ >= 600) {
+				for (int i = 0; i < 5; i++) {
+					ClearCount[i] = true;
+				}
+				isClear = true;
+				for (int i = 0; i < 5; i++) {
+					ClearCount[i] = false;
+				}
+			}
+			craft_->OnCraftCollision();
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+		}
+	}
+
+
 
 	if (Key_->GetisHummerDead() == true) {
 		if (Key_->GetkeyNumber() == 1) {
@@ -813,10 +999,10 @@ void GameScene::CheakCollisions() {
 				}
 			}
 		}
-	}
-
+	} 
+	 
 	posAEHit = (posE.x - posA.x) * (posE.x - posA.x) + (posE.y - posA.y) * (posE.y - posA.y) +
-	           ((posE.z) - posA.z) * ((posE.z) - posA.z);
+	        ((posE.z) - posA.z) * ((posE.z) - posA.z);
 	if (posAEHit <= (playerRadius + enemyRadius) * (playerRadius + enemyRadius)) {
 		player_->OnCollision();
 	}

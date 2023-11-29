@@ -35,7 +35,7 @@ void Player::Update() {
 	if (input_->PushKey(DIK_LSHIFT) && input_->PushKey(DIK_W)) {
 		if (isRun == true) {
 			stamina -= 2;
-			move_ = {0.0f, 0.0f, 0.35f};
+			move_ = {0.0f, 0.0f, 0.32f};
 		} else {
 			stamina += 2;
 		}
