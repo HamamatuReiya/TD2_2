@@ -104,6 +104,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			gameScene->Update();
 			/*sceneNo = SceneType::kGameClear;*/
 
+			if (gameScene->GetUpdateFlag() == false) {
+				if (input->TriggerKey(DIK_RETURN)) {
+					sceneNo = SceneType::kTitle;
+					gameScene->sceneReset();
+				}
+			}
+
 			if (gameScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーン切り替え
 				sceneNo = gameScene->NextScene();
