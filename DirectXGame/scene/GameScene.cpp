@@ -258,6 +258,7 @@ void GameScene::RoopInitialize() {
 	// 鍵制作
 	isClear = false;
 	isLock = false;
+	isGetKey = false;
 	//カウント
 	PushNow = false;
 	isCreateKey= false;
