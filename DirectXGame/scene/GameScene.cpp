@@ -5,7 +5,19 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { delete buttonSprite_; }
+GameScene::~GameScene() { 
+	delete buttonSprite_;
+	delete gameOverSprite_;
+	delete longbuttonSprite_;
+	delete GoallongbuttonSprite_;
+	delete operationSprite_;
+	for (int i = 0; i < 2; i++) {
+		delete LuleSprite_[i];
+	}
+	for (int i = 0; i < 4; i++) {
+		delete MoldSprite_[i];
+	}
+}
 
 void GameScene::Initialize() {
 
@@ -184,7 +196,7 @@ void GameScene::Initialize() {
 	
 	//サウンド読み込み
 	bgmHandle_ = audio_->LoadWave("BGM/Escape.mp3");
-	playBgm_ = audio_->PlayWave(bgmHandle_);
+	playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.5f);
 
 	foundBgmHandle_ = audio_->LoadWave("BGM/Dominus_Deus.mp3");
 
@@ -213,7 +225,6 @@ void GameScene::Initialize() {
 	isLock = false;
 	LockOpenTime_ = 0;
 	PushTime_ = 0;
-	isCrafting = false;
 	isGetKey = false;
 	// カウント
 	PushNow = false;
@@ -274,10 +285,9 @@ void GameScene::RoopInitialize() {
 void GameScene::CraftingUpdate() {
 	if (iskeyup==false&&iskeydown==false&&isHummer==false) {
 		isCraft = true;
-		isCrafting = true;
 	} else {
 		isCraft = false;
-		isCrafting = false;
+		
 	}
 }
 
@@ -347,7 +357,7 @@ void GameScene::ClearBGM() {
 		audio_->StopWave(playBgm_);
 		audio_->StopWave(playFoundBgm_);
 		if (isClearBgm_ == false) {
-			playClearBgm_ = audio_->PlayWave(clearHandle_, true);
+			playClearBgm_ = audio_->PlayWave(clearHandle_, true, 0.5f);
 			isClearBgm_ = true;
 		}
 	}
@@ -527,14 +537,14 @@ void GameScene::Update() {
 			audio_->StopWave(playBgm_);
 			isBgm_ = false;
 			if (isFoundBgm_ == false) {
-				playFoundBgm_ = audio_->PlayWave(foundBgmHandle_, false);
+				playFoundBgm_ = audio_->PlayWave(foundBgmHandle_, false,0.5f);
 				isFoundBgm_ = true;
 			}
 		} else if (enemy_->Getphase1State() == search) {
 			audio_->StopWave(playFoundBgm_);
 			isFoundBgm_ = false;
 			if (isBgm_ == false) {
-				playBgm_ = audio_->PlayWave(bgmHandle_,true);
+				playBgm_ = audio_->PlayWave(bgmHandle_, true, 0.5f);
 				isBgm_ = true;
 			}
 		}
@@ -545,9 +555,9 @@ void GameScene::Update() {
 			isGetKey = true;
 		}
 
-		//if (input_->PushKey(DIK_V)) {
-		//	isClear = true;
-		//}
+		if (input_->PushKey(DIK_V)) {
+			isClear = true;
+		}
 
 		// ダッシュ
 		size = staminaSprite->GetSize();
@@ -713,12 +723,13 @@ void GameScene::Draw() {
 void GameScene::sceneReset() {
 	// シーンの切り替えフラグ
 	isSceneEnd = false;
+	isClear = false;
 	RoopInitialize();
-
+	LockOpenTime_ = 0;
 	// BGMの停止
 	audio_->StopWave(playClearBgm_);
 	if (isBgm_ == false) {
-		playBgm_ = audio_->PlayWave(bgmHandle_, true);
+		playBgm_ = audio_->PlayWave(bgmHandle_, true,0.5f);
 		isBgm_ = true;
 	}
 }

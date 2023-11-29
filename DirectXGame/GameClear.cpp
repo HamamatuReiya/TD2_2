@@ -79,6 +79,8 @@ void GameClear::Draw() {
 
 void GameClear::sceneReset() {
 	isSceneEnd = false;
+
+	
 	// BGMの停止
 	// audio_->StopWave(bgmHandle_);
 }

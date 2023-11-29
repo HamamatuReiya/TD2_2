@@ -65,7 +65,7 @@ public: // メンバ関数
 	bool isSceneEnd = false;
 
 	bool IsSceneEnd() { return isSceneEnd; }
-	SceneType NextScene() { return SceneType::kTitle; }
+	SceneType NextScene() { return SceneType::kGameClear; }
 
 	bool GetIsClear() { return isClear; }
 	
@@ -322,6 +322,9 @@ private:
 
 	//タイトルスプライト
 	TitleScene* titleSprite_ = nullptr;
+
+	// ゴールスプライト
+	Sprite* goalSprite_ = nullptr;
 
 	//操作方法スプライト
 	Sprite* operationSprite_ = nullptr;
