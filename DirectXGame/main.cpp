@@ -101,7 +101,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (input->TriggerKey(DIK_RETURN)) {
 					sceneNo = SceneType::kTitle;
 				}
-			}
+			} 
 
 			if (gameScene->GetIsClear() == true) {
 				sceneNo = SceneType::kGameClear;
